@@ -1,5 +1,6 @@
 package com.yjq.knowledge.zhihuNewsdetail;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -26,7 +29,7 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuNewsDetailContract.Iview {
+public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuNewsDetailContract.Iview, View.OnClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -42,11 +45,13 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     CoordinatorLayout rootView;
     @BindView(R.id.image_zhihu)
     ImageView imageZhihu;
-    private TextView tvPopularity;
+    private TextSwitcher tvPopularity;
     private TextView tvComments;
+    private ImageButton btnThumbsUp;
     private ImageButton btnShare;
 
 
+    private boolean mThumbsUp = false;
     private ZhihuNewsDetailContract.Ipresenter mPresenter;
     private ZhihuDaily.StoriesBean mStoriesBean;
     private String mNewsId;//知乎日报新闻唯一标志ID
@@ -76,11 +81,14 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
 
     private void initToolbar() {
         setSupportActionBar(toolbar);                                   //用自带的Toolbar替换掉原来的状态栏
-        View v =getLayoutInflater().inflate(R.layout.menu_toolbar, toolbar);
-        btnShare=v.findViewById(R.id.btn_share);
-        tvPopularity=v.findViewById(R.id.tv_popularity);
-        tvComments=v.findViewById(R.id.tv_comments);
+        View v = getLayoutInflater().inflate(R.layout.menu_toolbar, toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);          //显示toolbar的回退按钮
+        btnShare = v.findViewById(R.id.btn_share);
+        btnThumbsUp = v.findViewById(R.id.btn_thumbs_up);
+        tvComments = v.findViewById(R.id.tv_comments);
+        tvPopularity = v.findViewById(R.id.tv_popularity);
+        btnThumbsUp.setOnClickListener(this);
+        tvPopularity.setOnClickListener(this);
     }
 
     @Override
@@ -99,7 +107,7 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     @Override
     public void showNewsExtra(ZhihuStoryExtra zhihuStoryExtra) {
         tvComments.setText(zhihuStoryExtra.getComments());
-        tvPopularity.setText(zhihuStoryExtra.getPopularity());
+        tvPopularity.setCurrentText(zhihuStoryExtra.getPopularity());//不带动画效果的
     }
 
     @Override
@@ -119,5 +127,45 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.tv_popularity:
+                dealThumbsUp();
+                break;
+            case R.id.btn_thumbs_up:
+                dealThumbsUp();
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 处理点赞的方法操作
+     */
+    private void dealThumbsUp() {
+
+        TextView temp = (TextView) tvPopularity.getCurrentView();
+        Drawable nextDrawable;
+        int currentValue = Integer.valueOf(temp.getText().toString());          //获取当前点赞数
+        if (mThumbsUp) {                                                       //已经点赞过，再次点击会取消点赞，【赞】数 - 1
+            nextDrawable = getResources().getDrawable(R.drawable.thumb_up_outline);
+            tvPopularity.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_down_thumbs_up));
+            tvPopularity.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_down_thumbs_up));
+            currentValue--;
+        } else {                                                               //仍未点赞 ,  点击会点赞，【赞】数 + 1
+            nextDrawable = getResources().getDrawable(R.drawable.thumb_up);
+            tvPopularity.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_forward_thumbs_up));
+            tvPopularity.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_forward_thumbs_up));
+            currentValue++;
+        }
+
+        mThumbsUp = !mThumbsUp;                                            //是否已经点赞的状态改变了
+        btnThumbsUp.setBackground(nextDrawable);
+        tvPopularity.setText(currentValue + "");
+
     }
 }
