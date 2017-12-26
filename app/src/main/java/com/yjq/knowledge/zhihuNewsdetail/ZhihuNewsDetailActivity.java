@@ -125,18 +125,13 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
 
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.tv_popularity:
+            case R.id.tv_popularity:     //点赞的图标部分
                 dealThumbsUp();
                 break;
-            case R.id.btn_thumbs_up:
+            case R.id.btn_thumbs_up:    //点赞的文字部分
                 dealThumbsUp();
             default:
                 break;
@@ -153,17 +148,17 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         int currentValue = Integer.valueOf(temp.getText().toString());          //获取当前点赞数
         if (mThumbsUp) {                                                       //已经点赞过，再次点击会取消点赞，【赞】数 - 1
             nextDrawable = getResources().getDrawable(R.drawable.thumb_up_outline);
-            tvPopularity.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_down_thumbs_up));
-            tvPopularity.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_down_thumbs_up));
+            tvPopularity.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_down_thumbs_up));      //新的TextView向下滑进
+            tvPopularity.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_down_thumbs_up));   //旧的TextView项下滑出
             currentValue--;
         } else {                                                               //仍未点赞 ,  点击会点赞，【赞】数 + 1
             nextDrawable = getResources().getDrawable(R.drawable.thumb_up);
-            tvPopularity.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_forward_thumbs_up));
-            tvPopularity.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_forward_thumbs_up));
+            tvPopularity.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_forward_thumbs_up));  //新的TextView向上滑进
+            tvPopularity.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_forward_thumbs_up)); //旧的TextView向上滑出
             currentValue++;
         }
 
-        mThumbsUp = !mThumbsUp;                                            //是否已经点赞的状态改变了
+        mThumbsUp = !mThumbsUp;                                            //点赞的状态改变
         btnThumbsUp.setBackground(nextDrawable);
         tvPopularity.setText(currentValue + "");
 
