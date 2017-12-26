@@ -3,7 +3,7 @@ package com.yjq.knowledge.network;
 
 import com.yjq.knowledge.App;
 import com.yjq.knowledge.network.interceptor.CommonInterceptor;
-import com.yjq.knowledge.util.NetWorkUtil;
+import com.yjq.knowledge.util.net.NetWorkUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +18,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * 文件： ApiManager
- * 版权： 2017-2019  康佳集团股份有限公司
- * 保留多有版权
  * 描述：
  * 作者： Yang   2017/11/17.
  */

@@ -25,15 +25,12 @@ import butterknife.ButterKnife;
 
 /**
  * 文件： ZhihuNewsAdapter
- * 版权： 2017-2019  康佳集团股份有限公司
- * 保留多有版权
  * 描述：
  * 作者： YangJunQuan   2017/12/15.
  */
 
 
 public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.ViewHolder> {
-
 
 
     private List<ZhihuDaily.StoriesBean> mDataList = new ArrayList<>();
@@ -79,6 +76,8 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.View
         holder.itemView.setOnClickListener((view) -> {
             Intent i = new Intent(mFragment.getContext(), ZhihuNewsDetailActivity.class);
             i.putExtra("storiesBean", storiesBean);
+
+
             mFragment.startActivity(i);
 
         });

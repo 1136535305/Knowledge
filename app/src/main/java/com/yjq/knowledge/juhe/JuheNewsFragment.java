@@ -20,7 +20,7 @@ import com.yjq.knowledge.R;
 import com.yjq.knowledge.adapter.JuheNewsAdapter;
 import com.yjq.knowledge.beans.JuheTop;
 import com.yjq.knowledge.contract.JuheContract;
-import com.yjq.knowledge.util.ItemTouchHelperClass;
+import com.yjq.knowledge.util.animate.ItemTouchHelperClass;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

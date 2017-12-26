@@ -32,12 +32,12 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     AppBarLayout appBar;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    @BindView(R.id.image_view)
-    ImageView imageView;
     @BindView(R.id.html_text)
     HtmlTextView htmlText;
     @BindView(R.id.root_view)
     CoordinatorLayout rootView;
+    @BindView(R.id.image_zhihu)
+    ImageView imageZhihu;
 
 
     private ZhihuNewsDetailContract.Ipresenter mPresenter;
@@ -53,6 +53,7 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zhihu_news_detail);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);                                   //用自带的Toolbar替换掉原来的状态栏
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);          //显示toolbar的回退按钮
 
@@ -69,7 +70,7 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         toolbarLayout.setTitle(zhihuNewsDetail.getTitle());                //加载标题
         Glide.with(this)                                           //加载图片
                 .load(zhihuNewsDetail.getImage())
-                .into(imageView);
+                .into(imageZhihu);
         HtmlHttpImageGetter htmlHttpImageGetter = new HtmlHttpImageGetter(htmlText);
         htmlHttpImageGetter.enableCompressImage(false);
         htmlText.setHtml(zhihuNewsDetail.getBody(), htmlHttpImageGetter);
@@ -88,5 +89,8 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

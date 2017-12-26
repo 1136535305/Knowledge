@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.beans.JuheTop;
-import com.yjq.knowledge.util.ItemTouchHelperClass;
+import com.yjq.knowledge.util.animate.ItemTouchHelperClass;
 
 import java.util.Collections;
 
@@ -22,8 +22,6 @@ import butterknife.ButterKnife;
 
 /**
  * 文件： JuheNewsAdapter
- * 版权： 2017-2019  康佳集团股份有限公司
- * 保留多有版权
  * 描述：
  * 作者： YangJunQuan   2017/11/17.
  */

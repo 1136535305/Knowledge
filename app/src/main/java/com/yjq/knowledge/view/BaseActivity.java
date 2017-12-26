@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 
 /**
  * 文件： BaseActivity
- * 版权： 2017-2019  康佳集团股份有限公司
- * 保留多有版权
  * 描述：
  * 作者： Yang   2017/11/17.
  */

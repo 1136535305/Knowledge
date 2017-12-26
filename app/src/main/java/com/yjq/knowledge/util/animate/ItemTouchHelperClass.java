@@ -1,12 +1,10 @@
-package com.yjq.knowledge.util;
+package com.yjq.knowledge.util.animate;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 /**
  * 文件： ItemTouchHelperClass
- * 版权： 2017-2019  康佳集团股份有限公司
- * 保留多有版权
  * 描述：
  * 作者： YangJunQuan   2017/12/8.
  */

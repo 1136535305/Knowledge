@@ -1,12 +1,8 @@
-package com.yjq.knowledge.util;
+package com.yjq.knowledge.util.net;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-/**
- * Created by 蔡小木 on 2016/3/16 0016.
- */
 public class NetWorkUtil {
 
     private NetWorkUtil() {}
