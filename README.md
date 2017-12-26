@@ -2,8 +2,8 @@
 
 ### **个人练习项目**
  
-  * **项目架构**：MVP+Retrofit+RxJava
-  * **UI风格** ： 主要是Google官方推荐的Material Design
+  * **项目架构** ：MVP+Retrofit+RxJava
+  * **UI风格**   ：主要是Google官方推荐的Material Design
   
 ----
   #### **接口数据来源**
