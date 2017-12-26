@@ -8,12 +8,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.beans.ZhihuDaily;
 import com.yjq.knowledge.beans.ZhihuNewsDetail;
+import com.yjq.knowledge.beans.ZhihuStoryExtra;
 import com.yjq.knowledge.contract.ZhihuNewsDetailContract;
 import com.yjq.knowledge.source.HtmlHttpImageGetter;
 
@@ -38,6 +42,9 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     CoordinatorLayout rootView;
     @BindView(R.id.image_zhihu)
     ImageView imageZhihu;
+    private TextView tvPopularity;
+    private TextView tvComments;
+    private ImageButton btnShare;
 
 
     private ZhihuNewsDetailContract.Ipresenter mPresenter;
@@ -54,13 +61,26 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         setContentView(R.layout.activity_zhihu_news_detail);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);                                   //用自带的Toolbar替换掉原来的状态栏
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);          //显示toolbar的回退按钮
+        initToolbar();
 
         mStoriesBean = (ZhihuDaily.StoriesBean) getIntent().getSerializableExtra("storiesBean");
 
+        initPresenter();
+    }
+
+    private void initPresenter() {
         mPresenter = new ZhihuNewsDetailPresenter(this);
         mPresenter.loadNewsDetailById(mStoriesBean.getId());
+        mPresenter.showNewsExtra(mStoriesBean.getId());
+    }
+
+    private void initToolbar() {
+        setSupportActionBar(toolbar);                                   //用自带的Toolbar替换掉原来的状态栏
+        View v =getLayoutInflater().inflate(R.layout.menu_toolbar, toolbar);
+        btnShare=v.findViewById(R.id.btn_share);
+        tvPopularity=v.findViewById(R.id.tv_popularity);
+        tvComments=v.findViewById(R.id.tv_comments);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);          //显示toolbar的回退按钮
     }
 
     @Override
@@ -77,6 +97,12 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     }
 
     @Override
+    public void showNewsExtra(ZhihuStoryExtra zhihuStoryExtra) {
+        tvComments.setText(zhihuStoryExtra.getComments());
+        tvPopularity.setText(zhihuStoryExtra.getPopularity());
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
@@ -88,6 +114,7 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onBackPressed() {

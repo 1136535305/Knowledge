@@ -2,6 +2,7 @@ package com.yjq.knowledge.zhihuNewsdetail;
 
 import com.orhanobut.logger.Logger;
 import com.yjq.knowledge.beans.ZhihuNewsDetail;
+import com.yjq.knowledge.beans.ZhihuStoryExtra;
 import com.yjq.knowledge.contract.ZhihuNewsDetailContract;
 
 
@@ -47,6 +48,32 @@ public class ZhihuNewsDetailPresenter implements ZhihuNewsDetailContract.Ipresen
                     public void onNext(ZhihuNewsDetail zhihuNewsDetail) {
                         Logger.i("加载知乎日报新闻详情页完成！");
                         mView.showNewsDetail(zhihuNewsDetail);
+                    }
+                });
+    }
+
+    @Override
+    public void showNewsExtra(int id) {
+        mModel.showNewsExtra(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<ZhihuStoryExtra>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.i("加载知乎日报新闻详细页额外数据出错！");
+                        e.printStackTrace();
+
+                    }
+
+                    @Override
+                    public void onNext(ZhihuStoryExtra zhihuStoryExtra) {
+                        Logger.i("加载知乎日报新闻详情页额外完成！");
+                        mView.showNewsExtra(zhihuStoryExtra);
                     }
                 });
     }
