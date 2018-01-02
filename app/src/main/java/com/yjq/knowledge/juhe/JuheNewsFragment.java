@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -26,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class JuheNewsFragment extends Fragment implements JuheContract.Iview {
+public class JuheNewsFragment extends Fragment implements JuheContract.Iview, View.OnClickListener {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -36,6 +37,8 @@ public class JuheNewsFragment extends Fragment implements JuheContract.Iview {
     CoordinatorLayout containerLl;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     private JuheNewsAdapter mAdapter;
     private JuheContract.Ipresenter mPresenter;
@@ -62,7 +65,7 @@ public class JuheNewsFragment extends Fragment implements JuheContract.Iview {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
-
+        fab.setOnClickListener(this);
         itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperClass((mAdapter)));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
@@ -75,26 +78,6 @@ public class JuheNewsFragment extends Fragment implements JuheContract.Iview {
 
         mPresenter = new JuheNewsPresenter(this);
         mPresenter.loadNews(getArguments().getString("type"));
-       /* ApiManager.getInstance().createJuheService().getTop("yule")
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<JuheTop>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(JuheTop juheTop) {
-                       Toast.makeText(getContext(),juheTop.getReason(),Toast.LENGTH_LONG).show();
-            }
-        });
-*/
         return v;
     }
 
@@ -125,5 +108,17 @@ public class JuheNewsFragment extends Fragment implements JuheContract.Iview {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.fab:
+                mRecyclerView.smoothScrollToPosition(0);   //快速回到頂部的FAB按鈕响应时间
+                break;
+            default:
+                break;
+        }
     }
 }

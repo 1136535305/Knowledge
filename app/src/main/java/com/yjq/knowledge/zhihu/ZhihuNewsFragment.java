@@ -103,8 +103,7 @@ public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview, 
         int id = view.getId();
         switch (id) {
             case R.id.fab:
-                recyclerView.smoothScrollToPosition(0);
-                com.orhanobut.logger.Logger.i("dfasdfasfdsa");
+                recyclerView.smoothScrollToPosition(0);   //快速回到頂部的FAB按鈕响应时间
                 break;
             default:
                 break;
