@@ -17,6 +17,7 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.yjq.knowledge.GlideApp;
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.beans.ZhihuDaily;
 import com.yjq.knowledge.beans.ZhihuNewsDetail;
@@ -96,8 +97,9 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
 
 
         toolbarLayout.setTitle(zhihuNewsDetail.getTitle());                //加载标题
-        Glide.with(this)                                           //加载图片
+        GlideApp.with(this)                                           //加载图片
                 .load(zhihuNewsDetail.getImage())
+                .placeholder(R.drawable.img_holder)
                 .into(imageZhihu);
         HtmlHttpImageGetter htmlHttpImageGetter = new HtmlHttpImageGetter(htmlText);
         htmlHttpImageGetter.enableCompressImage(false);

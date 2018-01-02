@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private List<Fragment> list;
     //private String[] typeList={"keji","junshi","top","yule","guoji","caijing"};
-    private String[] typeList = {"top", "zhihu"};
+    private String[] typeList = {"zhihu", "top"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager.setOffscreenPageLimit(typeList.length - 1);                   //一次性初始化typeList-1+1页，所以初始化时间比较久，但是随后的切换不会卡顿因为都已经初始化完毕了
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(), typeList));
         tabLayout.setupWithViewPager(viewPager);
-
 
 
     }

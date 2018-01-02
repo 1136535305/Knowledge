@@ -30,25 +30,32 @@ import butterknife.ButterKnife;
  */
 
 
-public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.ViewHolder> {
+public class ZhihuNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<ZhihuDaily.StoriesBean> mDataList = new ArrayList<>();
+    private static final int TYPE_DATE = 0;
+    private static final int TYPE_CONTENT = 1;
+    private List mDataList = new ArrayList<>();        //存放Item具体内容的列表以及日期的数据集
     private ZhihuNewsFragment mFragment;
     private boolean animationsLocked = false;
     private int lastAnimatedPosition = -1;
     private boolean delayAnimation = true;
 
-    public void setmDataList(List<ZhihuDaily.StoriesBean> mDataList) {
+
+    public void setmDataList(String date, List<ZhihuDaily.StoriesBean> mDataList) {
         int position = mDataList.size() - 1;
+        this.mDataList.add(date);
         this.mDataList.addAll(mDataList);
-        notifyItemChanged(position);
+        notifyItemChanged(position);               //位置从0开始
     }
 
-    public void resetDataList(List<ZhihuDaily.StoriesBean> mDataList) {
-        this.mDataList = mDataList;
+    public void resetDataList(String date, List<ZhihuDaily.StoriesBean> mDataList) {
+        this.mDataList.clear();
+        this.mDataList.add(date);
+        this.mDataList.addAll(mDataList);
         notifyDataSetChanged();
     }
+
 
     public void resetAnimationState() {
         lastAnimatedPosition = -1;
@@ -60,33 +67,51 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.View
         mFragment = fragment;
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_zhihu_recycleview, parent, false);
 
-        return new ViewHolder(view);
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        if (viewType == TYPE_CONTENT) {              //内容Item
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_zhihu_recycleview, parent, false);
+            return new ContentViewHolder(view);
+        } else {                                     //日期Item
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.interval_item_zhihu_recycleview, parent, false);
+            return new DateTopViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        ZhihuDaily.StoriesBean storiesBean = mDataList.get(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        runEnterAnimations(holder.itemView, position);
-        holder.tvTitleZhihu.setText(storiesBean.getTitle());
-        holder.itemView.setOnClickListener((view) -> {
-            Intent i = new Intent(mFragment.getContext(), ZhihuNewsDetailActivity.class);
-            i.putExtra("storiesBean", storiesBean);
+        runEnterAnimations(holder.itemView, position);//刷新动画
 
 
-            mFragment.startActivity(i);
+        if (holder instanceof ContentViewHolder) {     //内容Item项
 
-        });
+            ZhihuDaily.StoriesBean storiesBean = (ZhihuDaily.StoriesBean) mDataList.get(position);
+            ((ContentViewHolder) holder).tvTitleZhihu.setText(storiesBean.getTitle());
+            holder.itemView.setOnClickListener((view) -> {
+                Intent i = new Intent(mFragment.getContext(), ZhihuNewsDetailActivity.class);
+                i.putExtra("storiesBean", storiesBean);
+                mFragment.startActivity(i);
+            });
 
-        Glide.with(mFragment)
-                .load(storiesBean.getImages().get(0))
-                .into(holder.imageZhihu);
+            Glide.with(mFragment)
+                    .load(storiesBean.getImages().get(0))
+                    .into(((ContentViewHolder) holder).imageZhihu);
+
+        } else {                                      //日期Item项
+            ((DateTopViewHolder) holder).tvDate.setText((String) mDataList.get(position));
+        }
 
 
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mDataList.get(position) instanceof String)   //说明该位置是留给日期的
+            return TYPE_DATE;
+        else return TYPE_CONTENT;
     }
 
 
@@ -124,7 +149,11 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.View
                 : 0;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+
+    /**
+     * 具体的新闻Item项ViewHolder
+     */
+    static class ContentViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.image_zhihu)
         ImageView imageZhihu;
         @BindView(R.id.tv_title_zhihu)
@@ -132,9 +161,25 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.View
         @BindView(R.id.tv_author_zhihu)
         TextView tvAuthorZhihu;
 
-        ViewHolder(View view) {
+        ContentViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
     }
+
+
+    /**
+     * 日期Item项ViewHolder
+     */
+    static class DateTopViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_date)
+        TextView tvDate;
+
+        public DateTopViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+
 }

@@ -27,6 +27,8 @@ import butterknife.ButterKnife;
  */
 
 public class JuheNewsAdapter extends RecyclerView.Adapter<JuheNewsAdapter.MyViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter {
+
+
     private boolean animationsLocked = false;
     private int lastAnimatedPosition = -1;
     private JuheTop mData;
@@ -46,9 +48,12 @@ public class JuheNewsAdapter extends RecyclerView.Adapter<JuheNewsAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View rootView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_juhe_recycleview, parent, false);
-        return new MyViewHolder(rootView);
+
+
+            View rootView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_juhe_recycleview, parent, false);
+            return new MyViewHolder(rootView);
+
     }
 
     @Override
@@ -95,7 +100,7 @@ public class JuheNewsAdapter extends RecyclerView.Adapter<JuheNewsAdapter.MyView
     @Override
     public int getItemCount() {
         return mData != null
-                ? mData.getResult().getData().size()
+                ? mData.getResult().getData().size() + 1
                 : 0;
     }
 
@@ -141,4 +146,8 @@ public class JuheNewsAdapter extends RecyclerView.Adapter<JuheNewsAdapter.MyView
             ButterKnife.bind(this, view);
         }
     }
+
+
+
+
 }

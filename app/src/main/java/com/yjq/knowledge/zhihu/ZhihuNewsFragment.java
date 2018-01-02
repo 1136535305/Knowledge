@@ -15,6 +15,9 @@ import com.yjq.knowledge.R;
 import com.yjq.knowledge.adapter.ZhihuNewsAdapter;
 import com.yjq.knowledge.beans.ZhihuDaily;
 import com.yjq.knowledge.contract.ZhihuContract;
+import com.yjq.knowledge.util.date.DateTimeUtil;
+
+import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,13 +83,15 @@ public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview {
         refreshLayout.finishRefresh(0/*,false*/);//传入false表示刷新失败
         lastNewsData = zhihuDaily.getDate();
         mAdapter.resetAnimationState();
-        mAdapter.resetDataList(zhihuDaily.getStories());
+        mAdapter.resetDataList("今日热闻", zhihuDaily.getStories());
     }
 
     @Override
     public void showMoreNews(ZhihuDaily zhihuDaily) {
         refreshLayout.finishLoadmore(0/*,false*/);//传入false表示加载失败
         lastNewsData = zhihuDaily.getDate();
-        mAdapter.setmDataList(zhihuDaily.getStories());
+        mAdapter.setmDataList(DateTimeUtil.getTime(lastNewsData), zhihuDaily.getStories());
     }
+
+
 }
