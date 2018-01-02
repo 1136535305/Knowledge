@@ -2,6 +2,7 @@ package com.yjq.knowledge.zhihu;
 
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,16 +18,18 @@ import com.yjq.knowledge.beans.ZhihuDaily;
 import com.yjq.knowledge.contract.ZhihuContract;
 import com.yjq.knowledge.util.date.DateTimeUtil;
 
-import java.text.SimpleDateFormat;
+import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview {
+public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview, View.OnClickListener {
 
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
     private ZhihuContract.Ipresenter mPresenter;
     private ZhihuNewsAdapter mAdapter;
 
@@ -51,13 +54,14 @@ public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_juhe, container, false);
+        View view = inflater.inflate(R.layout.fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
 
         mAdapter = new ZhihuNewsAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        fab.setOnClickListener(this);
 
 
         refreshLayout.setOnRefreshListener(refreshlayout -> {
@@ -94,4 +98,16 @@ public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.fab:
+                recyclerView.smoothScrollToPosition(0);
+                com.orhanobut.logger.Logger.i("dfasdfasfdsa");
+                break;
+            default:
+                break;
+        }
+    }
 }

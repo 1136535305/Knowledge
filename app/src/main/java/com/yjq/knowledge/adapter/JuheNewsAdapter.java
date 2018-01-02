@@ -49,10 +49,9 @@ public class JuheNewsAdapter extends RecyclerView.Adapter<JuheNewsAdapter.MyView
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
-
-            View rootView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_juhe_recycleview, parent, false);
-            return new MyViewHolder(rootView);
+        View rootView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_juhe_recycleview, parent, false);
+        return new MyViewHolder(rootView);
 
     }
 
@@ -100,8 +99,8 @@ public class JuheNewsAdapter extends RecyclerView.Adapter<JuheNewsAdapter.MyView
     @Override
     public int getItemCount() {
         return mData != null
-                ? mData.getResult().getData().size() + 1
-                : 0;
+                ? mData.getResult().getData().size()
+                :0;
     }
 
     @Override
@@ -146,8 +145,6 @@ public class JuheNewsAdapter extends RecyclerView.Adapter<JuheNewsAdapter.MyView
             ButterKnife.bind(this, view);
         }
     }
-
-
 
 
 }

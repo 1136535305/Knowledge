@@ -4,4 +4,5 @@
     <string name="navigation_drawer_open">打开导航视图</string>
     <string name="navigation_drawer_close">关闭导航视图</string>
     <string name="title_activity_zhihu_news_detail">知乎日报</string>
+    <string name="scale_up_show_behavior">com.yjq.knowledge.util.animate.ScaleDownShowBehavior</string>
 </resources>
