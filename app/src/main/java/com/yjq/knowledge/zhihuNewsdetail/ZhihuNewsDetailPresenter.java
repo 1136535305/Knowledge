@@ -1,8 +1,8 @@
 package com.yjq.knowledge.zhihuNewsdetail;
 
 import com.orhanobut.logger.Logger;
-import com.yjq.knowledge.beans.ZhihuNewsDetail;
-import com.yjq.knowledge.beans.ZhihuStoryExtra;
+import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
+import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
 import com.yjq.knowledge.contract.ZhihuNewsDetailContract;
 
 

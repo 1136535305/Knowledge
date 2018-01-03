@@ -1,7 +1,7 @@
 package com.yjq.knowledge.juhe;
 
 import com.orhanobut.logger.Logger;
-import com.yjq.knowledge.beans.JuheTop;
+import com.yjq.knowledge.beans.juhe.JuheTop;
 import com.yjq.knowledge.contract.JuheContract;
 
 import rx.Subscriber;

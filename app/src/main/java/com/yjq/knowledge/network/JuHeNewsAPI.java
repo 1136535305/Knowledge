@@ -1,7 +1,7 @@
 package com.yjq.knowledge.network;
 
 
-import com.yjq.knowledge.beans.JuheTop;
+import com.yjq.knowledge.beans.juhe.JuheTop;
 
 import retrofit2.http.POST;
 import retrofit2.http.Query;

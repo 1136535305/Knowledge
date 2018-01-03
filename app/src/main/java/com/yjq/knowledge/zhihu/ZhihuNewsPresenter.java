@@ -1,7 +1,7 @@
 package com.yjq.knowledge.zhihu;
 
 import com.orhanobut.logger.Logger;
-import com.yjq.knowledge.beans.ZhihuDaily;
+import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
 import com.yjq.knowledge.contract.ZhihuContract;
 
 import rx.Subscriber;

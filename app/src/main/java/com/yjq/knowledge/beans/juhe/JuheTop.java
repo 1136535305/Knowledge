@@ -1,4 +1,4 @@
-package com.yjq.knowledge.beans;
+package com.yjq.knowledge.beans.juhe;
 
 import java.io.Serializable;
 import java.util.List;

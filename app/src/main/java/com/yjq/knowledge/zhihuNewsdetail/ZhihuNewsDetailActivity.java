@@ -16,12 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.yjq.knowledge.GlideApp;
 import com.yjq.knowledge.R;
-import com.yjq.knowledge.beans.ZhihuDaily;
-import com.yjq.knowledge.beans.ZhihuNewsDetail;
-import com.yjq.knowledge.beans.ZhihuStoryExtra;
+import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
+import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
+import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
 import com.yjq.knowledge.contract.ZhihuNewsDetailContract;
 import com.yjq.knowledge.source.HtmlHttpImageGetter;
 

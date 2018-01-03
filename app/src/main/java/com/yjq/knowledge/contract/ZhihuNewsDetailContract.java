@@ -1,8 +1,8 @@
 package com.yjq.knowledge.contract;
 
 
-import com.yjq.knowledge.beans.ZhihuNewsDetail;
-import com.yjq.knowledge.beans.ZhihuStoryExtra;
+import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
+import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
 
 import rx.Observable;
 

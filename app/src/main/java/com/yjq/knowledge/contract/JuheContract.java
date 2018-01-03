@@ -1,7 +1,7 @@
 package com.yjq.knowledge.contract;
 
 
-import com.yjq.knowledge.beans.JuheTop;
+import com.yjq.knowledge.beans.juhe.JuheTop;
 
 import rx.Observable;
 

@@ -1,4 +1,4 @@
-package com.yjq.knowledge.beans;
+package com.yjq.knowledge.beans.zhihu;
 
 import java.io.Serializable;
 import java.util.List;

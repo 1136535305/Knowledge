@@ -1,10 +1,11 @@
 package com.yjq.knowledge.network;
 
 
-import com.yjq.knowledge.beans.ZhihuDaily;
-import com.yjq.knowledge.beans.ZhihuNewsDetail;
-import com.yjq.knowledge.beans.ZhihuShortComments;
-import com.yjq.knowledge.beans.ZhihuStoryExtra;
+import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
+import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
+import com.yjq.knowledge.beans.zhihu.ZhihuShortComments;
+import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
+import com.yjq.knowledge.beans.zhihu.ZhihuThemeList;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -35,6 +36,7 @@ public interface ZhiHuNewsAPI {
 
     /**
      * 完整URL  https://news-at.zhihu.com/api/4/story-extra/#{id}
+     *
      * @param id 新闻的ID
      * @return 获取对应新闻的额外信息，如评论数量，所获的『赞』的数量。
      */
@@ -44,8 +46,16 @@ public interface ZhiHuNewsAPI {
 
     /**
      * 完整URL    https://news-at.zhihu.com/api/4/story/4232852/short-comments
+     *
      * @param id 新闻的ID
      * @return 新闻对应短评论查看
      */
     Observable<ZhihuShortComments> getShortCommnets(@Path("id") int id);
+
+    /**
+     * 完整URL   https://news-at.zhihu.com/api/4/themes
+     *
+     * @return 主题日报列表查看
+     */
+    Observable<ZhihuThemeList> getThemeList();
 }

@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navMenu.setNavigationItemSelectedListener(this);
 
 
-        list = new ArrayList<Fragment>();
+        list = new ArrayList<>();
         viewPager.setOffscreenPageLimit(typeList.length - 1);                   //一次性初始化typeList-1+1页，所以初始化时间比较久，但是随后的切换不会卡顿因为都已经初始化完毕了
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(), typeList));
         tabLayout.setupWithViewPager(viewPager);
@@ -67,21 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

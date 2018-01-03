@@ -1,7 +1,7 @@
 package com.yjq.knowledge.juhe;
 
 
-import com.yjq.knowledge.beans.JuheTop;
+import com.yjq.knowledge.beans.juhe.JuheTop;
 import com.yjq.knowledge.contract.JuheContract;
 import com.yjq.knowledge.network.ApiManager;
 import com.yjq.knowledge.network.JuHeNewsAPI;

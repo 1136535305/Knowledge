@@ -14,11 +14,9 @@ import android.view.ViewGroup;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.adapter.ZhihuNewsAdapter;
-import com.yjq.knowledge.beans.ZhihuDaily;
+import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
 import com.yjq.knowledge.contract.ZhihuContract;
 import com.yjq.knowledge.util.date.DateTimeUtil;
-
-import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

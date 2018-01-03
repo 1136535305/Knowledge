@@ -1,7 +1,7 @@
 package com.yjq.knowledge.contract;
 
 
-import com.yjq.knowledge.beans.ZhihuDaily;
+import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
 
 import rx.Observable;
 

@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yjq.knowledge.R;
-import com.yjq.knowledge.beans.JuheTop;
+import com.yjq.knowledge.beans.juhe.JuheTop;
 import com.yjq.knowledge.util.animate.ItemTouchHelperClass;
 
 import java.util.Collections;
