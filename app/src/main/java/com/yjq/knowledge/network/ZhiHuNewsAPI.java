@@ -50,6 +50,7 @@ public interface ZhiHuNewsAPI {
      * @param id 新闻的ID
      * @return 新闻对应短评论查看
      */
+    @GET("/api/4/story/{id}/short-comments")
     Observable<ZhihuShortComments> getShortCommnets(@Path("id") int id);
 
     /**
@@ -57,5 +58,6 @@ public interface ZhiHuNewsAPI {
      *
      * @return 主题日报列表查看
      */
+    @GET("/api/4/themes")
     Observable<ZhihuThemeList> getThemeList();
 }

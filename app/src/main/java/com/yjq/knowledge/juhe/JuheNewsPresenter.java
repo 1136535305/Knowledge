@@ -43,7 +43,7 @@ public class JuheNewsPresenter implements JuheContract.Ipresenter {
                     @Override
                     public void onNext(JuheTop juheTop) {
 
-                        Logger.i("加载聚合数据成功，返回数据%s", juheTop.getReason());
+                        Logger.i("加载【聚合数据】成功，返回数据%s", juheTop.getReason());
                         if (null == juheTop.getResult()) {
                             mView.showErrorMessage(juheTop.getReason());
                         } else {

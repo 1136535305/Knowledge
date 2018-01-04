@@ -35,18 +35,16 @@ public class ZhihuNewsDetailPresenter implements ZhihuNewsDetailContract.Ipresen
                 .subscribe(new Subscriber<ZhihuNewsDetail>() {
                     @Override
                     public void onCompleted() {
-
+                        Logger.i("加载【知乎日报新闻详情页】完成！");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.i("加载知乎日报新闻详细页出错！");
-
+                        Logger.i("加载【知乎日报新闻详细页】出错！");
                     }
 
                     @Override
                     public void onNext(ZhihuNewsDetail zhihuNewsDetail) {
-                        Logger.i("加载知乎日报新闻详情页完成！");
                         mView.showNewsDetail(zhihuNewsDetail);
                     }
                 });

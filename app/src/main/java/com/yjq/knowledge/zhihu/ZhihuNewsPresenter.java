@@ -31,12 +31,12 @@ public class ZhihuNewsPresenter implements ZhihuContract.Ipresenter {
                 .subscribe(new Subscriber<ZhihuDaily>() {
                     @Override
                     public void onCompleted() {
-                        Logger.i("加载网络知乎日报数据完成！！！");
+                        Logger.i("加载【网络知乎日报今日热闻】数据完成！！！");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e("网络加载知乎日报数据报错！！！");
+                        Logger.e("网络加载【知乎日报今日热闻】数据报错！！！");
                         e.printStackTrace();
 
                     }
