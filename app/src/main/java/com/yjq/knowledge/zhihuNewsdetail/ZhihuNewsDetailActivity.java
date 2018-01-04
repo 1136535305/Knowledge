@@ -37,14 +37,16 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     CollapsingToolbarLayout toolbarLayout;
     @BindView(R.id.app_bar)
     AppBarLayout appBar;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
     @BindView(R.id.html_text)
     HtmlTextView htmlText;
     @BindView(R.id.root_view)
     CoordinatorLayout rootView;
     @BindView(R.id.image_zhihu)
     ImageView imageZhihu;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.tv_source)
+    TextView tvSource;
     private TextSwitcher tvPopularity;
     private TextView tvComments;
     private ImageButton btnThumbsUp;
@@ -96,9 +98,10 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
 
 
         toolbarLayout.setTitle(zhihuNewsDetail.getTitle());                //加载标题
+        tvTitle.setText(zhihuNewsDetail.getTitle());
+        tvSource.setText(zhihuNewsDetail.getImage_source());
         GlideApp.with(this)                                           //加载图片
                 .load(zhihuNewsDetail.getImage())
-                .placeholder(R.drawable.img_holder)
                 .into(imageZhihu);
         HtmlHttpImageGetter htmlHttpImageGetter = new HtmlHttpImageGetter(htmlText);
         htmlHttpImageGetter.enableCompressImage(false);

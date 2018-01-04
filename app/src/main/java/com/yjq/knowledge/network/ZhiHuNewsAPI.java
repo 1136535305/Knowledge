@@ -5,6 +5,7 @@ import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
 import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
 import com.yjq.knowledge.beans.zhihu.ZhihuShortComments;
 import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
+import com.yjq.knowledge.beans.zhihu.ZhihuThemeDetail;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeList;
 
 import retrofit2.http.GET;
@@ -60,4 +61,15 @@ public interface ZhiHuNewsAPI {
      */
     @GET("/api/4/themes")
     Observable<ZhihuThemeList> getThemeList();
+
+
+    /**
+     * 完整URL: https://news-at.zhihu.com/api/4/theme/{id}
+     * 主题日报内容查看
+     *
+     * @param id 主题日报列表查看 中获得需要查看的主题日报的 id
+     * @return
+     */
+    @GET("/api/4/theme/{id}")
+    Observable<ZhihuThemeDetail> getThemeDetailById(@Path("id") int id);
 }

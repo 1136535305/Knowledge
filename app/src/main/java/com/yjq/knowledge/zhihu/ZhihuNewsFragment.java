@@ -40,8 +40,6 @@ public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview, 
 
     private String lastNewsData;
 
-    public ZhihuNewsFragment() {
-    }
 
     public static ZhihuNewsFragment newInstance() {
         ZhihuNewsFragment fragment = new ZhihuNewsFragment();
@@ -62,12 +60,12 @@ public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview, 
         fab.setOnClickListener(this);
 
 
-        refreshLayout.setOnRefreshListener(refreshlayout -> {
-            mPresenter.loadZhihuNews();
-        });
-        refreshLayout.setOnLoadmoreListener(refreshlayout -> {
-            mPresenter.loadMoreZhihuNews(lastNewsData);
-        });
+        refreshLayout.setOnRefreshListener(refreshlayout ->
+                mPresenter.loadZhihuNews()
+        );
+        refreshLayout.setOnLoadmoreListener(refreshlayout ->
+                mPresenter.loadMoreZhihuNews(lastNewsData)
+        );
         mPresenter = new ZhihuNewsPresenter(this);
         mPresenter.loadZhihuNews();
 
@@ -101,7 +99,7 @@ public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview, 
         int id = view.getId();
         switch (id) {
             case R.id.fab:
-                recyclerView.smoothScrollToPosition(0);   //快速回到頂部的FAB按鈕响应时间
+                recyclerView.smoothScrollToPosition(0);   //快速回到頂部的FAB按鈕响应事件
                 break;
             default:
                 break;
