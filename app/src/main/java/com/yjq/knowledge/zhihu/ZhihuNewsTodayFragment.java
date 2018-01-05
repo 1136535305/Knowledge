@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview, View.OnClickListener {
+public class ZhihuNewsTodayFragment extends Fragment implements ZhihuContract.Iview, View.OnClickListener {
 
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
@@ -41,8 +41,8 @@ public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview, 
     private String lastNewsData;
 
 
-    public static ZhihuNewsFragment newInstance() {
-        ZhihuNewsFragment fragment = new ZhihuNewsFragment();
+    public static ZhihuNewsTodayFragment newInstance() {
+        ZhihuNewsTodayFragment fragment = new ZhihuNewsTodayFragment();
         return fragment;
     }
 
@@ -66,7 +66,7 @@ public class ZhihuNewsFragment extends Fragment implements ZhihuContract.Iview, 
         refreshLayout.setOnLoadmoreListener(refreshlayout ->
                 mPresenter.loadMoreZhihuNews(lastNewsData)
         );
-        mPresenter = new ZhihuNewsPresenter(this);
+        mPresenter = new ZhihuNewsTodayPresenter(this);
         mPresenter.loadZhihuNews();
 
         return view;

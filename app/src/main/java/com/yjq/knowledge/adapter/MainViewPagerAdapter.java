@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.yjq.knowledge.juhe.JuheNewsFragment;
-import com.yjq.knowledge.zhihu.ZhihuNewsFragment;
+import com.yjq.knowledge.zhihu.ZhihuNewsTodayFragment;
 
 
 /**
@@ -25,7 +25,7 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return mIsZhihuFragment(position)
-                ? ZhihuNewsFragment.newInstance()
+                ? ZhihuNewsTodayFragment.newInstance()
                 : JuheNewsFragment.newsInstance(typeList[position]);
     }
 

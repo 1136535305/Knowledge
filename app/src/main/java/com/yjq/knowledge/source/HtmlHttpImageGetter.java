@@ -194,7 +194,8 @@ public class HtmlHttpImageGetter implements ImageGetter {
         private float getScale(Bitmap bitmap) {
             View container = containerReference.get();
             if (container == null) {
-                return 7f;
+
+                return 7f;   //TODO 修正不同屏幕分辨率上图片保持大致的尺寸  (在华为 Honor V9以及高分辨率的手机上 7f才能显示正常的屏幕尺寸,1f大小的太小了)
             }
 
             float maxWidth = container.getWidth();
@@ -207,7 +208,7 @@ public class HtmlHttpImageGetter implements ImageGetter {
         private float getScale(Drawable drawable) {
             View container = containerReference.get();
             if (!matchParentWidth || container == null) {
-                return 7f;
+                return 7f;   //TODO 修正不同屏幕分辨率上图片保持大致的尺寸  (在华为 Honor V9以及高分辨率的手机上 7f才能显示正常的屏幕尺寸,1f大小的太小了)
             }
 
             float maxWidth = container.getWidth();

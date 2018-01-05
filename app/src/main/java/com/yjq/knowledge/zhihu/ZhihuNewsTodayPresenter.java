@@ -9,17 +9,17 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * 文件： ZhihuNewsPresenter
+ * 文件： ZhihuNewsTodayPresenter
  * 描述：
  * 作者： YangJunQuan   2017/12/15.
  */
 
-public class ZhihuNewsPresenter implements ZhihuContract.Ipresenter {
+public class ZhihuNewsTodayPresenter implements ZhihuContract.Ipresenter {
     private ZhihuContract.Imodel model;
     private ZhihuContract.Iview view;
 
-    public ZhihuNewsPresenter(ZhihuContract.Iview view) {
-        this.model = new ZhihuNewsModel();
+    public ZhihuNewsTodayPresenter(ZhihuContract.Iview view) {
+        this.model = new ZhihuNewsTodayModel();
         this.view = view;
     }
 

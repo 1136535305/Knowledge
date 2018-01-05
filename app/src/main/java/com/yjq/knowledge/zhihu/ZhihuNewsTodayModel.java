@@ -9,12 +9,12 @@ import com.yjq.knowledge.network.ZhiHuNewsAPI;
 import rx.Observable;
 
 /**
- * 文件： ZhihuNewsModel
+ * 文件： ZhihuNewsTodayModel
  * 描述：
  * 作者： YangJunQuan   2017/12/15.
  */
 
-public class ZhihuNewsModel implements ZhihuContract.Imodel {
+public class ZhihuNewsTodayModel implements ZhihuContract.Imodel {
     private ZhiHuNewsAPI zhiHuNewsAPI = ApiManager.getInstance().createZhihuService();
 
     @Override

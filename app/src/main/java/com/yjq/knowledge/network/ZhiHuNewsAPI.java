@@ -5,7 +5,7 @@ import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
 import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
 import com.yjq.knowledge.beans.zhihu.ZhihuShortComments;
 import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
-import com.yjq.knowledge.beans.zhihu.ZhihuThemeDetail;
+import com.yjq.knowledge.beans.zhihu.ZhihuThemeListDetail;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeList;
 
 import retrofit2.http.GET;
@@ -71,5 +71,5 @@ public interface ZhiHuNewsAPI {
      * @return
      */
     @GET("/api/4/theme/{id}")
-    Observable<ZhihuThemeDetail> getThemeDetailById(@Path("id") int id);
+    Observable<ZhihuThemeListDetail> getThemeDetailById(@Path("id") int id);
 }

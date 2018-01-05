@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
-import com.yjq.knowledge.zhihu.ZhihuNewsFragment;
+import com.yjq.knowledge.zhihu.ZhihuNewsTodayFragment;
 import com.yjq.knowledge.zhihuNewsdetail.ZhihuNewsDetailActivity;
 
 import java.util.ArrayList;
@@ -36,7 +36,8 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_DATE = 0;
     private static final int TYPE_CONTENT = 1;
     private List mDataList = new ArrayList<>();        //存放Item具体内容的列表以及日期的数据集
-    private ZhihuNewsFragment mFragment;
+    private ZhihuNewsTodayFragment mFragment;
+
     private boolean animationsLocked = false;
     private int lastAnimatedPosition = -1;
     private boolean delayAnimation = true;
@@ -63,7 +64,7 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    public ZhihuNewsAdapter(ZhihuNewsFragment fragment) {
+    public ZhihuNewsAdapter(ZhihuNewsTodayFragment fragment) {
         mFragment = fragment;
     }
 
@@ -92,7 +93,8 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((ContentViewHolder) holder).tvTitleZhihu.setText(storiesBean.getTitle());
             holder.itemView.setOnClickListener((view) -> {
                 Intent i = new Intent(mFragment.getContext(), ZhihuNewsDetailActivity.class);
-                i.putExtra("storiesBean", storiesBean);
+
+                i.putExtra("newsId", storiesBean.getId());
                 mFragment.startActivity(i);
             });
 

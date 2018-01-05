@@ -55,8 +55,7 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
 
     private boolean mThumbsUp = false;
     private ZhihuNewsDetailContract.Ipresenter mPresenter;
-    private ZhihuDaily.StoriesBean mStoriesBean;
-    private String mNewsId;//知乎日报新闻唯一标志ID
+    private int mNewsId;//知乎日报新闻唯一标志ID
 
 
     private Bundle mStartValues;
@@ -70,15 +69,15 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
 
         initToolbar();
 
-        mStoriesBean = (ZhihuDaily.StoriesBean) getIntent().getSerializableExtra("storiesBean");
+        mNewsId = getIntent().getIntExtra("newsId", 0);
 
         initPresenter();
     }
 
     private void initPresenter() {
         mPresenter = new ZhihuNewsDetailPresenter(this);
-        mPresenter.loadNewsDetailById(mStoriesBean.getId());
-        mPresenter.showNewsExtra(mStoriesBean.getId());
+        mPresenter.loadNewsDetailById(mNewsId);
+        mPresenter.showNewsExtra(mNewsId);
     }
 
     private void initToolbar() {
@@ -103,7 +102,7 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         GlideApp.with(this)                                           //加载图片
                 .load(zhihuNewsDetail.getImage())
                 .into(imageZhihu);
-        HtmlHttpImageGetter htmlHttpImageGetter = new HtmlHttpImageGetter(htmlText);
+        HtmlHttpImageGetter htmlHttpImageGetter = new HtmlHttpImageGetter(htmlText);//TODO 需要采取更好的方式解析Html代码
         htmlHttpImageGetter.enableCompressImage(false);
         htmlText.setHtml(zhihuNewsDetail.getBody(), htmlHttpImageGetter);
     }
@@ -111,7 +110,7 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     @Override
     public void showNewsExtra(ZhihuStoryExtra zhihuStoryExtra) {
         tvComments.setText(zhihuStoryExtra.getComments());
-        tvPopularity.setCurrentText(zhihuStoryExtra.getPopularity());//不带动画效果的
+        tvPopularity.setCurrentText(zhihuStoryExtra.getPopularity());       //不带动画效果的
     }
 
     @Override

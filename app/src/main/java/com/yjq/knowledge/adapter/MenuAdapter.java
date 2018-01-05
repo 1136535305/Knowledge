@@ -11,12 +11,14 @@ import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 import com.yjq.knowledge.R;
+import com.yjq.knowledge.beans.zhihu.ZhihuThemeList;
 
 import java.util.ArrayList;
 
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.subjects.PublishSubject;
 
 /**
  * 文件： MenuAdapter
@@ -25,10 +27,18 @@ import butterknife.ButterKnife;
  */
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
+    private final PublishSubject<ZhihuThemeList.OthersBean> onClickSubject = PublishSubject.create();
+    //PublishSubject，既是订阅者也是观察者，特点：订阅者只会接收到订阅之后被订阅者发送的消息，消息类型为Album相册
+    //这和我们日常的手机订阅套餐服务很相似
 
     @BindDrawable(R.drawable.chevron_right)
     Drawable chevronRight;
-    private ArrayList<String> mDataSet;
+    private ZhihuThemeList mDataSet;
+
+
+    public PublishSubject<ZhihuThemeList.OthersBean> getClicks() {
+        return onClickSubject;
+    }
 
 
     @Override
@@ -40,9 +50,11 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvTheme.setText(mDataSet.get(position));
+        ZhihuThemeList.OthersBean themeBean = mDataSet.getOthers().get(position);
+        holder.tvTheme.setText(themeBean.getName());
         holder.itemMenuContainer.setOnClickListener(view -> {
 
+            onClickSubject.onNext(themeBean);
         });
 
 //            holder.btnFocus.setOnClickListener(view -> {
@@ -54,14 +66,15 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return mDataSet != null
-                ? mDataSet.size()
+                ? mDataSet.getOthers().size()
                 : 0;
     }
 
-    public void setmDataSet(ArrayList<String> mDataSet) {
+    public void setmDataSet(ZhihuThemeList mDataSet) {
         this.mDataSet = mDataSet;
         this.notifyDataSetChanged();
     }
+
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_theme)

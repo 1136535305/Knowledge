@@ -59,5 +59,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     //一个能够解析大部分html标签的textView
     implementation 'org.sufficientlysecure:html-textview:3.5'
+    //一个非常流行的四大组件通信工具库 Eventbus
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }
 

@@ -3,9 +3,9 @@ package com.yjq.knowledge;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,14 +14,21 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.orhanobut.logger.Logger;
-import com.yjq.knowledge.adapter.MainViewPagerAdapter;
 import com.yjq.knowledge.adapter.MenuAdapter;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeList;
 import com.yjq.knowledge.network.ApiManager;
+import com.yjq.knowledge.zhihu.ZhihuNewsTodayFragment;
+import com.yjq.knowledge.zhihu.ZhihuThemeFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,22 +39,25 @@ import rx.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    //@BindView(R.id.tabLayout)
+    //TabLayout tabLayout;
+    // @BindView(R.id.viewPager)
+    //ViewPager viewPager;
     @BindView(R.id.nav_menu)
     NavigationView navMenu;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.frag_container)
+    FrameLayout fragContainer;
 
     private View headerView;
     private RecyclerView rcyMenu;
     private MenuAdapter menuAdapter;
-    //private String[] typeList={"keji","junshi","top","yule","guoji","caijing"};    //测试数据：聚合数据提供的类别
-    private String[] typeList = {"zhihu", "top"};
+    private Fragment currentFragment = ZhihuNewsTodayFragment.newInstance();
+    private HashMap<Integer, ZhihuThemeFragment> themefragmentsList = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +68,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initToolbar();
         initNavView();
         initData();
-
-        viewPager.setOffscreenPageLimit(typeList.length - 1);                   //一次性初始化typeList-1+1页，所以初始化时间比较久，但是随后的切换不会卡顿因为都已经初始化完毕了
-        viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(), typeList));
-        tabLayout.setupWithViewPager(viewPager);
-
+        initEvent();
+        getSupportFragmentManager().beginTransaction().add(R.id.frag_container, currentFragment, currentFragment.getClass().getName()).commit();  //初始化知乎日报首页
 
     }
 
+    /**
+     * 各种事件处理
+     */
+    private void initEvent() {
+        menuAdapter.getClicks().observeOn(AndroidSchedulers.mainThread())    //左侧边栏菜单Item项的点击事件，具体是指点击某个主题日报时
+                .subscribeOn(Schedulers.io())
+                .subscribe(othersBean -> {
+                    switchFragment(getTargetFragment(othersBean), othersBean.getId() + "").commit();
+
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    toolbar.setTitle(othersBean.getName());
+                });
+    }
+
+    private FragmentTransaction switchFragment(Fragment targetFragment, String identifiedId) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (!targetFragment.isAdded()) {
+            //第一次使用switchFragment()时currentFragment为null，所以要判断一下
+            if (currentFragment != null) {
+                transaction.hide(currentFragment);
+            }
+            transaction.add(R.id.frag_container, targetFragment, identifiedId);//通过主题Id标志特定主题的Fragment
+        } else {
+            transaction.hide(currentFragment)
+                    .show(targetFragment);
+        }
+        currentFragment = targetFragment;
+        return transaction;
+
+    }
+
+    /**
+     * 从Fragment容器中是否包含特定主题的Fragment，包含则返回该Fragment，不包含则实例化一个新的Fragment并且返回该Fragment
+     *
+     * @param othersBean
+     * @return
+     */
+    private ZhihuThemeFragment getTargetFragment(ZhihuThemeList.OthersBean othersBean) {
+        ZhihuThemeFragment targetFragment;
+
+        if (themefragmentsList.containsKey(othersBean.getId())) {
+            targetFragment = themefragmentsList.get(othersBean.getId());
+        } else {
+            targetFragment = ZhihuThemeFragment.newsInstance(othersBean);
+            themefragmentsList.put(othersBean.getId(), targetFragment);
+        }
+
+        return targetFragment;
+    }
 
     private void initToolbar() {
         setSupportActionBar(toolbar);
@@ -109,14 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     @Override
                     public void onNext(ZhihuThemeList zhihuThemeList) {
-
-                        ArrayList themeList = new ArrayList<String>();
-                        for (ZhihuThemeList.OthersBean othersBean : zhihuThemeList.getOthers()) {
-                            themeList.add(othersBean.getName());
-                        }
-                        menuAdapter.setmDataSet(themeList);
-                        Logger.i(themeList.toString());
-
+                        menuAdapter.setmDataSet(zhihuThemeList);
                     }
                 });
 
