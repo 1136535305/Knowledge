@@ -99,7 +99,10 @@ public class ApiManager {
 
         if (null == apiManager) {
             synchronized (ApiManager.class) {
-                apiManager = new ApiManager();
+
+                if (null == apiManager) {
+                    apiManager = new ApiManager();
+                }
             }
         }
         return apiManager;
