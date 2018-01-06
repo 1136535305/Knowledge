@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,9 @@ import com.yjq.knowledge.adapter.ZhihuThemeListAdapter;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeList;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeListDetail;
 import com.yjq.knowledge.network.ApiManager;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,10 +56,37 @@ public class ZhihuThemeFragment extends Fragment {
     public static ZhihuThemeFragment newsInstance(ZhihuThemeList.OthersBean themeBean) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("themeBean", themeBean);
-        ZhihuThemeFragment zhihuThemeFragment = new ZhihuThemeFragment();
-        zhihuThemeFragment.setArguments(bundle);
-        return zhihuThemeFragment;
+        getInstance().setArguments(bundle);
+        return getInstance();
     }
+
+    public static ZhihuThemeFragment getInstance(){
+        if(mFragment == null){
+            synchronized (ZhihuThemeFragment.class){
+                if(mFragment == null) {
+                    mFragment = new ZhihuThemeFragment();
+                }
+            }
+        }
+        return mFragment;
+    }
+
+    Map<Integer, ZhihuThemeListAdapter> map = new HashMap();
+    public void changeDataSet(ZhihuThemeList.OthersBean themeBean){
+        mThemeBean = themeBean;
+
+        if(map.containsKey(themeBean.getId())){
+            mAdapter = map.get(themeBean.getId());
+            recyclerView.setAdapter(mAdapter);
+        }else {
+            initData();
+        }
+    }
+
+    public void clearDataCache(){
+        map.clear();
+    }
+
 
     @Nullable
     @Override
@@ -63,9 +94,9 @@ public class ZhihuThemeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment, container, false);
         unbinder = ButterKnife.bind(this, v);
 
-        initPara();
+//        initPara();
         initView();
-        initData();
+//        initData();
 
         return v;
     }
@@ -76,6 +107,7 @@ public class ZhihuThemeFragment extends Fragment {
 
     private void initView() {
         mAdapter = new ZhihuThemeListAdapter(this);
+        map.put(mThemeBean.getId(), mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(mAdapter);
         refreshLayout.setEnableRefresh(false);//不启用下拉刷新功能
@@ -102,10 +134,19 @@ public class ZhihuThemeFragment extends Fragment {
 
                     @Override
                     public void onNext(ZhihuThemeListDetail zhihuThemeListDetail) {
+                        mAdapter = new ZhihuThemeListAdapter(ZhihuThemeFragment.this);
+                        map.put(mThemeBean.getId(), mAdapter);
+                        recyclerView.setAdapter(mAdapter);
                         mAdapter.setmDataSet(zhihuThemeListDetail);
                     }
                 });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        clearDataCache();
     }
 
     @Override

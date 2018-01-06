@@ -23,11 +23,6 @@ import com.yjq.knowledge.network.ApiManager;
 import com.yjq.knowledge.zhihu.ZhihuNewsTodayFragment;
 import com.yjq.knowledge.zhihu.ZhihuThemeFragment;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -81,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .subscribeOn(Schedulers.io())
                 .subscribe(othersBean -> {
                     switchFragment(getTargetFragment(othersBean), othersBean.getId() + "").commit();
-
+//                    ZhihuThemeFragment.getInstance().changeDataSet(othersBean);
                     drawerLayout.closeDrawer(GravityCompat.START);
                     toolbar.setTitle(othersBean.getName());
                 });
@@ -111,16 +106,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @return
      */
     private ZhihuThemeFragment getTargetFragment(ZhihuThemeList.OthersBean othersBean) {
-        ZhihuThemeFragment targetFragment;
-
-        if (themefragmentsList.containsKey(othersBean.getId())) {
-            targetFragment = themefragmentsList.get(othersBean.getId());
-        } else {
-            targetFragment = ZhihuThemeFragment.newsInstance(othersBean);
-            themefragmentsList.put(othersBean.getId(), targetFragment);
-        }
-
-        return targetFragment;
+        ZhihuThemeFragment.getInstance().changeDataSet(othersBean);
+//        ZhihuThemeFragment targetFragment;
+//
+//        if (themefragmentsList.containsKey(othersBean.getId())) {
+//            targetFragment = themefragmentsList.get(othersBean.getId());
+//        } else {
+//            targetFragment = ZhihuThemeFragment.newsInstance(othersBean);
+//            themefragmentsList.put(othersBean.getId(), targetFragment);
+//            themefragmentsList.put(othersBean.getId(), targetFragment);
+//        }
+//        return targetFragment;
+        return ZhihuThemeFragment.getInstance();
     }
 
     private void initToolbar() {
@@ -187,4 +184,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ZhihuThemeFragment.getInstance().clearDataCache();
+    }
 }
