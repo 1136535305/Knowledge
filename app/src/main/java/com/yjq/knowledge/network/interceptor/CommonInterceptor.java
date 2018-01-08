@@ -24,19 +24,19 @@ public class CommonInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Request oldRequest=chain.request();       //旧的Request请求
+        Request oldRequest = chain.request();       //旧的Request请求
 
-        HttpUrl.Builder authorizedUrlBuilder=oldRequest.url()
+        HttpUrl.Builder authorizedUrlBuilder = oldRequest.url()
                 .newBuilder()
                 .scheme(oldRequest.url().scheme())
-                .addQueryParameter(mApiKey,mApiSecret);//添加公共参数
+                .addQueryParameter(mApiKey, mApiSecret);//添加公共参数
 
-        Request newRequest=oldRequest.newBuilder()    //构造新的请求
-                .method(oldRequest.method(),oldRequest.body())
+        Request newRequest = oldRequest.newBuilder()    //构造新的请求
+                .method(oldRequest.method(), oldRequest.body())
                 .url(authorizedUrlBuilder.build())
                 .build();
 
-        return  chain.proceed(newRequest);          //发出新的请求
+        return chain.proceed(newRequest);          //发出新的请求
 
 
     }

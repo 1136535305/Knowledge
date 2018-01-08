@@ -23,8 +23,6 @@ import com.yjq.knowledge.network.ApiManager;
 import com.yjq.knowledge.zhihu.ZhihuNewsTodayFragment;
 import com.yjq.knowledge.zhihu.ZhihuThemeFragment;
 
-import java.util.HashMap;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
@@ -34,10 +32,6 @@ import rx.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    //@BindView(R.id.tabLayout)
-    //TabLayout tabLayout;
-    // @BindView(R.id.viewPager)
-    //ViewPager viewPager;
     @BindView(R.id.nav_menu)
     NavigationView navMenu;
     @BindView(R.id.drawer_layout)
@@ -51,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView rcyMenu;
     private MenuAdapter menuAdapter;
     private Fragment currentFragment = ZhihuNewsTodayFragment.newInstance();
-    private HashMap<Integer, ZhihuThemeFragment> themefragmentsList = new HashMap<>();
 
 
     @Override
@@ -75,10 +68,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         menuAdapter.getClicks().observeOn(AndroidSchedulers.mainThread())    //左侧边栏菜单Item项的点击事件，具体是指点击某个主题日报时
                 .subscribeOn(Schedulers.io())
                 .subscribe(othersBean -> {
-                    switchFragment(getTargetFragment(othersBean), othersBean.getId() + "").commit();
-//                    ZhihuThemeFragment.getInstance().changeDataSet(othersBean);
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    toolbar.setTitle(othersBean.getName());
+                    switchFragment(getTargetFragment(othersBean), othersBean.getId() + "").commit();//替换Fragment
+                    drawerLayout.closeDrawer(GravityCompat.START);//关闭左侧滑Menu
+                    toolbar.setTitle(othersBean.getName());//替换Toolbar上的标题
                 });
     }
 
@@ -100,23 +92,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * 从Fragment容器中是否包含特定主题的Fragment，包含则返回该Fragment，不包含则实例化一个新的Fragment并且返回该Fragment
+     * 替换ZhihuThemeFragment里的数据
      *
      * @param othersBean
      * @return
      */
     private ZhihuThemeFragment getTargetFragment(ZhihuThemeList.OthersBean othersBean) {
-        ZhihuThemeFragment.getInstance().changeDataSet(othersBean);
-//        ZhihuThemeFragment targetFragment;
-//
-//        if (themefragmentsList.containsKey(othersBean.getId())) {
-//            targetFragment = themefragmentsList.get(othersBean.getId());
-//        } else {
-//            targetFragment = ZhihuThemeFragment.newsInstance(othersBean);
-//            themefragmentsList.put(othersBean.getId(), targetFragment);
-//            themefragmentsList.put(othersBean.getId(), targetFragment);
-//        }
-//        return targetFragment;
+        ZhihuThemeFragment.getInstance().setDataSet(othersBean);//替换ZhihuThemeFragment里的数据
         return ZhihuThemeFragment.getInstance();
     }
 

@@ -28,8 +28,8 @@ public class ApiManager {
     private JuHeNewsAPI mJuheNewsApi;
     private ZhiHuNewsAPI mZhihuNewsApi;
     private static final String CACHE_DIR = "ZhihuCache";
-    private static File httpCacheDirectory = new File(App.getInstance().getCacheDir(), CACHE_DIR);
-    private static int cacheSize = 10 * 1024 * 1024;  //10mb
+    private static File httpCacheDirectory = new File(App.getInstance().getCacheDir(), CACHE_DIR);//缓存文件存放路径：  /data/data/com.yjq.knowledge/cache/ZhihuCache
+    private static int cacheSize = 10 * 1024 * 1024;                                              //缓存容量        ：  10mb缓存
     private static Cache cache = new Cache(httpCacheDirectory, cacheSize);
     private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
         @Override
@@ -40,7 +40,8 @@ public class ApiManager {
                 return originalResponse.newBuilder()
                         .removeHeader("Pragma")
                         .removeHeader("Cache-Control")
-                        .header("Cache-Control", "public, max-age=" + maxAge)    //public：告訴任何途径的缓存者，可以无条件地缓存该响应
+                        .header("Cache-Control", "public, max-age=" + maxAge)
+                        //public：告訴任何途径的缓存者，可以无条件地缓存该响应
                         //max-age: 缓存一分钟
                         .build();
             } else {
@@ -64,7 +65,7 @@ public class ApiManager {
                     "key", "888b491fdf9179b676e6f11e202c0c91");
 
             OkHttpClient client = new OkHttpClient.Builder()
-                    //.addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
+                    .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
                     .addInterceptor(commonInterceptor)
                     .build();
 
@@ -84,8 +85,15 @@ public class ApiManager {
     public ZhiHuNewsAPI createZhihuService() {
         if (mZhihuNewsApi == null) {
 
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
+                    .cache(cache)
+                    .build();
+
+
             mZhihuNewsApi = new Retrofit.Builder()
                     .baseUrl("http://news-at.zhihu.com/")
+                    .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build()
