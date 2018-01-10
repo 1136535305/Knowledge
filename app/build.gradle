@@ -61,5 +61,9 @@ dependencies {
     implementation 'org.sufficientlysecure:html-textview:3.5'
     //一个非常流行的四大组件通信工具库 Eventbus
     implementation 'org.greenrobot:eventbus:3.1.1'
+    //解析Html页面  jsoup
+    implementation 'org.jsoup:jsoup:1.11.2'
 }
+
+
 

@@ -4,13 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 文件： ZhihuShortComments
- * 描述： 知乎新闻对应短评论查看
- * 作者： YangJunQuan   2017/12/26.
+ * 文件： ZhihuLongComments
+ * 描述：
+ * 作者： YangJunQuan   2018/1/8.
  */
 
-public class ZhihuShortComments implements Serializable {
-
+public class ZhihuLongComments implements Serializable {
 
     private List<CommentsBean> comments;
 
@@ -24,13 +23,13 @@ public class ZhihuShortComments implements Serializable {
 
     public static class CommentsBean {
         /**
-         * author : 每一天都在混水摸鱼
-         * content : 钱会让它变的好吃
-         * avatar : http://pic3.zhimg.com/0ecf2216c2612b04592126adc16affa2_im.jpg
-         * time : 1413987020
-         * id : 556780
-         * likes : 0
-         * reply_to : {"content":"我每次都不假思索选了牛肉，然后就深深的后悔没有试过一次鸡肉，到下一次又情不自禁选了牛肉，周而复始循环往复-_-#","status":0,"id":551969,"author":"怒放的腋毛"}
+         * author : andy小陆
+         * content : 《小仙有毒》里，温家的入室弟子考题有一年是“硕鼠”。温家大伯温吞海当年应试的毒方是采尽天下至甜至香之物，密炼熬成一碗甜羹，无毒且馥郁甘甜。但人一旦饮下此羹，尝到了那绝世甜香，之后哪怕是喝蜂蜜也会觉得腥臭苦涩无比，止不住的呕吐，从此世上可食之物就只剩一个味道：苦，最终竟把人活活饿死！正应了考题“硕鼠”。。
+         * avatar : http://pic3.zhimg.com/4953f864a_im.jpg
+         * time : 1479737963
+         * id : 27279755
+         * likes : 9
+         * reply_to : {"content":"第二个机灵抖的还是有逻辑问题，不该说忘了，应该说没喝过啊我也不知道","status":0,"id":27275308,"author":"2233155495"}
          */
 
         private String author;
@@ -99,10 +98,10 @@ public class ZhihuShortComments implements Serializable {
 
         public static class ReplyToBean {
             /**
-             * content : 我每次都不假思索选了牛肉，然后就深深的后悔没有试过一次鸡肉，到下一次又情不自禁选了牛肉，周而复始循环往复-_-#
+             * content : 第二个机灵抖的还是有逻辑问题，不该说忘了，应该说没喝过啊我也不知道
              * status : 0
-             * id : 551969
-             * author : 怒放的腋毛
+             * id : 27275308
+             * author : 2233155495
              */
 
             private String content;

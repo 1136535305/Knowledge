@@ -1,6 +1,7 @@
 package com.yjq.knowledge.beans.zhihu;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public class ZhihuThemeListDetail implements Serializable {
     private String image;
     private String image_source;
     private List<StoriesBean> stories;
-    private List<EditorsBean> editors;
+    private ArrayList<EditorsBean> editors;
 
     public String getDescription() {
         return description;
@@ -87,11 +88,11 @@ public class ZhihuThemeListDetail implements Serializable {
         this.stories = stories;
     }
 
-    public List<EditorsBean> getEditors() {
+    public ArrayList<EditorsBean> getEditors() {
         return editors;
     }
 
-    public void setEditors(List<EditorsBean> editors) {
+    public void setEditors(ArrayList<EditorsBean> editors) {
         this.editors = editors;
     }
 
@@ -141,7 +142,8 @@ public class ZhihuThemeListDetail implements Serializable {
         }
     }
 
-    public static class EditorsBean {
+    public static class EditorsBean implements Serializable {
+
         /**
          * url : http://www.zhihu.com/people/wezeit
          * bio : 微在 Wezeit 主编

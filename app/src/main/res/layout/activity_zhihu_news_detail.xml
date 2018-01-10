@@ -105,8 +105,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:gravity="center_horizontal"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="知乎日報" />
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>

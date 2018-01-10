@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,18 +51,14 @@ public class ZhihuThemeFragment extends Fragment {
     private ZhihuThemeListAdapter mAdapter;
     private ZhihuThemeList.OthersBean mThemeBean;
     private static ZhihuThemeFragment mFragment;
+    private ZhihuThemeListDetail mCurrentData;
+    Map<Integer, ZhihuThemeListDetail> mDataListBuffer = new HashMap<Integer, ZhihuThemeListDetail>();
 
-    public static ZhihuThemeFragment newsInstance(ZhihuThemeList.OthersBean themeBean) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("themeBean", themeBean);
-        getInstance().setArguments(bundle);
-        return getInstance();
-    }
 
-    public static ZhihuThemeFragment getInstance(){
-        if(mFragment == null){
-            synchronized (ZhihuThemeFragment.class){
-                if(mFragment == null) {
+    public static ZhihuThemeFragment getInstance() {
+        if (mFragment == null) {
+            synchronized (ZhihuThemeFragment.class) {
+                if (mFragment == null) {
                     mFragment = new ZhihuThemeFragment();
                 }
             }
@@ -71,20 +66,19 @@ public class ZhihuThemeFragment extends Fragment {
         return mFragment;
     }
 
-    Map<Integer, ZhihuThemeListAdapter> map = new HashMap();
-    public void changeDataSet(ZhihuThemeList.OthersBean themeBean){
+    public void setDataSet(ZhihuThemeList.OthersBean themeBean) {
         mThemeBean = themeBean;
 
-        if(map.containsKey(themeBean.getId())){
-            mAdapter = map.get(themeBean.getId());
-            recyclerView.setAdapter(mAdapter);
-        }else {
+        if (mDataListBuffer.containsKey(themeBean.getId())) {
+            mCurrentData = mDataListBuffer.get(themeBean.getId());
+            mAdapter.setmDataSet(mCurrentData);
+        } else {
             initData();
         }
     }
 
-    public void clearDataCache(){
-        map.clear();
+    public void clearDataCache() {
+        mDataListBuffer.clear();
     }
 
 
@@ -94,20 +88,13 @@ public class ZhihuThemeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment, container, false);
         unbinder = ButterKnife.bind(this, v);
 
-//        initPara();
         initView();
-//        initData();
 
         return v;
     }
 
-    private void initPara() {
-        mThemeBean = (ZhihuThemeList.OthersBean) getArguments().getSerializable("themeBean");
-    }
-
     private void initView() {
         mAdapter = new ZhihuThemeListAdapter(this);
-        map.put(mThemeBean.getId(), mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(mAdapter);
         refreshLayout.setEnableRefresh(false);//不启用下拉刷新功能
@@ -134,9 +121,7 @@ public class ZhihuThemeFragment extends Fragment {
 
                     @Override
                     public void onNext(ZhihuThemeListDetail zhihuThemeListDetail) {
-                        mAdapter = new ZhihuThemeListAdapter(ZhihuThemeFragment.this);
-                        map.put(mThemeBean.getId(), mAdapter);
-                        recyclerView.setAdapter(mAdapter);
+                        mDataListBuffer.put(mThemeBean.getId(), zhihuThemeListDetail);//请求到的数据添加到缓存的数据集中
                         mAdapter.setmDataSet(zhihuThemeListDetail);
                     }
                 });
@@ -146,7 +131,7 @@ public class ZhihuThemeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        clearDataCache();
+        mDataListBuffer.clear();
     }
 
     @Override
