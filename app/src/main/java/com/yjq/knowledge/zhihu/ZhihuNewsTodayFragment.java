@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.yjq.knowledge.R;
-import com.yjq.knowledge.adapter.ZhihuNewsAdapter;
+import com.yjq.knowledge.adapter.ZhihuTodayListAdapter;
 import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
 import com.yjq.knowledge.contract.ZhihuContract;
 import com.yjq.knowledge.util.date.DateTimeUtil;
@@ -29,7 +29,7 @@ public class ZhihuNewsTodayFragment extends Fragment implements ZhihuContract.Iv
     @BindView(R.id.fab)
     FloatingActionButton fab;
     private ZhihuContract.Ipresenter mPresenter;
-    private ZhihuNewsAdapter mAdapter;
+    private ZhihuTodayListAdapter mAdapter;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -59,7 +59,7 @@ public class ZhihuNewsTodayFragment extends Fragment implements ZhihuContract.Iv
         View view = inflater.inflate(R.layout.fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        mAdapter = new ZhihuNewsAdapter(this);
+        mAdapter = new ZhihuTodayListAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
@@ -89,14 +89,14 @@ public class ZhihuNewsTodayFragment extends Fragment implements ZhihuContract.Iv
         refreshLayout.finishRefresh(0/*,false*/);//传入false表示刷新失败
         lastNewsData = zhihuDaily.getDate();
         mAdapter.resetAnimationState();
-        mAdapter.resetDataList("今日热闻", zhihuDaily.getStories());
+        mAdapter.resetDataList("今日热闻", zhihuDaily);
     }
 
     @Override
     public void showMoreNews(ZhihuDaily zhihuDaily) {
         refreshLayout.finishLoadmore(0/*,false*/);//传入false表示加载失败
         lastNewsData = zhihuDaily.getDate();
-        mAdapter.setmDataList(DateTimeUtil.getTime(lastNewsData), zhihuDaily.getStories());
+        mAdapter.setmDataList(DateTimeUtil.getTime(lastNewsData), zhihuDaily);
     }
 
 

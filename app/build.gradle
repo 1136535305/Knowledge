@@ -63,7 +63,10 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     //解析Html页面  jsoup
     implementation 'org.jsoup:jsoup:1.11.2'
+    //一个好用的轮播图   banner
+    implementation 'com.youth.banner:banner:1.4.10'
 }
+
 
 
 

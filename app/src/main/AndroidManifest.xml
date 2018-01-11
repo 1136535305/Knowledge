@@ -34,6 +34,10 @@
             android:name=".editor.EditorDetailActivity"
             android:label="@string/title_activity_editor_detail"
             android:theme="@style/AppTheme.EditorNoActionBar" />
+        <activity
+            android:name=".comments.CommentsActivity"
+            android:label="@string/title_activity_comments"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

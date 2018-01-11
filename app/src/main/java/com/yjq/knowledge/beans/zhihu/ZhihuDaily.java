@@ -1,6 +1,7 @@
 package com.yjq.knowledge.beans.zhihu;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class ZhihuDaily implements Serializable{
 
     private String date;
     private List<StoriesBean> stories;
-    private List<TopStoriesBean> top_stories;
+    private ArrayList<TopStoriesBean> top_stories;
 
     public String getDate() {
         return date;
@@ -38,11 +39,11 @@ public class ZhihuDaily implements Serializable{
         this.stories = stories;
     }
 
-    public List<TopStoriesBean> getTop_stories() {
+    public ArrayList<TopStoriesBean> getTop_stories() {
         return top_stories;
     }
 
-    public void setTop_stories(List<TopStoriesBean> top_stories) {
+    public void setTop_stories(ArrayList<TopStoriesBean> top_stories) {
         this.top_stories = top_stories;
     }
 

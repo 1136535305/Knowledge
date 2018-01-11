@@ -7,4 +7,5 @@
     <string name="scale_up_show_behavior">com.yjq.knowledge.util.animate.ScaleDownShowBehavior</string>
     <string name="title_activity_editor_list">主编</string>
     <string name="title_activity_editor_detail">主编资料</string>
+    <string name="title_activity_comments">点评</string>
 </resources>
