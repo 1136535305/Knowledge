@@ -108,7 +108,6 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         GlideApp.with(zhihuThemeFragment)                          //日报主题的相应背景图片
                 .load(mDataSet.getBackground())
                 .centerCrop()
-                .error(R.drawable.img_fail)
                 .into(holder.ivThemebg);
 
     }
@@ -147,12 +146,11 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             holder.imageZhihu.setVisibility(View.VISIBLE);
             GlideApp.with(zhihuThemeFragment)
                     .load(storiesBean.getImages().get(0))
-                    .error(R.drawable.img_fail)
                     .centerCrop()
                     .into(holder.imageZhihu);
 
         } else {
-            holder.imageZhihu.setVisibility(View.GONE); //某些新闻有可能出现没有图片的情况,这时候隐藏ImageView
+            holder.imageZhihu.setVisibility(View.GONE); //某些新闻有可能出现没有图片的情况,这时候隐藏ImageView,适应没有图片的情况
         }
 
         holder.tvTitleZhihu.setText(storiesBean.getTitle());

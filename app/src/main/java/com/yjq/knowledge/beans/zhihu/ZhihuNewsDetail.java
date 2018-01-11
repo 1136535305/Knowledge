@@ -150,7 +150,7 @@ public class ZhihuNewsDetail  implements Serializable{
     private String ga_prefix;
     private int type;
     private SectionBean section;
-    private List<?> js;
+    private List<String> js;
     private List<String> images;
     private List<String> css;
 
@@ -226,11 +226,11 @@ public class ZhihuNewsDetail  implements Serializable{
         this.section = section;
     }
 
-    public List<?> getJs() {
+    public List<String> getJs() {
         return js;
     }
 
-    public void setJs(List<?> js) {
+    public void setJs(List<String> js) {
         this.js = js;
     }
 

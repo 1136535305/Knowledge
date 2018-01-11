@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
@@ -18,13 +18,10 @@ import android.widget.TextView;
 
 import com.yjq.knowledge.GlideApp;
 import com.yjq.knowledge.R;
-import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
 import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
 import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
 import com.yjq.knowledge.contract.ZhihuNewsDetailContract;
-import com.yjq.knowledge.source.HtmlHttpImageGetter;
-
-import org.sufficientlysecure.htmltextview.HtmlTextView;
+import com.yjq.knowledge.util.HtmlUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,8 +34,6 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     CollapsingToolbarLayout toolbarLayout;
     @BindView(R.id.app_bar)
     AppBarLayout appBar;
-    @BindView(R.id.html_text)
-    HtmlTextView htmlText;
     @BindView(R.id.root_view)
     CoordinatorLayout rootView;
     @BindView(R.id.image_zhihu)
@@ -47,6 +42,8 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     TextView tvTitle;
     @BindView(R.id.tv_source)
     TextView tvSource;
+    @BindView(R.id.web_view)
+    WebView webView;
     private TextSwitcher tvPopularity;
     private TextView tvComments;
     private ImageButton btnThumbsUp;
@@ -96,7 +93,6 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     public void showNewsDetail(ZhihuNewsDetail zhihuNewsDetail) {
 
 
-        toolbarLayout.setTitle(zhihuNewsDetail.getTitle());                //加载标题
         tvTitle.setText(zhihuNewsDetail.getTitle());
         tvSource.setText(zhihuNewsDetail.getImage_source());
         if (zhihuNewsDetail.getImages() != null) {
@@ -104,9 +100,10 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
                     .load(zhihuNewsDetail.getImages().get(0))
                     .into(imageZhihu);
         }
-        HtmlHttpImageGetter htmlHttpImageGetter = new HtmlHttpImageGetter(htmlText);//TODO 需要采取更好的方式解析Html代码
-        htmlHttpImageGetter.enableCompressImage(false);
-        htmlText.setHtml(zhihuNewsDetail.getBody(), htmlHttpImageGetter);
+
+        String htmlData = HtmlUtil.createHtmlData(zhihuNewsDetail, false);
+        webView.loadData(htmlData, HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
+
     }
 
     @Override

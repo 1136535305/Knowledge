@@ -57,8 +57,6 @@ dependencies {
     //一个最近非常流行的上下拉刷新框架
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
-    //一个能够解析大部分html标签的textView
-    implementation 'org.sufficientlysecure:html-textview:3.5'
     //一个非常流行的四大组件通信工具库 Eventbus
     implementation 'org.greenrobot:eventbus:3.1.1'
     //解析Html页面  jsoup
@@ -66,6 +64,7 @@ dependencies {
     //一个好用的轮播图   banner
     implementation 'com.youth.banner:banner:1.4.10'
 }
+
 
 
 
