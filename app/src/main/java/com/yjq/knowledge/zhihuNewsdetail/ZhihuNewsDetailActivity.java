@@ -99,9 +99,11 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         toolbarLayout.setTitle(zhihuNewsDetail.getTitle());                //加载标题
         tvTitle.setText(zhihuNewsDetail.getTitle());
         tvSource.setText(zhihuNewsDetail.getImage_source());
-        GlideApp.with(this)                                           //加载图片
-                .load(zhihuNewsDetail.getImage())
-                .into(imageZhihu);
+        if (zhihuNewsDetail.getImages() != null) {
+            GlideApp.with(this)                                           //加载图片
+                    .load(zhihuNewsDetail.getImages().get(0))
+                    .into(imageZhihu);
+        }
         HtmlHttpImageGetter htmlHttpImageGetter = new HtmlHttpImageGetter(htmlText);//TODO 需要采取更好的方式解析Html代码
         htmlHttpImageGetter.enableCompressImage(false);
         htmlText.setHtml(zhihuNewsDetail.getBody(), htmlHttpImageGetter);

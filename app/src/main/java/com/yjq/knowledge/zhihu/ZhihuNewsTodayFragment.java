@@ -39,11 +39,17 @@ public class ZhihuNewsTodayFragment extends Fragment implements ZhihuContract.Iv
 
 
     private String lastNewsData;
+    private static ZhihuNewsTodayFragment mFragment;
 
-
-    public static ZhihuNewsTodayFragment newInstance() {
-        ZhihuNewsTodayFragment fragment = new ZhihuNewsTodayFragment();
-        return fragment;
+    public static ZhihuNewsTodayFragment getInstance() {
+        if (mFragment == null) {
+            synchronized (ZhihuThemeFragment.class) {
+                if (mFragment == null) {
+                    mFragment = new ZhihuNewsTodayFragment();
+                }
+            }
+        }
+        return mFragment;
     }
 
 

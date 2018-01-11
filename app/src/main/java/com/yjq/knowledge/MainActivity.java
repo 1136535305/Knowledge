@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.orhanobut.logger.Logger;
 import com.yjq.knowledge.adapter.MenuAdapter;
@@ -44,8 +45,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private View headerView;
     private RecyclerView rcyMenu;
     private MenuAdapter menuAdapter;
-    private Fragment currentFragment = ZhihuNewsTodayFragment.newInstance();
-
+    private Fragment currentFragment = ZhihuNewsTodayFragment.getInstance();
+    private RelativeLayout pageHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +118,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navMenu.setNavigationItemSelectedListener(this);
         headerView = navMenu.getHeaderView(0);
         rcyMenu = headerView.findViewById(R.id.rcy_menu);
+        pageHome = headerView.findViewById(R.id.page_home);
+        pageHome.setOnClickListener(view -> {
+                    switchFragment(ZhihuNewsTodayFragment.getInstance(), "-1").commit();
+                    drawerLayout.closeDrawer(GravityCompat.START);//关闭左侧滑Menu
+                    toolbar.setTitle("今日热闻");//替换Toolbar上的标题
+                }
+        );
         menuAdapter = new MenuAdapter();
         rcyMenu.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         rcyMenu.setAdapter(menuAdapter);

@@ -84,6 +84,14 @@ public interface ZhiHuNewsAPI {
     @GET("/api/4/theme/{id}")
     Observable<ZhihuThemeListDetail> getThemeDetailById(@Path("id") int id);
 
+    /**
+     *
+     * @param themeId
+     * @param newsId
+     * @return
+     */
+    @GET("/api/4/theme/{themeId}/before/{newsId}")
+    Observable<ZhihuThemeListDetail> loadMoreThemeNews(@Path("themeId") int themeId, @Path("newsId") int newsId);
 
     /**
      * 完整Url：https://news-at.zhihu.com/api/4/editor/70/profile-page/android

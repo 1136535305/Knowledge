@@ -41,6 +41,7 @@ public class ZhihuNewsDetailPresenter implements ZhihuNewsDetailContract.Ipresen
                     @Override
                     public void onError(Throwable e) {
                         Logger.i("加载【知乎日报新闻详细页】出错！");
+                        e.printStackTrace();
                     }
 
                     @Override

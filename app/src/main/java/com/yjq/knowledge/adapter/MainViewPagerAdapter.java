@@ -25,7 +25,7 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return mIsZhihuFragment(position)
-                ? ZhihuNewsTodayFragment.newInstance()
+                ? ZhihuNewsTodayFragment.getInstance()
                 : JuheNewsFragment.newsInstance(typeList[position]);
     }
 

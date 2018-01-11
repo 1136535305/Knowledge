@@ -80,6 +80,7 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                 GlideApp.with(zhihuThemeFragment)
                         .load(storiesBean.getImages().get(0))
+                       // .error(R.drawable.img_fail)
                         .into(((ContentViewHolder) holder).imageZhihu);
             }
 
@@ -123,12 +124,24 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 : 0;
     }
 
-    public void setmDataSet(ZhihuThemeListDetail mDataSet) {
+    public void initDataSet(ZhihuThemeListDetail mDataSet) {
+        if (this.mDataSet == null) {                                   //null,代表是初次设置数据集
+            this.mDataSet = mDataSet;
+            this.mEditorList = mDataSet.getEditors();
+            this.notifyDataSetChanged();
+        }
+
+        int position = mDataSet.getStories().size() - 1;              //非null，代表是上拉加载更多
+        this.mDataSet.getStories().addAll(mDataSet.getStories());
+        this.mEditorList = mDataSet.getEditors();
+        this.notifyItemChanged(position);
+    }
+
+    public void resetDataSet(ZhihuThemeListDetail mDataSet) {         //这个方法当相应的主题被切换的时候重新设置相应的主题数据源
         this.mDataSet = mDataSet;
         this.mEditorList = mDataSet.getEditors();
         this.notifyDataSetChanged();
     }
-
 
     /**
      * 具体的新闻Item项ViewHolder

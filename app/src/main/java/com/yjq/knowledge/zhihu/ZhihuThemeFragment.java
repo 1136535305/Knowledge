@@ -52,6 +52,7 @@ public class ZhihuThemeFragment extends Fragment {
     private ZhihuThemeList.OthersBean mThemeBean;
     private static ZhihuThemeFragment mFragment;
     private ZhihuThemeListDetail mCurrentData;
+    private int lastNewsId;
     Map<Integer, ZhihuThemeListDetail> mDataListBuffer = new HashMap<Integer, ZhihuThemeListDetail>();
 
 
@@ -71,10 +72,13 @@ public class ZhihuThemeFragment extends Fragment {
 
         if (mDataListBuffer.containsKey(themeBean.getId())) {
             mCurrentData = mDataListBuffer.get(themeBean.getId());
-            mAdapter.setmDataSet(mCurrentData);
+            lastNewsId = mCurrentData.getStories().get(mCurrentData.getStories().size() - 1).getId();
+            mAdapter.resetDataSet(mCurrentData);
+            recyclerView.scrollToPosition(0);
         } else {
             initData();
         }
+
     }
 
     public void clearDataCache() {
@@ -98,7 +102,9 @@ public class ZhihuThemeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(mAdapter);
         refreshLayout.setEnableRefresh(false);//不启用下拉刷新功能
-        refreshLayout.setEnableLoadmore(false);//关闭上拉加载更多功能
+        refreshLayout.setOnLoadmoreListener(refreshlayout ->
+                initMoreData()
+        );
     }
 
     private void initData() {
@@ -110,6 +116,7 @@ public class ZhihuThemeFragment extends Fragment {
                 .subscribe(new Subscriber<ZhihuThemeListDetail>() {
                     @Override
                     public void onCompleted() {
+
                         Logger.i("加载知乎日报【%s】主题列表数据完成", mThemeBean.getName());
                     }
 
@@ -122,10 +129,39 @@ public class ZhihuThemeFragment extends Fragment {
                     @Override
                     public void onNext(ZhihuThemeListDetail zhihuThemeListDetail) {
                         mDataListBuffer.put(mThemeBean.getId(), zhihuThemeListDetail);//请求到的数据添加到缓存的数据集中
-                        mAdapter.setmDataSet(zhihuThemeListDetail);
+                        mAdapter.resetDataSet(zhihuThemeListDetail);
+                        lastNewsId = zhihuThemeListDetail.getStories().get(zhihuThemeListDetail.getStories().size() - 1).getId();
+                        recyclerView.scrollToPosition(0);
                     }
                 });
 
+    }
+
+
+    private void initMoreData() {
+        ApiManager.getInstance().createZhihuService().loadMoreThemeNews(mThemeBean.getId(), lastNewsId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<ZhihuThemeListDetail>() {
+                    @Override
+                    public void onCompleted() {
+                        refreshLayout.finishLoadmore(0/*,false*/);//传入false表示加载失败
+                        Logger.i("加载更多知乎日报【%s】主题列表数据完成", mThemeBean.getName());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("加载更多知乎日报【%s】主题列表数据失败", mThemeBean.getName());
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(ZhihuThemeListDetail zhihuThemeListDetail) {
+                        mDataListBuffer.get(mThemeBean.getId()).getStories().addAll(zhihuThemeListDetail.getStories());//请求到的数据添加到缓存的数据集中
+                        mAdapter.initDataSet(zhihuThemeListDetail);
+                        lastNewsId = zhihuThemeListDetail.getStories().get(zhihuThemeListDetail.getStories().size() - 1).getId();
+                    }
+                });
     }
 
     @Override
