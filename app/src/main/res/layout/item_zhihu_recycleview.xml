@@ -19,38 +19,33 @@
             android:id="@+id/image_zhihu"
             android:layout_width="91dp"
             android:layout_height="77dp"
-            android:layout_marginBottom="17dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_title_zhihu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:lineSpacingExtra="3.0dip"
             android:text="TextView"
             android:textColor="#030303"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_zhihu"
-            app:layout_constraintTop_toTopOf="@+id/image_zhihu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/image_zhihu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             tools:text="浪漫的历史学" />
 
-        <TextView
-            android:id="@+id/tv_author_zhihu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="知乎日报"
-            android:textColor="@color/FF9B9B9B"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/image_zhihu"
-            app:layout_constraintStart_toStartOf="@+id/tv_title_zhihu"
-            tools:text="知乎日报" />
         <!--  不采用CardView时自定义的分割线
            <View
                android:layout_width="match_parent"

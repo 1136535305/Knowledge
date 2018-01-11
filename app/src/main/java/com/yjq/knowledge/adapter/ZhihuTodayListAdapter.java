@@ -105,23 +105,23 @@ public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
+
         //runEnterAnimations(holder.itemView, position);//刷新动画
+        int viewType = getItemViewType(position);
 
-
-        if (holder instanceof BannerTopViewHolder) {                 //顶部Banner轮播图
-
-            initTopBannerView((BannerTopViewHolder) holder);
-
-        } else if (holder instanceof DateViewHolder) {               //日期Item项
-
-            initDateView((DateViewHolder) holder, position);
-
-        } else if (holder instanceof ContentViewHolder) {
-
-            initContentView(holder, position);                     //内容Item项
-
+        switch (viewType) {
+            case TYPE_BANNER_TOP:                                      //顶部Banner轮播图
+                initTopBannerView((BannerTopViewHolder) holder);
+                break;
+            case TYPE_DATE:                                             //日期Item项
+                initDateView((DateViewHolder) holder, position);
+                break;
+            case TYPE_CONTENT:
+                initContentView(holder, position);                      //内容Item项
+                break;
+            default:
+                break;
         }
-
 
     }
 
@@ -220,8 +220,6 @@ public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ImageView imageZhihu;
         @BindView(R.id.tv_title_zhihu)
         TextView tvTitleZhihu;
-        @BindView(R.id.tv_author_zhihu)
-        TextView tvAuthorZhihu;
 
         ContentViewHolder(View view) {
             super(view);

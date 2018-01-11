@@ -33,8 +33,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             app:layout_anchor="@id/avatar_bg"
-            app:layout_anchorGravity="bottom|center_horizontal"
-            app:srcCompat="@mipmap/ic_launcher_round" />
+            app:layout_anchorGravity="bottom|center_horizontal" />
 
 
     </android.support.design.widget.CoordinatorLayout>
@@ -43,7 +42,6 @@
         android:id="@+id/tv_editor_name_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="星玫"
         android:textColor="#000000"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -59,10 +57,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="产品设计师 @华兴资本"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_editor_name_1" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_editor_name_1"
+        tools:text="产品设计师 @华兴资本" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout3"
@@ -94,7 +92,6 @@
             android:layout_alignBottom="@id/textView8"
             android:layout_marginStart="18dp"
             android:layout_toEndOf="@id/textView8"
-            android:text="星玫"
             android:textSize="12sp"
             tools:text="星玫" />
 
@@ -139,7 +136,6 @@
             android:layout_alignBottom="@id/textView9"
             android:layout_marginStart="18dp"
             android:layout_toEndOf="@id/textView9"
-            android:text="星玫玫玫"
             android:textSize="12sp"
             tools:text="星玫玫玫" />
 
@@ -183,7 +179,6 @@
             android:layout_alignBottom="@id/textView10"
             android:layout_marginStart="18dp"
             android:layout_toEndOf="@+id/textView10"
-            android:text="理科生是设计师"
             android:textSize="12sp"
             tools:text="理科生是设计师" />
 
@@ -227,7 +222,6 @@
             android:layout_alignBottom="@id/textView12"
             android:layout_marginStart="18dp"
             android:layout_toEndOf="@+id/textView12"
-            android:text="理科生是设计师"
             android:textSize="12sp"
             tools:text="理科生是设计师" />
 
