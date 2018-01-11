@@ -10,7 +10,7 @@ import java.util.List;
  * 作者： YangJunQuan   2017/12/14.
  */
 
-public class ZhihuDaily implements Serializable{
+public class ZhihuDaily implements Serializable {
 
 
     /**
@@ -47,7 +47,7 @@ public class ZhihuDaily implements Serializable{
         this.top_stories = top_stories;
     }
 
-    public static class StoriesBean implements Serializable{
+    public static class StoriesBean implements Serializable {
         /**
          * images : ["https://pic1.zhimg.com/v2-3dcc799527bb2c6e018ab5f14dbfdfb4.jpg"]
          * type : 0
@@ -158,4 +158,6 @@ public class ZhihuDaily implements Serializable{
             this.title = title;
         }
     }
+
+
 }

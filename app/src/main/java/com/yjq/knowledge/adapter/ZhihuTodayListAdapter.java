@@ -44,14 +44,14 @@ public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private ZhihuNewsTodayFragment mFragment;
 
     private boolean animationsLocked = false;
-    private int lastAnimatedPosition = -1;
     private boolean delayAnimation = true;
-
+    private int lastAnimatedPosition = -1;
 
     public void setmDataList(String date, ZhihuDaily zhihuDaily) {
 
-        int position = zhihuDaily.getStories().size() - 1;
-        this.mTopStoriesList = zhihuDaily.getTop_stories();
+        int position = zhihuDaily.getStories().size();
+        if (zhihuDaily.getTop_stories() != null)
+            this.mTopStoriesList = zhihuDaily.getTop_stories();
         this.mDataList.add(date);
         this.mDataList.addAll(zhihuDaily.getStories());
         notifyItemChanged(position);               //位置从0开始
@@ -83,14 +83,19 @@ public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         switch (viewType) {
             case TYPE_BANNER_TOP:     //顶部轮播图
+
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.top_item_zhihu_today_recycleview, parent, false);
                 return new BannerTopViewHolder(view);
+
             case TYPE_DATE:          //间隔显示的日期项
+
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.interval_item_zhihu_recycleview, parent, false);
                 return new DateViewHolder(view);
+
             case TYPE_CONTENT:       //真正新闻内容项
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_zhihu_recycleview, parent, false);
                 return new ContentViewHolder(view);
+
             default:
                 break;
         }
@@ -103,17 +108,18 @@ public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         //runEnterAnimations(holder.itemView, position);//刷新动画
 
 
-        if (holder instanceof ContentViewHolder) {                                          //内容Item项
+        if (holder instanceof BannerTopViewHolder) {                 //顶部Banner轮播图
 
-            initContentView(holder, position);
+            initTopBannerView((BannerTopViewHolder) holder);
 
-        } else if (holder instanceof DateViewHolder) {                                      //日期Item项
+        } else if (holder instanceof DateViewHolder) {               //日期Item项
 
             initDateView((DateViewHolder) holder, position);
 
-        } else if (holder instanceof BannerTopViewHolder) {
+        } else if (holder instanceof ContentViewHolder) {
 
-            initTopBannerView((BannerTopViewHolder) holder);                               //顶部Banner轮播图
+            initContentView(holder, position);                     //内容Item项
+
         }
 
 
@@ -125,8 +131,8 @@ public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void initTopBannerView(BannerTopViewHolder holder) {
 
-        List<String> imageList = new ArrayList<String>();
-        List<String> titleList = new ArrayList<String>();
+        List<String> imageList = new ArrayList<>();
+        List<String> titleList = new ArrayList<>();
 
         for (ZhihuDaily.TopStoriesBean topStoriesBean : mTopStoriesList) {
             imageList.add(topStoriesBean.getImage());
