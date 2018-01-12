@@ -88,7 +88,6 @@ public class ZhihuNewsTodayFragment extends Fragment implements ZhihuContract.Iv
     public void showNews(ZhihuDaily zhihuDaily) {
         refreshLayout.finishRefresh(0/*,false*/);//传入false表示刷新失败
         lastNewsData = zhihuDaily.getDate();
-        mAdapter.resetAnimationState();
         mAdapter.resetDataList("今日热闻", zhihuDaily);
     }
 

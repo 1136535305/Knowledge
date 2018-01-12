@@ -38,6 +38,10 @@
             android:name=".comments.CommentsActivity"
             android:label="@string/title_activity_comments"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PhotoViewActivity"
+            android:label="@string/title_activity_photo_view"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

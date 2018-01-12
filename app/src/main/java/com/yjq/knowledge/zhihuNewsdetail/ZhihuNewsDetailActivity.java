@@ -1,5 +1,9 @@
 package com.yjq.knowledge.zhihuNewsdetail;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -10,18 +14,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.yjq.knowledge.GlideApp;
+import com.yjq.knowledge.PhotoViewActivity;
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
 import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
 import com.yjq.knowledge.contract.ZhihuNewsDetailContract;
 import com.yjq.knowledge.util.HtmlUtil;
+
+import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,22 +65,37 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
     private ZhihuNewsDetailContract.Ipresenter mPresenter;
     private int mNewsId;//知乎日报新闻唯一标志ID
 
-
-    private Bundle mStartValues;
-
-
+    @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zhihu_news_detail);
         ButterKnife.bind(this);
-
+        initPara();
         initToolbar();
-
-        mNewsId = getIntent().getIntExtra("newsId", 0);
-
+        initWebView();
         initPresenter();
     }
+
+
+    private void initPara() {
+        mNewsId = getIntent().getIntExtra("newsId", 0);
+    }
+
+
+    private void initToolbar() {
+        setSupportActionBar(toolbar);                                   //用自带的Toolbar替换掉原来的状态栏
+        View v = getLayoutInflater().inflate(R.layout.menu_toolbar, toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);          //显示toolbar的回退按钮
+        //toolbarLayout.setTitle("collapse标题");                         //由于我们已经替换掉了toolbar上的布局，故设置标题不再起作用
+        btnShare = v.findViewById(R.id.btn_share);
+        btnThumbsUp = v.findViewById(R.id.btn_thumbs_up);
+        tvComments = v.findViewById(R.id.tv_comments);
+        tvPopularity = v.findViewById(R.id.tv_popularity);
+        btnThumbsUp.setOnClickListener(this);
+        tvPopularity.setOnClickListener(this);
+    }
+
 
     private void initPresenter() {
         mPresenter = new ZhihuNewsDetailPresenter(this);
@@ -77,16 +103,60 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         mPresenter.showNewsExtra(mNewsId);
     }
 
-    private void initToolbar() {
-        setSupportActionBar(toolbar);                                   //用自带的Toolbar替换掉原来的状态栏
-        View v = getLayoutInflater().inflate(R.layout.menu_toolbar, toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);          //显示toolbar的回退按钮
-        btnShare = v.findViewById(R.id.btn_share);
-        btnThumbsUp = v.findViewById(R.id.btn_thumbs_up);
-        tvComments = v.findViewById(R.id.tv_comments);
-        tvPopularity = v.findViewById(R.id.tv_popularity);
-        btnThumbsUp.setOnClickListener(this);
-        tvPopularity.setOnClickListener(this);
+
+    private void initWebView() {
+
+        WebSettings settings = webView.getSettings();
+
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);  //设置 缓存模式
+        settings.setDatabaseEnabled(true);
+        settings.setAppCacheEnabled(true);
+        settings.setBlockNetworkImage(false);
+        settings.setLoadsImagesAutomatically(true); //自动加载图片
+        settings.setPluginState(WebSettings.PluginState.OFF);
+
+
+        webView.addJavascriptInterface(new MyJavascript(this), "imageListener");
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，
+                //函数的功能是在图片点击的时候调用本地java接口并传递url过去
+                webView.loadUrl("javascript:(function(){" +
+                        "var objs = document.getElementsByTagName(\"img\"); " +
+                        "for(var i=0;i<objs.length;i++)  " +
+                        "{"
+                        + "    objs[i].onclick=function()  " +
+                        "    {  "
+                        + "        window.imageListener.openImage(this.src);  " +      //单击图片查看图片详情
+                        "    }  " +
+                        "}" +
+                        "})()");
+
+            }
+
+        });
+
+
+        //长按图片查看图片详情
+        webView.setOnLongClickListener((View v) -> {
+            WebView.HitTestResult result = webView.getHitTestResult();
+            if (result.getType() == WebView.HitTestResult.IMAGE_TYPE) {
+                String url = result.getExtra();
+
+                Intent photoIntent = new Intent(this, PhotoViewActivity.class);
+                photoIntent.putExtra("photoUrl", url);
+                startActivity(photoIntent);
+                return true;
+            }
+            return false;
+        });
+
+
     }
 
     @Override
@@ -165,4 +235,25 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         tvPopularity.setText(currentValue + "");
 
     }
+
+
+    /**
+     * 自定义的用于实现注入JavaScript代码到WebView加载的Html页面中，从而调用自定义的Java方法代码
+     */
+    class MyJavascript {
+        private Context context;
+
+        public MyJavascript(Context context) {
+            this.context = context;
+        }
+
+        @JavascriptInterface
+        public void openImage(String imgUrl) {
+            Intent photoIntent = new Intent(context, PhotoViewActivity.class);
+            photoIntent.putExtra("photoUrl", imgUrl);
+            startActivity(photoIntent);
+        }
+    }
+
+
 }

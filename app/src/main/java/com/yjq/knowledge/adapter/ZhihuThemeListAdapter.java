@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,8 +18,6 @@ import com.yjq.knowledge.editor.EditorListActivity;
 import com.yjq.knowledge.util.GlideCircleTransform;
 import com.yjq.knowledge.zhihu.ZhihuThemeFragment;
 import com.yjq.knowledge.zhihuNewsdetail.ZhihuNewsDetailActivity;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -37,6 +36,7 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static final int TYPE_TOP_BACKGROUND = -1;
     private static final int TYPE_AVATAR_LIST = 0;
     private static final int TYPE_CONTENT = 1;
+    private static int lastAnimPosition = -1;
     private ZhihuThemeListDetail mDataSet;
     private ArrayList<ZhihuThemeListDetail.EditorsBean> mEditorList;
     private ZhihuThemeFragment zhihuThemeFragment;
@@ -159,6 +159,8 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             i.putExtra("newsId", storiesBean.getId());
             zhihuThemeFragment.startActivity(i);
         });
+
+        startAnimator(holder.itemView, position);
     }
 
     @Override
@@ -187,6 +189,33 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.notifyDataSetChanged();
     }
 
+    /**
+     * 动画动画效果的展示
+     *
+     * @param view
+     * @param position
+     */
+    private void startAnimator(View view, int position) {
+        if (position > lastAnimPosition) {
+            view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.item_bottom_in));
+            lastAnimPosition = position;
+        }
+    }
+
+    public void setLastAnimPosition(int position) {
+        lastAnimPosition = position;
+    }
+
+    /**
+     * 不显示的时候取消所有动画效果
+     *
+     * @param holder
+     */
+    @Override
+    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+
+        holder.itemView.clearAnimation();
+    }
 
     static class TopViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_theme_descri)

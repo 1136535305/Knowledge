@@ -75,9 +75,11 @@ public class ZhihuThemeFragment extends Fragment {
             lastNewsId = mCurrentData.getStories().get(mCurrentData.getStories().size() - 1).getId();
             mAdapter.resetDataSet(mCurrentData);
             recyclerView.scrollToPosition(0);
+            mAdapter.setLastAnimPosition(-1);
         } else {
             initData();
         }
+
 
     }
 
@@ -130,6 +132,7 @@ public class ZhihuThemeFragment extends Fragment {
                     public void onNext(ZhihuThemeListDetail zhihuThemeListDetail) {
                         mDataListBuffer.put(mThemeBean.getId(), zhihuThemeListDetail);//请求到的数据添加到缓存的数据集中
                         mAdapter.resetDataSet(zhihuThemeListDetail);
+                        mAdapter.setLastAnimPosition(-1);
                         lastNewsId = zhihuThemeListDetail.getStories().get(zhihuThemeListDetail.getStories().size() - 1).getId();
                         recyclerView.scrollToPosition(0);
                     }

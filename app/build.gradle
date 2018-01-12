@@ -63,7 +63,10 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.11.2'
     //一个好用的轮播图   banner
     implementation 'com.youth.banner:banner:1.4.10'
+    //一个支持手势缩放的ImageView
+    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
 }
+
 
 
 

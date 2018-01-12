@@ -29,6 +29,8 @@
                                        -  snap                 :  当一个滚动事件结束，如果视图是部分可见的，那么它将被滚动到收缩或展开。例如，如果视图只有底部25%显示，它将折叠。相反，如果它的底部75%可见，那么它将完全展开。
 
             ⑤title                       一旦我们用CollapsingToolbarLayout包裹住了Toolbar那么toolbar的标题title必须由CollapsingToolbarLayout设置
+            ⑥expandedTitleMarginEnd    ：设置完全扩张的时候（还没有收缩时）title向底部填充的距离
+            ⑦
         -->
 
 
@@ -38,7 +40,8 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="32dp"
+            app:expandedTitleMarginEnd="96dp"
+            app:expandedTitleTextAppearance="@style/CollapsingToolbarTitleStyle.About"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
@@ -104,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:gravity="center_horizontal"
+                android:minHeight="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
