@@ -1,4 +1,4 @@
-package com.yjq.knowledge.zhihu;
+package com.yjq.knowledge.newsToday;
 
 
 import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
@@ -9,12 +9,12 @@ import com.yjq.knowledge.network.ZhiHuNewsAPI;
 import rx.Observable;
 
 /**
- * 文件： ZhihuNewsTodayModel
+ * 文件： NewsTodayModel
  * 描述：
  * 作者： YangJunQuan   2017/12/15.
  */
 
-public class ZhihuNewsTodayModel implements ZhihuContract.Imodel {
+public class NewsTodayModel implements ZhihuContract.Imodel {
     private ZhiHuNewsAPI zhiHuNewsAPI = ApiManager.getInstance().createZhihuService();
 
     @Override

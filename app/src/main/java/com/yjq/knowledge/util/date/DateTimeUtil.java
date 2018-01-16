@@ -20,7 +20,6 @@ public class DateTimeUtil {
         try {
             c.setTime(format.parse(pTime));
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (c.get(Calendar.DAY_OF_WEEK) == 1) {

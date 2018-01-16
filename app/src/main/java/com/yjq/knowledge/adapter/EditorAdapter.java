@@ -20,17 +20,17 @@ import butterknife.ButterKnife;
 import rx.subjects.PublishSubject;
 
 /**
- * 文件： ZhihuEditorAdapter
+ * 文件： EditorAdapter
  * 描述：
  * 作者： YangJunQuan   2018/1/9.
  */
 
-public class ZhihuEditorAdapter extends RecyclerView.Adapter<ZhihuEditorAdapter.ContentViewHolder> {
+public class EditorAdapter extends RecyclerView.Adapter<EditorAdapter.ContentViewHolder> {
     private PublishSubject<String> onClickSubject = PublishSubject.create();
     private Context mContext;
     private ArrayList<ZhihuThemeListDetail.EditorsBean> mDataSet;
 
-    public ZhihuEditorAdapter(Context mContext) {
+    public EditorAdapter(Context mContext) {
         this.mContext = mContext;
     }
 

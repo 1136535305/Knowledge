@@ -1,9 +1,8 @@
-package com.yjq.knowledge.zhihuNewsdetail;
+package com.yjq.knowledge.newsDetail;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -25,19 +23,17 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.yjq.knowledge.GlideApp;
-import com.yjq.knowledge.PhotoViewActivity;
+import com.yjq.knowledge.contract.NewsDetailContract;
+import com.yjq.knowledge.photo.PhotoViewActivity;
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
 import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
-import com.yjq.knowledge.contract.ZhihuNewsDetailContract;
 import com.yjq.knowledge.util.HtmlUtil;
-
-import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuNewsDetailContract.Iview, View.OnClickListener {
+public class NewsDetailActivity extends AppCompatActivity implements NewsDetailContract.Iview, View.OnClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -62,7 +58,7 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
 
 
     private boolean mThumbsUp = false;
-    private ZhihuNewsDetailContract.Ipresenter mPresenter;
+    private NewsDetailContract.Ipresenter mPresenter;
     private int mNewsId;//知乎日报新闻唯一标志ID
 
     @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
@@ -75,6 +71,7 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         initToolbar();
         initWebView();
         initPresenter();
+        initEvent();
     }
 
 
@@ -92,13 +89,12 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
         btnThumbsUp = v.findViewById(R.id.btn_thumbs_up);
         tvComments = v.findViewById(R.id.tv_comments);
         tvPopularity = v.findViewById(R.id.tv_popularity);
-        btnThumbsUp.setOnClickListener(this);
-        tvPopularity.setOnClickListener(this);
+
     }
 
 
     private void initPresenter() {
-        mPresenter = new ZhihuNewsDetailPresenter(this);
+        mPresenter = new NewsDetailPresenter(this);
         mPresenter.loadNewsDetailById(mNewsId);
         mPresenter.showNewsExtra(mNewsId);
     }
@@ -159,6 +155,13 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
 
     }
 
+
+    private void initEvent() {
+        btnThumbsUp.setOnClickListener(this);
+        tvPopularity.setOnClickListener(this);
+        tvComments.setOnClickListener(this);
+    }
+
     @Override
     public void showNewsDetail(ZhihuNewsDetail zhihuNewsDetail) {
 
@@ -171,7 +174,7 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
                     .into(imageZhihu);
         }
 
-        String htmlData = HtmlUtil.createHtmlData(zhihuNewsDetail, false);
+        String htmlData = HtmlUtil.createHtmlData(zhihuNewsDetail, false);//根据Api接口返回的数据重新构造一个完整的Html页面并且用webView加载这个页面
         webView.loadData(htmlData, HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
 
     }
@@ -205,13 +208,15 @@ public class ZhihuNewsDetailActivity extends AppCompatActivity implements ZhihuN
                 break;
             case R.id.btn_thumbs_up:    //点赞的文字部分
                 dealThumbsUp();
+            case R.id.tv_comments:
+                //TODO 评论页面功能
             default:
                 break;
         }
     }
 
     /**
-     * 处理点赞的方法操作
+     * 处理点赞的方法操作，仅仅涉及到UI上的效果
      */
     private void dealThumbsUp() {
 

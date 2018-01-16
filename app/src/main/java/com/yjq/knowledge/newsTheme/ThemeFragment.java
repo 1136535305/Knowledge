@@ -1,4 +1,4 @@
-package com.yjq.knowledge.zhihu;
+package com.yjq.knowledge.newsTheme;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.yjq.knowledge.R;
-import com.yjq.knowledge.adapter.ZhihuThemeListAdapter;
+import com.yjq.knowledge.adapter.ThemeListAdapter;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeList;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeListDetail;
 import com.yjq.knowledge.network.ApiManager;
@@ -31,12 +31,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * 文件： ZhihuThemeFragment
+ * 文件： ThemeFragment
  * 描述：
  * 作者： YangJunQuan   2018/1/5.
  */
 
-public class ZhihuThemeFragment extends Fragment {
+public class ThemeFragment extends Fragment {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
@@ -48,19 +48,19 @@ public class ZhihuThemeFragment extends Fragment {
     Unbinder unbinder;
 
 
-    private ZhihuThemeListAdapter mAdapter;
+    private ThemeListAdapter mAdapter;
     private ZhihuThemeList.OthersBean mThemeBean;
-    private static ZhihuThemeFragment mFragment;
+    private static ThemeFragment mFragment;
     private ZhihuThemeListDetail mCurrentData;
     private int lastNewsId;
     Map<Integer, ZhihuThemeListDetail> mDataListBuffer = new HashMap<Integer, ZhihuThemeListDetail>();
 
 
-    public static ZhihuThemeFragment getInstance() {
+    public static ThemeFragment getInstance() {
         if (mFragment == null) {
-            synchronized (ZhihuThemeFragment.class) {
+            synchronized (ThemeFragment.class) {
                 if (mFragment == null) {
-                    mFragment = new ZhihuThemeFragment();
+                    mFragment = new ThemeFragment();
                 }
             }
         }
@@ -73,9 +73,11 @@ public class ZhihuThemeFragment extends Fragment {
         if (mDataListBuffer.containsKey(themeBean.getId())) {
             mCurrentData = mDataListBuffer.get(themeBean.getId());
             lastNewsId = mCurrentData.getStories().get(mCurrentData.getStories().size() - 1).getId();
+
+            mAdapter.setLastAnimPosition(-1);
             mAdapter.resetDataSet(mCurrentData);
             recyclerView.scrollToPosition(0);
-            mAdapter.setLastAnimPosition(-1);
+
         } else {
             initData();
         }
@@ -100,7 +102,7 @@ public class ZhihuThemeFragment extends Fragment {
     }
 
     private void initView() {
-        mAdapter = new ZhihuThemeListAdapter(this);
+        mAdapter = new ThemeListAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(mAdapter);
         refreshLayout.setEnableRefresh(false);//不启用下拉刷新功能
@@ -131,10 +133,14 @@ public class ZhihuThemeFragment extends Fragment {
                     @Override
                     public void onNext(ZhihuThemeListDetail zhihuThemeListDetail) {
                         mDataListBuffer.put(mThemeBean.getId(), zhihuThemeListDetail);//请求到的数据添加到缓存的数据集中
-                        mAdapter.resetDataSet(zhihuThemeListDetail);
-                        mAdapter.setLastAnimPosition(-1);
+
+                        mAdapter.setLastAnimPosition(-1);                             //由于我们是复用同一个Fragment和Adapter故当切换时我们需要重新恢复Adapter的初始状态
+                        mAdapter.resetDataSet(zhihuThemeListDetail);                  //设置新的数据集
+                        recyclerView.scrollToPosition(0);                             //切换时回到顶部
+
+
                         lastNewsId = zhihuThemeListDetail.getStories().get(zhihuThemeListDetail.getStories().size() - 1).getId();
-                        recyclerView.scrollToPosition(0);
+
                     }
                 });
 
@@ -161,7 +167,9 @@ public class ZhihuThemeFragment extends Fragment {
                     @Override
                     public void onNext(ZhihuThemeListDetail zhihuThemeListDetail) {
                         mDataListBuffer.get(mThemeBean.getId()).getStories().addAll(zhihuThemeListDetail.getStories());//请求到的数据添加到缓存的数据集中
+
                         mAdapter.initDataSet(zhihuThemeListDetail);
+
                         lastNewsId = zhihuThemeListDetail.getStories().get(zhihuThemeListDetail.getStories().size() - 1).getId();
                     }
                 });

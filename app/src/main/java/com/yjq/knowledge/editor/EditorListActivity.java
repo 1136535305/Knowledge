@@ -2,7 +2,6 @@ package com.yjq.knowledge.editor;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.yjq.knowledge.R;
-import com.yjq.knowledge.adapter.ZhihuEditorAdapter;
+import com.yjq.knowledge.adapter.EditorAdapter;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeListDetail;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class EditorListActivity extends AppCompatActivity {
 
     public static final String EDITOR_LIST_DATA = "editorListData";
     private ArrayList<ZhihuThemeListDetail.EditorsBean> mEditorList;
-    private ZhihuEditorAdapter mAdapter;
+    private EditorAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class EditorListActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mAdapter = new ZhihuEditorAdapter(this);
+        mAdapter = new EditorAdapter(this);
         rcyEditor.setAdapter(mAdapter);
         rcyEditor.setLayoutManager(new LinearLayoutManager(this));
         mAdapter.setmDataSet(mEditorList);

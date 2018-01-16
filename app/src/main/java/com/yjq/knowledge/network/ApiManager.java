@@ -2,7 +2,6 @@ package com.yjq.knowledge.network;
 
 
 import com.yjq.knowledge.App;
-import com.yjq.knowledge.network.interceptor.CommonInterceptor;
 import com.yjq.knowledge.util.net.NetWorkUtil;
 
 import java.io.File;
@@ -25,7 +24,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiManager {
 
     public static ApiManager apiManager;
-    private JuHeNewsAPI mJuheNewsApi;
     private ZhiHuNewsAPI mZhihuNewsApi;
     private static final String CACHE_DIR = "ZhihuCache";
     private static File httpCacheDirectory = new File(App.getInstance().getCacheDir(), CACHE_DIR);//缓存文件存放路径：  /data/data/com.yjq.knowledge/cache/ZhihuCache
@@ -55,29 +53,6 @@ public class ApiManager {
         }
     };
 
-    /**
-     * 创建聚合数据Retrofit接口对象对象
-     */
-    public JuHeNewsAPI createJuheService() {
-        if (mJuheNewsApi == null) {
-
-            CommonInterceptor commonInterceptor = new CommonInterceptor(
-                    "key", "888b491fdf9179b676e6f11e202c0c91");
-
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
-                    .addInterceptor(commonInterceptor)
-                    .build();
-
-            mJuheNewsApi = new Retrofit.Builder()
-                    .baseUrl("http://v.juhe.cn/")
-                    .client(client)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build().create(JuHeNewsAPI.class);
-        }
-        return mJuheNewsApi;
-    }
 
     /**
      * 创建知乎数据Retrofit接口对象

@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.yjq.knowledge.zhihuNewsdetail.ZhihuNewsDetailActivity"
+    tools:context="com.yjq.knowledge.newsDetail.NewsDetailActivity"
     tools:showIn="@layout/activity_zhihu_news_detail">
 
     <android.support.v7.widget.CardView
@@ -22,6 +22,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
+        android:minHeight="500dp"
         app:cardCornerRadius="0dp"
         app:cardElevation="4dp">
 
@@ -31,7 +32,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:isScrollContainer="false"
-            android:minHeight="500dp"
             android:scrollbars="vertical" />
 
     </android.support.v7.widget.CardView>

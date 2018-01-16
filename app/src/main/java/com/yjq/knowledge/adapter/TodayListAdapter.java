@@ -1,26 +1,21 @@
 package com.yjq.knowledge.adapter;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
+import com.yjq.knowledge.newsDetail.NewsDetailActivity;
+import com.yjq.knowledge.newsToday.NewsTodayFragment;
 import com.yjq.knowledge.util.BannerImageLoader;
-import com.yjq.knowledge.zhihu.ZhihuNewsTodayFragment;
-import com.yjq.knowledge.zhihuNewsdetail.ZhihuNewsDetailActivity;
 import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +24,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 文件： ZhihuTodayListAdapter
+ * 文件： TodayListAdapter
  * 描述：
  * 作者： YangJunQuan   2017/12/15.
  */
 
 
-public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TodayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_BANNER_TOP = -1;
     private static final int TYPE_DATE = 0;
@@ -43,7 +38,7 @@ public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private long lastPos = -1;
     private List mDataList = new ArrayList<>();        //存放Item具体内容的列表以及日期的数据集
     private ArrayList<ZhihuDaily.TopStoriesBean> mTopStoriesList = new ArrayList<>();
-    private ZhihuNewsTodayFragment mFragment;
+    private NewsTodayFragment mFragment;
 
 
     public void setmDataList(String date, ZhihuDaily zhihuDaily) {
@@ -65,7 +60,7 @@ public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
 
-    public ZhihuTodayListAdapter(ZhihuNewsTodayFragment fragment) {
+    public TodayListAdapter(NewsTodayFragment fragment) {
         mFragment = fragment;
     }
 
@@ -77,7 +72,7 @@ public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         switch (viewType) {
             case TYPE_BANNER_TOP:     //顶部轮播图
 
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.top_item_zhihu_today_recycleview, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.top_item_today_recycleview, parent, false);
                 return new BannerTopViewHolder(view);
 
             case TYPE_DATE:          //间隔显示的日期项
@@ -86,7 +81,7 @@ public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 return new DateViewHolder(view);
 
             case TYPE_CONTENT:       //真正新闻内容项
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_zhihu_recycleview, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news_recycleview, parent, false);
                 return new ContentViewHolder(view);
 
             default:
@@ -159,7 +154,7 @@ public class ZhihuTodayListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private void startNewsDetailActivity(int newsId) {
-        Intent i = new Intent(mFragment.getContext(), ZhihuNewsDetailActivity.class);
+        Intent i = new Intent(mFragment.getContext(), NewsDetailActivity.class);
         i.putExtra("newsId", newsId);
         mFragment.startActivity(i);
     }

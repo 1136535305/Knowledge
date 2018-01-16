@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -21,8 +22,8 @@ import com.orhanobut.logger.Logger;
 import com.yjq.knowledge.adapter.MenuAdapter;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeList;
 import com.yjq.knowledge.network.ApiManager;
-import com.yjq.knowledge.zhihu.ZhihuNewsTodayFragment;
-import com.yjq.knowledge.zhihu.ZhihuThemeFragment;
+import com.yjq.knowledge.newsTheme.ThemeFragment;
+import com.yjq.knowledge.newsToday.NewsTodayFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,8 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private View headerView;
     private RecyclerView rcyMenu;
     private MenuAdapter menuAdapter;
-    private Fragment currentFragment = ZhihuNewsTodayFragment.getInstance();
-    private RelativeLayout pageHome;
+    private Fragment currentFragment = NewsTodayFragment.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +69,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         menuAdapter.getClicks().observeOn(AndroidSchedulers.mainThread())    //左侧边栏菜单Item项的点击事件，具体是指点击某个主题日报时
                 .subscribeOn(Schedulers.io())
                 .subscribe(othersBean -> {
-                    switchFragment(getTargetFragment(othersBean), othersBean.getId() + "").commit();//替换Fragment
+                    if (othersBean == null) {
+                        switchFragment(NewsTodayFragment.getInstance(), "-1").commit();                    //替换首页代表的Fragment
+                        toolbar.setTitle("今日热闻");//替换Toolbar上的标题
+                    } else {
+                        switchFragment(getTargetFragment(othersBean), othersBean.getId() + "").commit();  //替换其它主题Fragment
+                        toolbar.setTitle(othersBean.getName());//替换Toolbar上的标题
+                    }
+
                     drawerLayout.closeDrawer(GravityCompat.START);//关闭左侧滑Menu
-                    toolbar.setTitle(othersBean.getName());//替换Toolbar上的标题
+
                 });
     }
 
@@ -98,9 +105,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @param othersBean
      * @return
      */
-    private ZhihuThemeFragment getTargetFragment(ZhihuThemeList.OthersBean othersBean) {
-        ZhihuThemeFragment.getInstance().setDataSet(othersBean);//替换ZhihuThemeFragment里的数据
-        return ZhihuThemeFragment.getInstance();
+    private ThemeFragment getTargetFragment(ZhihuThemeList.OthersBean othersBean) {
+        ThemeFragment.getInstance().setDataSet(othersBean);//替换ZhihuThemeFragment里的数据
+        return ThemeFragment.getInstance();
     }
 
     private void initToolbar() {
@@ -118,13 +125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navMenu.setNavigationItemSelectedListener(this);
         headerView = navMenu.getHeaderView(0);
         rcyMenu = headerView.findViewById(R.id.rcy_menu);
-        pageHome = headerView.findViewById(R.id.page_home);
-        pageHome.setOnClickListener(view -> {
-                    switchFragment(ZhihuNewsTodayFragment.getInstance(), "-1").commit();
-                    drawerLayout.closeDrawer(GravityCompat.START);//关闭左侧滑Menu
-                    toolbar.setTitle("今日热闻");//替换Toolbar上的标题
-                }
-        );
         menuAdapter = new MenuAdapter();
         rcyMenu.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         rcyMenu.setAdapter(menuAdapter);
@@ -159,6 +159,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_action_daynight:
+                //TODO 主题切换功能
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -177,6 +195,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        ZhihuThemeFragment.getInstance().clearDataCache();
+        ThemeFragment.getInstance().clearDataCache();
     }
 }

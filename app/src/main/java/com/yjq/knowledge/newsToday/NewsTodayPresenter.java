@@ -1,4 +1,4 @@
-package com.yjq.knowledge.zhihu;
+package com.yjq.knowledge.newsToday;
 
 import com.orhanobut.logger.Logger;
 import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
@@ -9,17 +9,17 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * 文件： ZhihuNewsTodayPresenter
+ * 文件： NewsTodayPresenter
  * 描述：
  * 作者： YangJunQuan   2017/12/15.
  */
 
-public class ZhihuNewsTodayPresenter implements ZhihuContract.Ipresenter {
+public class NewsTodayPresenter implements ZhihuContract.Ipresenter {
     private ZhihuContract.Imodel model;
     private ZhihuContract.Iview view;
 
-    public ZhihuNewsTodayPresenter(ZhihuContract.Iview view) {
-        this.model = new ZhihuNewsTodayModel();
+    public NewsTodayPresenter(ZhihuContract.Iview view) {
+        this.model = new NewsTodayModel();
         this.view = view;
     }
 

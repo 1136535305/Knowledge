@@ -1,9 +1,11 @@
-package com.yjq.knowledge;
+package com.yjq.knowledge.photo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.chrisbanes.photoview.PhotoView;
+import com.yjq.knowledge.GlideApp;
+import com.yjq.knowledge.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.yjq.knowledge.view;
+package com.yjq.knowledge.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

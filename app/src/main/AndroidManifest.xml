@@ -12,10 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/DayTheme">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,25 +21,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".zhihuNewsdetail.ZhihuNewsDetailActivity"
+            android:name=".newsDetail.NewsDetailActivity"
             android:label="@string/title_activity_zhihu_news_detail"
             android:theme="@style/AppTheme.transparentStatusbar" />
         <activity
             android:name=".editor.EditorListActivity"
-            android:label="@string/title_activity_editor_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_editor_list" />
         <activity
             android:name=".editor.EditorDetailActivity"
-            android:label="@string/title_activity_editor_detail"
-            android:theme="@style/AppTheme.EditorNoActionBar" />
+            android:label="@string/title_activity_editor_detail" />
         <activity
             android:name=".comments.CommentsActivity"
-            android:label="@string/title_activity_comments"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_comments" />
         <activity
-            android:name=".PhotoViewActivity"
-            android:label="@string/title_activity_photo_view"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".photo.PhotoViewActivity"
+            android:label="@string/title_activity_photo_view" />
     </application>
 
 </manifest>

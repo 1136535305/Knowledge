@@ -1,9 +1,9 @@
-package com.yjq.knowledge.zhihuNewsdetail;
+package com.yjq.knowledge.newsDetail;
 
 import com.orhanobut.logger.Logger;
 import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
 import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
-import com.yjq.knowledge.contract.ZhihuNewsDetailContract;
+import com.yjq.knowledge.contract.NewsDetailContract;
 
 
 import rx.Subscriber;
@@ -11,20 +11,20 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * 文件： ZhihuNewsDetailPresenter
+ * 文件： NewsDetailPresenter
  * 描述：
  * 作者： YangJunQuan   2017/12/19.
  */
 
-public class ZhihuNewsDetailPresenter implements ZhihuNewsDetailContract.Ipresenter {
+public class NewsDetailPresenter implements NewsDetailContract.Ipresenter {
 
-    private ZhihuNewsDetailContract.Iview mView;
-    private ZhihuNewsDetailContract.Imodel mModel;
+    private NewsDetailContract.Iview mView;
+    private NewsDetailContract.Imodel mModel;
 
-    public ZhihuNewsDetailPresenter(ZhihuNewsDetailContract.Iview mView) {
+    public NewsDetailPresenter(NewsDetailContract.Iview mView) {
         this.mView = mView;
 
-        mModel = new ZhihuNewsDetailModel();
+        mModel = new NewsDetailModel();
     }
 
     @Override

@@ -15,9 +15,9 @@ import com.yjq.knowledge.GlideApp;
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeListDetail;
 import com.yjq.knowledge.editor.EditorListActivity;
+import com.yjq.knowledge.newsTheme.ThemeFragment;
 import com.yjq.knowledge.util.GlideCircleTransform;
-import com.yjq.knowledge.zhihu.ZhihuThemeFragment;
-import com.yjq.knowledge.zhihuNewsdetail.ZhihuNewsDetailActivity;
+import com.yjq.knowledge.newsDetail.NewsDetailActivity;
 
 import java.util.ArrayList;
 
@@ -25,12 +25,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 文件： ZhihuThemeListAdapter
+ * 文件： ThemeListAdapter
  * 描述：
  * 作者： YangJunQuan   2018/1/5.
  */
 
-public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ThemeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private static final int TYPE_TOP_BACKGROUND = -1;
@@ -39,12 +39,12 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static int lastAnimPosition = -1;
     private ZhihuThemeListDetail mDataSet;
     private ArrayList<ZhihuThemeListDetail.EditorsBean> mEditorList;
-    private ZhihuThemeFragment zhihuThemeFragment;
+    private ThemeFragment themeFragment;
     private Context mContext;
 
-    public ZhihuThemeListAdapter(ZhihuThemeFragment zhihuThemeFragment) {
-        this.zhihuThemeFragment = zhihuThemeFragment;
-        this.mContext = zhihuThemeFragment.getContext();
+    public ThemeListAdapter(ThemeFragment themeFragment) {
+        this.themeFragment = themeFragment;
+        this.mContext = themeFragment.getContext();
     }
 
 
@@ -53,13 +53,13 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         View itemView;
         switch (viewType) {
             case TYPE_TOP_BACKGROUND:
-                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.top_item_zhihu_theme_recycleview, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.top_item_theme_recycleview, parent, false);
                 return new TopViewHolder(itemView);
             case TYPE_AVATAR_LIST:
                 itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.editor_avator, parent, false);             //RecycleView的的顶部视图主编 主编的头像
                 return new EditorViewHolder(itemView);
             case TYPE_CONTENT:
-                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_zhihu_recycleview, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news_recycleview, parent, false);
                 return new ContentViewHolder(itemView);
             default:
                 return null;
@@ -105,7 +105,7 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void initThemeDescriptionView(TopViewHolder holder) {
 
         holder.tvThemeDescri.setText(mDataSet.getDescription());   //日报主题的相应介绍
-        GlideApp.with(zhihuThemeFragment)                          //日报主题的相应背景图片
+        GlideApp.with(themeFragment)                          //日报主题的相应背景图片
                 .load(mDataSet.getBackground())
                 .centerCrop()
                 .into(holder.ivThemebg);
@@ -126,7 +126,7 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         for (int i = 0; i < mEditorList.size(); i++) {
             ImageView v = new ImageView(mContext);
 
-            GlideApp.with(zhihuThemeFragment)
+            GlideApp.with(themeFragment)
                     .load(mEditorList.get(i).getAvatar())
                     .override(110, 110)
                     .transform(new GlideCircleTransform(mContext))
@@ -144,7 +144,7 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (null != storiesBean.getImages()) {
 
             holder.imageZhihu.setVisibility(View.VISIBLE);
-            GlideApp.with(zhihuThemeFragment)
+            GlideApp.with(themeFragment)
                     .load(storiesBean.getImages().get(0))
                     .centerCrop()
                     .into(holder.imageZhihu);
@@ -155,9 +155,9 @@ public class ZhihuThemeListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         holder.tvTitleZhihu.setText(storiesBean.getTitle());
         holder.itemView.setOnClickListener((view) -> {
-            Intent i = new Intent(zhihuThemeFragment.getContext(), ZhihuNewsDetailActivity.class);
+            Intent i = new Intent(themeFragment.getContext(), NewsDetailActivity.class);
             i.putExtra("newsId", storiesBean.getId());
-            zhihuThemeFragment.startActivity(i);
+            themeFragment.startActivity(i);
         });
 
         startAnimator(holder.itemView, position);
