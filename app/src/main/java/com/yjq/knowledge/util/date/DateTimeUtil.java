@@ -3,6 +3,7 @@ package com.yjq.knowledge.util.date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 文件： DateTimeUtil
@@ -47,5 +48,13 @@ public class DateTimeUtil {
         StringBuffer sb = new StringBuffer(pTime);
 
         return sb.substring(4, 6) + "月" + sb.substring(6, 8) + "日" + Week;
+    }
+
+    public static String parseCommentTime(String origin) {
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd   HH:mm");
+        Long time = new Long(origin);
+        String target = format.format(time);
+
+        return target;
     }
 }

@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_action_edit_comment"
+        android:icon="@drawable/comment_write"
+        android:title="编辑评论"
+        app:showAsAction="always" />
+
+
+</menu>

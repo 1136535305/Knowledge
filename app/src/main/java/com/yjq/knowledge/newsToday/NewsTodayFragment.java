@@ -87,14 +87,14 @@ public class NewsTodayFragment extends Fragment implements ZhihuContract.Iview, 
 
     @Override
     public void showNews(ZhihuDaily zhihuDaily) {
-        refreshLayout.finishRefresh(0/*,false*/);//传入false表示刷新失败
+        refreshLayout.finishRefresh(0);
         lastNewsData = zhihuDaily.getDate();
         mAdapter.resetDataList("今日热闻", zhihuDaily);
     }
 
     @Override
     public void showMoreNews(ZhihuDaily zhihuDaily) {
-        refreshLayout.finishLoadmore(0/*,false*/);//传入false表示加载失败
+        refreshLayout.finishLoadmore(0);
         lastNewsData = zhihuDaily.getDate();
         mAdapter.setmDataList(DateTimeUtil.getTime(lastNewsData), zhihuDaily);
     }

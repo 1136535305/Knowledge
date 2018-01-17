@@ -103,9 +103,7 @@ public class EditorDetailActivity extends AppCompatActivity {
     private void analyzeHtmlString(String htmlString) {
         Document doc = Jsoup.parse(htmlString);
 
-        Element img = doc.select("img").first(); //获取主编的头像Url地址
-        String imgUrl = img.attr("src");
-
+        String imgUrl = doc.select("img").first().attr("src");      //获取主编的头像Url地址
         String editorName = doc.select("h1").first().text();                    //获取主编的昵称
         String bio = doc.select("p").first().text();                            //获取主编的简要职位介绍
 

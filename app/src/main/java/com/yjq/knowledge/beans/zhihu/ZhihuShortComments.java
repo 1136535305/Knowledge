@@ -36,9 +36,9 @@ public class ZhihuShortComments implements Serializable {
         private String author;
         private String content;
         private String avatar;
-        private int time;
+        private String time;
         private int id;
-        private int likes;
+        private String likes;
         private ReplyToBean reply_to;
 
         public String getAuthor() {
@@ -65,11 +65,11 @@ public class ZhihuShortComments implements Serializable {
             this.avatar = avatar;
         }
 
-        public int getTime() {
+        public String getTime() {
             return time;
         }
 
-        public void setTime(int time) {
+        public void setTime(String time) {
             this.time = time;
         }
 
@@ -81,11 +81,11 @@ public class ZhihuShortComments implements Serializable {
             this.id = id;
         }
 
-        public int getLikes() {
+        public String getLikes() {
             return likes;
         }
 
-        public void setLikes(int likes) {
+        public void setLikes(String likes) {
             this.likes = likes;
         }
 

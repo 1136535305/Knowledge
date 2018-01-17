@@ -23,12 +23,15 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.yjq.knowledge.GlideApp;
+import com.yjq.knowledge.comments.CommentsActivity;
 import com.yjq.knowledge.contract.NewsDetailContract;
 import com.yjq.knowledge.photo.PhotoViewActivity;
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
 import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
 import com.yjq.knowledge.util.HtmlUtil;
+
+import org.w3c.dom.Comment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -160,6 +163,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
         btnThumbsUp.setOnClickListener(this);
         tvPopularity.setOnClickListener(this);
         tvComments.setOnClickListener(this);
+        btnShare.setOnClickListener(this);
     }
 
     @Override
@@ -208,8 +212,15 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
                 break;
             case R.id.btn_thumbs_up:    //点赞的文字部分
                 dealThumbsUp();
-            case R.id.tv_comments:
-                //TODO 评论页面功能
+                break;
+            case R.id.tv_comments:      //跳转评论页面
+                Intent commentIntent = new Intent(this, CommentsActivity.class);
+                commentIntent.putExtra("newsId", mNewsId);
+                startActivity(commentIntent);
+                break;
+            case R.id.btn_share:       //分享頁面
+                //TODO 分享功能
+                break;
             default:
                 break;
         }
