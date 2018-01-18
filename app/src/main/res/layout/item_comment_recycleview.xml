@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -50,6 +51,37 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_comment_avatar"
         tools:text="《小仙有毒》里，温家的入室弟子考题有一年是“硕鼠”。温家大伯温吞海当年应试的毒方是采尽天下至甜至香之物，密炼熬成一碗甜羹，无毒且馥郁甘甜。但人一旦饮下此羹，尝到了那绝世甜香，之后哪怕是喝蜂蜜也会觉得腥臭苦涩无比，止不住的呕吐，从此世上可食之物就只剩一个味道：苦，最终竟把人活活饿死！正应了考题“硕鼠”。" />
 
+
+    <com.ms.square.android.expandabletextview.ExpandableTextView
+        android:id="@+id/expand_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/iv_comment_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_comment_content"
+        expandableTextView:animDuration="200"
+        expandableTextView:layout_constraintEnd_toEndOf="parent"
+        expandableTextView:maxCollapsedLines="4">
+
+        <TextView
+            android:id="@id/expandable_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#666666" />
+
+        <ImageButton
+            android:id="@id/expand_collapse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:background="@android:color/transparent"
+            android:paddingTop="10dp"
+            android:visibility="invisible" />
+    </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+
     <TextView
         android:id="@+id/tv_comment_time"
         android:layout_width="wrap_content"
@@ -57,7 +89,7 @@
         android:layout_marginTop="16dp"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/tv_comment_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_comment_content"
+        app:layout_constraintTop_toBottomOf="@+id/expand_text_view"
         tools:text="01-16  09:30" />
 
     <View

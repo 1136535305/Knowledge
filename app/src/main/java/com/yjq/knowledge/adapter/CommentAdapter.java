@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.yjq.knowledge.GlideApp;
 import com.yjq.knowledge.R;
+import com.yjq.knowledge.beans.zhihu.CommentsBean;
 import com.yjq.knowledge.beans.zhihu.ZhihuLongComments;
 import com.yjq.knowledge.beans.zhihu.ZhihuShortComments;
 import com.yjq.knowledge.util.GlideCircleTransform;
@@ -33,8 +35,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int TYPE_COMMENT_COUNT = 1;     //显示评论数量的Item项
 
 
-    public boolean mShowShortComments = false;          //是否显示段评论内容,默认不显示
-    public PublishSubject<Integer> onClickSubject = PublishSubject.create();
+    private boolean mShowShortComments = false;          //是否显示段评论内容,默认不显示
+    private PublishSubject<Integer> onClickSubject = PublishSubject.create();
 
     public PublishSubject<Integer> getOnClicks() {
         return onClickSubject;
@@ -93,22 +95,25 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private void initCommentCountView(CommentCountViewHolder holder, int position) {
         int commentCounts = 0;
-        if (position == 0) {
+        if (position == 0) {                                                       //  item项  “x 条长评”
+
             commentCounts = mLongCommentSet.getComments().size();
             holder.tvCommentCount.setText(commentCounts + " 条长评");
             holder.imageView.setVisibility(View.GONE);
-        } else {
+
+        } else {                                                                   //  item项  "x 条短评"
             commentCounts = mShortCommentSet.getComments().size();
             holder.tvCommentCount.setText(commentCounts + " 条短评");
             holder.imageView.setVisibility(View.VISIBLE);
 
-            if (mShowShortComments)
+            if (mShowShortComments)                                                //根据是否显示短评论标志变量改变 图标
                 holder.imageView.setImageDrawable(mContext.getDrawable(R.drawable.chevron_double_down));
             else
                 holder.imageView.setImageDrawable(mContext.getDrawable(R.drawable.chevron_double_up));
+
             holder.itemView.setOnClickListener(view ->
 
-                    onClickSubject.onNext(position)
+                    onClickSubject.onNext(position)                                 //短评论的折叠 展开事件，具体的逻辑代码在CommentActivity里
             );
         }
 
@@ -116,33 +121,34 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void initCommentView(CommentViewHolder holder, int position) {
+        CommentsBean commentsBean;
 
+        if (position < mLongCommentSet.getComments().size() + 1) {                            //长评论item项部分
 
-        if (position < mLongCommentSet.getComments().size() + 1) {     //长评论item项部分
+            commentsBean = mLongCommentSet.getComments().get(position - 1);
 
-            ZhihuLongComments.CommentsBean commentsBean = mLongCommentSet.getComments().get(position - 1);
-            holder.tvAuthor.setText(commentsBean.getAuthor());
-            holder.tvCommentContent.setText(commentsBean.getContent());
-            holder.tvThumbsUp.setText(commentsBean.getLikes());
-            holder.tvCommentTime.setText(DateTimeUtil.parseCommentTime(commentsBean.getTime()));
-            GlideApp.with(mContext)
-                    .load(commentsBean.getAvatar())
-                    .transform(new GlideCircleTransform(mContext))
-                    .into(holder.ivCommentAvatar);
-        } else {
+        } else {                                                                              //短评论item项部分
 
-
-            ZhihuShortComments.CommentsBean commentsBean = mShortCommentSet.getComments().get(position - mLongCommentSet.getComments().size() - 2);
-            holder.tvAuthor.setText(commentsBean.getAuthor());
-            holder.tvCommentContent.setText(commentsBean.getContent());
-            holder.tvThumbsUp.setText(commentsBean.getLikes());
-            holder.tvCommentTime.setText(DateTimeUtil.parseCommentTime(commentsBean.getTime()));
-            GlideApp.with(mContext)
-                    .load(commentsBean.getAvatar())
-                    .transform(new GlideCircleTransform(mContext))
-                    .into(holder.ivCommentAvatar);
+            commentsBean = mShortCommentSet.getComments().get(position - mLongCommentSet.getComments().size() - 2);
 
         }
+
+        holder.tvAuthor.setText(commentsBean.getAuthor());
+        holder.tvCommentContent.setText(commentsBean.getContent());
+        holder.tvThumbsUp.setText(commentsBean.getLikes());
+        holder.tvCommentTime.setText(DateTimeUtil.parseCommentTime(commentsBean.getTime()));
+
+        if (commentsBean.getReply_to() != null) {
+            holder.tvExpand.setVisibility(View.VISIBLE);
+            holder.tvExpand.setText("//@" + commentsBean.getReply_to().getAuthor() + ": " + commentsBean.getReply_to().getContent());
+
+        } else {
+            holder.tvExpand.setVisibility(View.GONE);
+        }
+        GlideApp.with(mContext)
+                .load(commentsBean.getAvatar())
+                .transform(new GlideCircleTransform(mContext))
+                .into(holder.ivCommentAvatar);
 
 
     }
@@ -158,7 +164,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        if (mShowShortComments)
+        if (mShowShortComments)//是否显示短评论
             return (mLongCommentSet != null && mShortCommentSet != null)                                     //长评论数据集  和   短评论数据集   都不能为空
                     ? mLongCommentSet.getComments().size() + mShortCommentSet.getComments().size() + 2       //+２是因为要显示　“ｘ条长评论”　和　“ｘ条短评论”　　两个Item项
                     : 0;
@@ -181,6 +187,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView tvCommentContent;
         @BindView(R.id.tv_comment_time)
         TextView tvCommentTime;
+        @BindView(R.id.expand_text_view)
+        ExpandableTextView tvExpand;
 
         CommentViewHolder(View view) {
             super(view);

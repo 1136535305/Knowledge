@@ -3,6 +3,7 @@ package com.yjq.knowledge.comments;
 import android.content.Intent;
 import android.content.MutableContextWrapper;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,18 +55,15 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void initEvent() {
-        mCommentAdapter.getOnClicks().observeOn(AndroidSchedulers.mainThread())    //点击“x条短评论” item项触发的事件
+        mCommentAdapter.getOnClicks().observeOn(AndroidSchedulers.mainThread())                        //点击“x条短评论” item项触发的事件
                 .subscribeOn(Schedulers.io())
                 .subscribe(position -> {
-                            boolean isShowShortComment = mCommentAdapter.ismShowShortComments();
+                            boolean isShowShortComment = !mCommentAdapter.ismShowShortComments();
 
-                            mCommentAdapter.setmShowShortComments(!isShowShortComment);
+                            mCommentAdapter.setmShowShortComments(isShowShortComment);
                             mCommentAdapter.notifyDataSetChanged();
-                            if (!isShowShortComment) {
+                            if (isShowShortComment)
                                 commentsRcy.smoothScrollToPosition(position);                           //展开短评论，“x条短评论”item项置顶
-                            } else {
-                                commentsRcy.smoothScrollToPosition(0);                                  //折叠短评论，“x条长评论”并且回到顶部
-                            }
                         }
                 );
     }
@@ -75,16 +73,17 @@ public class CommentsActivity extends AppCompatActivity {
         newsId = getIntent().getIntExtra("newsId", -1);
     }
 
+
     private void initToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);    //回退按钮
-        toolbar.setTitle("0 条评论");
     }
 
     private void initRecyclerView() {
         mCommentAdapter = new CommentAdapter(this);
         commentsRcy.setLayoutManager(new MyLinearLayoutManager(this));
         commentsRcy.setAdapter(mCommentAdapter);
+        commentsRcy.setHasFixedSize(false);
     }
 
     private void initData() {
@@ -109,15 +108,13 @@ public class CommentsActivity extends AppCompatActivity {
                     public void onNext(ZhihuLongComments zhihuLongComments) {
                         mLongComments = zhihuLongComments;
                         loadLongCommentsFinish = true;
-                        if (loadLongCommentsFinish && loadShortCommentsFinish) {
-                            mCommentAdapter.setDataSet(mLongComments, mShortComments);
-                        }
-
+                        if (loadLongCommentsFinish && loadShortCommentsFinish)
+                            mCommentAdapter.setDataSet(mLongComments, mShortComments);      //仅当长评论和短评论信息都加载完才重新渲染RecyclerView
 
                     }
                 });
 
-        //网络加载段评论信息
+        //网络加载短评论信息
         ApiManager.getInstance().createZhihuService().getShortCommnets(newsId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -137,9 +134,9 @@ public class CommentsActivity extends AppCompatActivity {
                     public void onNext(ZhihuShortComments zhihuShortComments) {
                         mShortComments = zhihuShortComments;
                         loadShortCommentsFinish = true;
-                        if (loadLongCommentsFinish && loadShortCommentsFinish) {
-                            mCommentAdapter.setDataSet(mLongComments, mShortComments);
-                        }
+                        if (loadLongCommentsFinish && loadShortCommentsFinish)
+                            mCommentAdapter.setDataSet(mLongComments, mShortComments);    //仅当长评论和短评论信息都加载完才重新渲染RecyclerView
+
                     }
                 });
 
