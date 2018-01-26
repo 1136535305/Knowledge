@@ -1,12 +1,7 @@
 package com.yjq.knowledge.comments;
 
-import android.content.Intent;
-import android.content.MutableContextWrapper;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,7 +12,6 @@ import com.yjq.knowledge.R;
 import com.yjq.knowledge.adapter.CommentAdapter;
 import com.yjq.knowledge.beans.zhihu.ZhihuLongComments;
 import com.yjq.knowledge.beans.zhihu.ZhihuShortComments;
-import com.yjq.knowledge.editor.EditorDetailActivity;
 import com.yjq.knowledge.network.ApiManager;
 import com.yjq.knowledge.util.animate.MyLinearLayoutManager;
 
@@ -89,7 +83,7 @@ public class CommentsActivity extends AppCompatActivity {
     private void initData() {
 
         //网络加载长评论信息
-        ApiManager.getInstance().createZhihuService().getLongComments(newsId)
+        ApiManager.Companion.getInstance().createZhihuService().getLongComments(newsId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<ZhihuLongComments>() {
@@ -115,7 +109,7 @@ public class CommentsActivity extends AppCompatActivity {
                 });
 
         //网络加载短评论信息
-        ApiManager.getInstance().createZhihuService().getShortCommnets(newsId)
+        ApiManager.Companion.getInstance().createZhihuService().getShortCommnets(newsId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<ZhihuShortComments>() {

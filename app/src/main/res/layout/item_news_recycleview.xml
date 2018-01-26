@@ -1,61 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="10dp"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="2dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.constraint.ConstraintLayout
 
+    <!-- 在data标签下声明需要在布局文件中引用的的相关的实体类 -->
+    <data>
+
+        <variable
+            name="storyBean"
+            type="com.yjq.knowledge.beans.zhihu.StoriesBean" />
+
+    </data>
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="2dp">
 
-        <ImageView
-            android:id="@+id/image_zhihu"
-            android:layout_width="91dp"
-            android:layout_height="77dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+        <android.support.constraint.ConstraintLayout
 
-        <TextView
-            android:id="@+id/tv_title_zhihu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:lineSpacingExtra="3.0dip"
-            android:textColor="#030303"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/image_zhihu"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="浪漫的历史学" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <!--  不采用CardView时自定义的分割线
-           <View
-               android:layout_width="match_parent"
-               android:layout_height="1dp"
-               android:layout_marginTop="4dp"
-               android:background="@android:color/darker_gray"
-               app:layout_constraintBottom_toBottomOf="parent"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/image_zhihu" />
-         -->
+            <ImageView
+                android:id="@+id/image_zhihu"
+                android:layout_width="91dp"
+                android:layout_height="77dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
-    </android.support.constraint.ConstraintLayout>
-</android.support.v7.widget.CardView>
+            <TextView
+                android:id="@+id/tv_title_zhihu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:lineSpacingExtra="3.0dip"
+                android:textColor="#030303"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/image_zhihu"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="@{storyBean.title}" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</layout>

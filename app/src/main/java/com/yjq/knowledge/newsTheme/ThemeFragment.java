@@ -114,7 +114,7 @@ public class ThemeFragment extends Fragment {
     private void initData() {
 
 
-        ApiManager.getInstance().createZhihuService().getThemeDetailById(mThemeBean.getId())
+        ApiManager.Companion.getInstance().createZhihuService().getThemeDetailById(mThemeBean.getId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<ZhihuThemeListDetail>() {
@@ -148,7 +148,7 @@ public class ThemeFragment extends Fragment {
 
 
     private void initMoreData() {
-        ApiManager.getInstance().createZhihuService().loadMoreThemeNews(mThemeBean.getId(), lastNewsId)
+        ApiManager.Companion.getInstance().createZhihuService().loadMoreThemeNews(mThemeBean.getId(), lastNewsId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<ZhihuThemeListDetail>() {

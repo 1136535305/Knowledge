@@ -33,7 +33,7 @@ public class PhotoViewActivity extends AppCompatActivity {
     private void initPhotoView() {
         GlideApp.with(this)
                 .load(mPhoneUrl)
-                .centerInside()   //尽量在代码中使用该方法
+                .centerInside()   //尽量在代码中使用该方法，xml里使用scaleType属性貌似不起作用
                 .into(photoView);
     }
 }

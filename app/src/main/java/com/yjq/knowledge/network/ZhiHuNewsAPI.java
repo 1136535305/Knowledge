@@ -85,7 +85,6 @@ public interface ZhiHuNewsAPI {
     Observable<ZhihuThemeListDetail> getThemeDetailById(@Path("id") int id);
 
     /**
-     *
      * @param themeId
      * @param newsId
      * @return

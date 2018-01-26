@@ -23,6 +23,7 @@ import com.yjq.knowledge.adapter.MenuAdapter;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeList;
 import com.yjq.knowledge.network.ApiManager;
 import com.yjq.knowledge.newsTheme.ThemeFragment;
+import com.yjq.knowledge.newsTheme.ThemeFragmentKotlin;
 import com.yjq.knowledge.newsToday.NewsTodayFragment;
 
 import butterknife.BindView;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @BindView(R.id.nav_menu)
     NavigationView navMenu;
-    @BindView(R.id.drawer_layout)
+    @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private View headerView;
     private RecyclerView rcyMenu;
     private MenuAdapter menuAdapter;
-    private Fragment currentFragment = NewsTodayFragment.getInstance();
+    private Fragment currentFragment = NewsTodayFragment.Companion.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .subscribeOn(Schedulers.io())
                 .subscribe(othersBean -> {
                     if (othersBean == null) {
-                        switchFragment(NewsTodayFragment.getInstance(), "-1").commit();                    //替换首页代表的Fragment
+                        switchFragment(NewsTodayFragment.Companion.getInstance(), "-1").commit();                    //替换首页代表的Fragment
                         toolbar.setTitle("今日热闻");//替换Toolbar上的标题
                     } else {
                         switchFragment(getTargetFragment(othersBean), othersBean.getId() + "").commit();  //替换其它主题Fragment
@@ -105,9 +106,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @param othersBean
      * @return
      */
-    private ThemeFragment getTargetFragment(ZhihuThemeList.OthersBean othersBean) {
-        ThemeFragment.getInstance().setDataSet(othersBean);//替换ZhihuThemeFragment里的数据
-        return ThemeFragment.getInstance();
+    private ThemeFragmentKotlin getTargetFragment(ZhihuThemeList.OthersBean othersBean) {
+        ThemeFragmentKotlin.Companion.getInstance().setDataSet(othersBean);//替换ZhihuThemeFragment里的数据
+        return ThemeFragmentKotlin.Companion.getInstance();
     }
 
     private void initToolbar() {
@@ -131,11 +132,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    /**
-     * 加载侧边栏Menu所需要的知乎日报主题列表相关信息
-     */
+
     private void initData() {
-        ApiManager.getInstance().createZhihuService().getThemeList()
+        ApiManager.Companion.getInstance().createZhihuService().getThemeList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<ZhihuThemeList>() {

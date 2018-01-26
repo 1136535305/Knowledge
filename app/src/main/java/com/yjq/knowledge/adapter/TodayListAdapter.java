@@ -1,6 +1,7 @@
 package com.yjq.knowledge.adapter;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yjq.knowledge.R;
+import com.yjq.knowledge.beans.zhihu.StoriesBean;
 import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
+import com.yjq.knowledge.databinding.ItemNewsRecycleviewBinding;
 import com.yjq.knowledge.newsDetail.NewsDetailActivity;
 import com.yjq.knowledge.newsToday.NewsTodayFragment;
 import com.yjq.knowledge.util.BannerImageLoader;
@@ -67,6 +70,8 @@ public class TodayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
 
         switch (viewType) {
@@ -81,8 +86,9 @@ public class TodayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 return new DateViewHolder(view);
 
             case TYPE_CONTENT:       //真正新闻内容项
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news_recycleview, parent, false);
-                return new ContentViewHolder(view);
+                ItemNewsRecycleviewBinding binding = DataBindingUtil.inflate(inflater, R.layout.item_news_recycleview, parent, false);
+
+                return new ContentViewHolder(binding.getRoot());
 
             default:
                 break;
@@ -139,18 +145,24 @@ public class TodayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private void initContentView(RecyclerView.ViewHolder holder, int position) {
-        ZhihuDaily.StoriesBean storiesBean = (ZhihuDaily.StoriesBean) mDataList.get(position - 1);
-        ((ContentViewHolder) holder).tvTitleZhihu.setText(storiesBean.getTitle());
-        holder.itemView.setOnClickListener((view) ->
+        StoriesBean storiesBean = (StoriesBean) mDataList.get(position - 1);
+
+        ItemNewsRecycleviewBinding binding = DataBindingUtil.getBinding(holder.itemView);
+        binding.setStoryBean(storiesBean);
+
+        /*
+         ((ContentViewHolder) holder).tvTitleZhihu.setText(storiesBean.getTitle());
+          */
+        binding.getRoot().setOnClickListener((view) ->
                 startNewsDetailActivity(storiesBean.getId())
         );
 
         Glide.with(mFragment)
                 .load(storiesBean.getImages().get(0))
-                .into(((ContentViewHolder) holder).imageZhihu);
+                .into(binding.imageZhihu);
 
 
-        startAnimator(holder.itemView, position);
+        startAnimator(binding.getRoot(), position);
     }
 
     private void startNewsDetailActivity(int newsId) {
@@ -205,14 +217,10 @@ public class TodayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * 具体的新闻Item项ViewHolder
      */
     static class ContentViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.image_zhihu)
-        ImageView imageZhihu;
-        @BindView(R.id.tv_title_zhihu)
-        TextView tvTitleZhihu;
+        private ItemNewsRecycleviewBinding binding;
 
         ContentViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
         }
     }
 

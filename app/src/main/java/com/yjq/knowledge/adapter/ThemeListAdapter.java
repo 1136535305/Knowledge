@@ -2,6 +2,7 @@ package com.yjq.knowledge.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,11 @@ import android.widget.TextView;
 
 import com.yjq.knowledge.GlideApp;
 import com.yjq.knowledge.R;
+import com.yjq.knowledge.beans.zhihu.StoriesBean;
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeListDetail;
 import com.yjq.knowledge.editor.EditorListActivity;
-import com.yjq.knowledge.newsTheme.ThemeFragment;
-import com.yjq.knowledge.util.GlideCircleTransform;
 import com.yjq.knowledge.newsDetail.NewsDetailActivity;
+import com.yjq.knowledge.util.GlideCircleTransform;
 
 import java.util.ArrayList;
 
@@ -39,12 +40,14 @@ public class ThemeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static int lastAnimPosition = -1;
     private ZhihuThemeListDetail mDataSet;
     private ArrayList<ZhihuThemeListDetail.EditorsBean> mEditorList;
-    private ThemeFragment themeFragment;
+    private Fragment themeFragment;
     private Context mContext;
 
-    public ThemeListAdapter(ThemeFragment themeFragment) {
-        this.themeFragment = themeFragment;
-        this.mContext = themeFragment.getContext();
+    public ThemeListAdapter(Fragment fragment) {
+        super();
+        this.themeFragment = fragment;
+        this.mContext = fragment.getContext();
+
     }
 
 
@@ -139,7 +142,7 @@ public class ThemeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * 初始化RecyclerView  Item  其余项 视图   :   真正的新闻内容视图
      */
     private void initContentView(ContentViewHolder holder, int position) {
-        ZhihuThemeListDetail.StoriesBean storiesBean = mDataSet.getStories().get(position - 2);
+        StoriesBean storiesBean = mDataSet.getStories().get(position - 2);
 
         if (null != storiesBean.getImages()) {
 
@@ -189,12 +192,6 @@ public class ThemeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.notifyDataSetChanged();
     }
 
-    /**
-     * 动画动画效果的展示
-     *
-     * @param view
-     * @param position
-     */
     private void startAnimator(View view, int position) {
         if (position > lastAnimPosition) {
             view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.item_bottom_in));
@@ -206,11 +203,6 @@ public class ThemeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         lastAnimPosition = position;
     }
 
-    /**
-     * 不显示的时候取消所有动画效果
-     *
-     * @param holder
-     */
     @Override
     public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
 

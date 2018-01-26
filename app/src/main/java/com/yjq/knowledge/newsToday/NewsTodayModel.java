@@ -15,7 +15,7 @@ import rx.Observable;
  */
 
 public class NewsTodayModel implements ZhihuContract.Imodel {
-    private ZhiHuNewsAPI zhiHuNewsAPI = ApiManager.getInstance().createZhihuService();
+    private ZhiHuNewsAPI zhiHuNewsAPI = ApiManager.Companion.getInstance().createZhihuService();
 
     @Override
     public Observable<ZhihuDaily> loadNews() {

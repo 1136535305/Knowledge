@@ -7,15 +7,13 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
-import com.yjq.knowledge.GlideApp;
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.network.ApiManager;
-import com.yjq.knowledge.util.GlideCircleTransform;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 
@@ -71,7 +69,7 @@ public class EditorDetailActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        ApiManager.getInstance().createZhihuService().getEditorMainPageHtml(mEditorId)
+        ApiManager.Companion.getInstance().createZhihuService().getEditorMainPageHtml(mEditorId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<ResponseBody>() {
@@ -119,9 +117,9 @@ public class EditorDetailActivity extends AppCompatActivity {
         tvXinlangName.setText(xinlangName);
         tvEmail.setText(email);
         tvWebsite.setText(personalWebSite);
-        GlideApp.with(this)
+        Glide.with(this)
                 .load(imgUrl)
-                .transform(new GlideCircleTransform(this))
+               // .transform(new GlideCircleTransform(this))
                 .into(ivAvatar);
     }
 

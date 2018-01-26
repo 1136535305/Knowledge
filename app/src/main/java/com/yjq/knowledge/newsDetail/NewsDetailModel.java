@@ -16,7 +16,7 @@ import rx.Observable;
  */
 
 public class NewsDetailModel implements NewsDetailContract.Imodel {
-    ZhiHuNewsAPI zhiHuNewsAPI = ApiManager.getInstance().createZhihuService();
+    ZhiHuNewsAPI zhiHuNewsAPI = ApiManager.Companion.getInstance().createZhihuService();
 
     @Override
     public Observable<ZhihuNewsDetail> loadNewsDetailById(int id) {

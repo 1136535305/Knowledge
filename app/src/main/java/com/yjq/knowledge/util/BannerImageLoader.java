@@ -9,7 +9,7 @@ import com.youth.banner.loader.ImageLoader;
 
 /**
  * 文件： BannerImageLoader
- * 描述：
+ * 描述： 顶部轮播图辅助类：决定后台图片加载框架
  * 作者： YangJunQuan   2018/1/11.
  */
 

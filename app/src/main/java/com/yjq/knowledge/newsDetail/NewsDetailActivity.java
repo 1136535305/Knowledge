@@ -23,15 +23,13 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.yjq.knowledge.GlideApp;
-import com.yjq.knowledge.comments.CommentsActivity;
-import com.yjq.knowledge.contract.NewsDetailContract;
-import com.yjq.knowledge.photo.PhotoViewActivity;
 import com.yjq.knowledge.R;
 import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
 import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
+import com.yjq.knowledge.comments.CommentsActivityKotlin;
+import com.yjq.knowledge.contract.NewsDetailContract;
+import com.yjq.knowledge.photo.PhotoViewActivity;
 import com.yjq.knowledge.util.HtmlUtil;
-
-import org.w3c.dom.Comment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -180,6 +178,15 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
 
         String htmlData = HtmlUtil.createHtmlData(zhihuNewsDetail, false);//根据Api接口返回的数据重新构造一个完整的Html页面并且用webView加载这个页面
         webView.loadData(htmlData, HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
+        webView.getSettings().setBlockNetworkImage(true);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                view.getSettings().setBlockNetworkImage(false);
+            }
+        });
 
     }
 
@@ -214,7 +221,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
                 dealThumbsUp();
                 break;
             case R.id.tv_comments:      //跳转评论页面
-                Intent commentIntent = new Intent(this, CommentsActivity.class);
+                Intent commentIntent = new Intent(this, CommentsActivityKotlin.class);
                 commentIntent.putExtra("newsId", mNewsId);
                 startActivity(commentIntent);
                 break;
