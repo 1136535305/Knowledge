@@ -64,7 +64,7 @@ class CommentsActivityKotlin : AppCompatActivity() {
                     mLongComments = it
                     loadLongCommentsFinish = true
                     if (loadLongCommentsFinish && loadShortCommentsFinish)
-                        mAdapter.setDataSet(mLongComments, mShortComments)      //仅当长评论和短评论信息都加载完才重新渲染RecyclerView
+                        mAdapter.setDataSet(mLongComments!!, mShortComments!!)      //仅当长评论和短评论信息都加载完才重新渲染RecyclerView
                 }
 
         //网络加载短评论信息
@@ -75,7 +75,7 @@ class CommentsActivityKotlin : AppCompatActivity() {
                     mShortComments = it
                     loadShortCommentsFinish = true
                     if (loadLongCommentsFinish && loadShortCommentsFinish)
-                        mAdapter.setDataSet(mLongComments, mShortComments)    //仅当长评论和短评论信息都加载完才重新渲染RecyclerView
+                        mAdapter.setDataSet(mLongComments!!, mShortComments!!)    //仅当长评论和短评论信息都加载完才重新渲染RecyclerView
                 }
 
     }

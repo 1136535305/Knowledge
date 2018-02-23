@@ -52,12 +52,12 @@ class ApiManager {
 
         private var apiManager: ApiManager? = null
         private val CACHE_DIR = "ZhihuCache"
-        private val httpCacheDirectory = File(App.getInstance().cacheDir, CACHE_DIR)//缓存文件存放路径：  /data/data/com.yjq.knowledge/cache/ZhihuCache
+        private val httpCacheDirectory = File(App.instance.cacheDir, CACHE_DIR)//缓存文件存放路径：  /data/data/com.yjq.knowledge/cache/ZhihuCache
         private val cacheSize = 10 * 1024 * 1024                                              //缓存容量        ：  10mb缓存
         private val cache = Cache(httpCacheDirectory, cacheSize.toLong())
         private val REWRITE_CACHE_CONTROL_INTERCEPTOR = Interceptor { chain ->
             val originalResponse = chain.proceed(chain.request())
-            if (NetWorkUtil.isNetWorkAvailable(App.getInstance())) {
+            if (NetWorkUtil.isNetWorkAvailable(App.instance)) {
                 val maxAge = 60 // 在线缓存在1分钟内可读取
                 originalResponse.newBuilder()
                         .removeHeader("Pragma")

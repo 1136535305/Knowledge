@@ -1,18 +1,18 @@
-package com.yjq.knowledge.network;
+package com.yjq.knowledge.network
 
 
-import com.yjq.knowledge.beans.zhihu.ZhihuDaily;
-import com.yjq.knowledge.beans.zhihu.ZhihuLongComments;
-import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail;
-import com.yjq.knowledge.beans.zhihu.ZhihuShortComments;
-import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra;
-import com.yjq.knowledge.beans.zhihu.ZhihuThemeListDetail;
-import com.yjq.knowledge.beans.zhihu.ZhihuThemeList;
+import com.yjq.knowledge.beans.zhihu.ZhihuDaily
+import com.yjq.knowledge.beans.zhihu.ZhihuLongComments
+import com.yjq.knowledge.beans.zhihu.ZhihuNewsDetail
+import com.yjq.knowledge.beans.zhihu.ZhihuShortComments
+import com.yjq.knowledge.beans.zhihu.ZhihuStoryExtra
+import com.yjq.knowledge.beans.zhihu.ZhihuThemeListDetail
+import com.yjq.knowledge.beans.zhihu.ZhihuThemeList
 
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import rx.Observable;
+import okhttp3.ResponseBody
+import retrofit2.http.GET
+import retrofit2.http.Path
+import rx.Observable
 
 /**
  * 文件： ZhiHuNewsAPI
@@ -20,21 +20,29 @@ import rx.Observable;
  * 作者： YangJunQuan   2017/12/14.
  */
 
-public interface ZhiHuNewsAPI {
+interface ZhiHuNewsAPI {
 
-    @GET("/api/4/news/latest")
-    Observable<ZhihuDaily> getLastDaily();
+    @get:GET("/api/4/news/latest")
+    val lastDaily: Observable<ZhihuDaily>
+
+    /**
+     * 完整URL   https://news-at.zhihu.com/api/4/themes
+     *
+     * @return 主题日报列表查看
+     */
+    @get:GET("/api/4/themes")
+    val themeList: Observable<ZhihuThemeList>
 
 
     @GET("/api/4/news/before/{date}")
-    Observable<ZhihuDaily> loadMore(@Path("date") String date);
+    fun loadMore(@Path("date") date: String): Observable<ZhihuDaily>
 
     /**
      * @param id 新闻的ID
      * @return 新闻消息详细内容
      */
     @GET("/api/4/news/{id}")
-    Observable<ZhihuNewsDetail> loadNewsDetailById(@Path("id") int id);
+    fun loadNewsDetailById(@Path("id") id: Int): Observable<ZhihuNewsDetail>
 
 
     /**
@@ -44,7 +52,7 @@ public interface ZhiHuNewsAPI {
      * @return 获取对应新闻的额外信息，如评论数量，所获的『赞』的数量。
      */
     @GET("/api/4/story-extra/{id}")
-    Observable<ZhihuStoryExtra> getStotyExtra(@Path("id") int id);
+    fun getStotyExtra(@Path("id") id: Int): Observable<ZhihuStoryExtra>
 
 
     /**
@@ -54,7 +62,7 @@ public interface ZhiHuNewsAPI {
      * @return 新闻对应短评论查看
      */
     @GET("/api/4/story/{id}/short-comments")
-    Observable<ZhihuShortComments> getShortCommnets(@Path("id") int id);
+    fun getShortCommnets(@Path("id") id: Int): Observable<ZhihuShortComments>
 
     /**
      * 完整URL    https://news-at.zhihu.com/api/4/story/8997528/long-comments
@@ -63,15 +71,7 @@ public interface ZhiHuNewsAPI {
      * @return 新闻对应长评论查看
      */
     @GET("/api/4/story/{id}/long-comments")
-    Observable<ZhihuLongComments> getLongComments(@Path("id") int id);
-
-    /**
-     * 完整URL   https://news-at.zhihu.com/api/4/themes
-     *
-     * @return 主题日报列表查看
-     */
-    @GET("/api/4/themes")
-    Observable<ZhihuThemeList> getThemeList();
+    fun getLongComments(@Path("id") id: Int): Observable<ZhihuLongComments>
 
 
     /**
@@ -82,7 +82,7 @@ public interface ZhiHuNewsAPI {
      * @return
      */
     @GET("/api/4/theme/{id}")
-    Observable<ZhihuThemeListDetail> getThemeDetailById(@Path("id") int id);
+    fun getThemeDetailById(@Path("id") id: Int): Observable<ZhihuThemeListDetail>
 
     /**
      * @param themeId
@@ -90,7 +90,7 @@ public interface ZhiHuNewsAPI {
      * @return
      */
     @GET("/api/4/theme/{themeId}/before/{newsId}")
-    Observable<ZhihuThemeListDetail> loadMoreThemeNews(@Path("themeId") int themeId, @Path("newsId") int newsId);
+    fun loadMoreThemeNews(@Path("themeId") themeId: Int, @Path("newsId") newsId: Int): Observable<ZhihuThemeListDetail>
 
     /**
      * 完整Url：https://news-at.zhihu.com/api/4/editor/70/profile-page/android
@@ -100,5 +100,5 @@ public interface ZhiHuNewsAPI {
      * @return
      */
     @GET("/api/4/editor/{id}/profile-page/android")
-    Observable<ResponseBody> getEditorMainPageHtml(@Path("id") int id);
+    fun getEditorMainPageHtml(@Path("id") id: Int): Observable<ResponseBody>
 }

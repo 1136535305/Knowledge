@@ -13,9 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DayTheme">
-        <activity android:name=".MainActivity">
-
-        </activity>
         <activity
             android:name=".newsDetail.NewsDetailActivity"
             android:label="@string/title_activity_zhihu_news_detail"
@@ -26,9 +23,6 @@
         <activity
             android:name=".editor.EditorDetailActivity"
             android:label="@string/title_activity_editor_detail" />
-        <activity
-            android:name=".comments.CommentsActivity"
-            android:label="@string/title_activity_comments" />
         <activity
             android:name=".photo.PhotoViewActivity"
             android:label="@string/title_activity_photo_view" />

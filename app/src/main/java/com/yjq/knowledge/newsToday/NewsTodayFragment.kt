@@ -11,56 +11,62 @@ import com.yjq.knowledge.R
 import com.yjq.knowledge.adapter.TodayListAdapterKotlin
 import com.yjq.knowledge.beans.zhihu.ZhihuDaily
 import com.yjq.knowledge.contract.ZhihuContract
-import com.yjq.knowledge.newsTheme.ThemeFragment
+import com.yjq.knowledge.newsTheme.ThemeFragmentKotlin
 import com.yjq.knowledge.util.date.DateTimeUtil
 import kotlinx.android.synthetic.main.fragment.*
 
 class NewsTodayFragment : Fragment(), ZhihuContract.Iview, View.OnClickListener {
-    private var mPresenter: ZhihuContract.Ipresenter? = null
-    private var mAdapter: TodayListAdapterKotlin? = null
+    private lateinit var mPresenter: ZhihuContract.Ipresenter
+    private lateinit var mAdapter: TodayListAdapterKotlin
 
 
     private var lastNewsData: String? = null
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?) =
-            inflater.inflate(R.layout.fragment, container, false)!!
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
+            = inflater.inflate(R.layout.fragment, container, false)!!
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         mAdapter = TodayListAdapterKotlin(this)
-        recycler_view!!.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-        recycler_view.itemAnimator = DefaultItemAnimator()
-        recycler_view.adapter = mAdapter
-        fab!!.setOnClickListener(this)
-
-
-        refreshLayout!!.setOnRefreshListener { mPresenter!!.loadZhihuNews() }
-        refreshLayout!!.setOnLoadmoreListener { mPresenter!!.loadMoreZhihuNews(lastNewsData) }
         mPresenter = NewsTodayPresenter(this)
-        mPresenter!!.loadZhihuNews()
+        mPresenter.loadZhihuNews()
+
+        with(recyclerView) {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+            itemAnimator = DefaultItemAnimator()
+            adapter = mAdapter
+        }
+
+        with(refreshLayout) {
+            setOnRefreshListener { mPresenter.loadZhihuNews() }
+            setOnLoadmoreListener { mPresenter.loadMoreZhihuNews(lastNewsData!!) }
+        }
+
+        fab.setOnClickListener(this)
+
     }
 
 
     override fun showNews(zhihuDaily: ZhihuDaily) {
         refreshLayout!!.finishRefresh(0)
         lastNewsData = zhihuDaily.date
-        mAdapter!!.resetDataList("今日热闻", zhihuDaily)
+        mAdapter.resetDataList("今日热闻", zhihuDaily)
     }
 
     override fun showMoreNews(zhihuDaily: ZhihuDaily) {
         refreshLayout!!.finishLoadmore(0)
         lastNewsData = zhihuDaily.date
-        mAdapter!!.setmDataList(DateTimeUtil.getTime(lastNewsData), zhihuDaily)
+        mAdapter.setmDataList(DateTimeUtil.getTime(lastNewsData), zhihuDaily)
     }
 
 
     override fun onClick(view: View) {
         val id = view.id
         when (id) {
-            R.id.fab -> recycler_view!!.smoothScrollToPosition(0)   //快速回到頂部的FAB按鈕响应事件
+            R.id.fab -> recyclerView.smoothScrollToPosition(0)   //快速回到頂部的FAB按鈕响应事件
             else -> {
             }
         }
@@ -72,7 +78,7 @@ class NewsTodayFragment : Fragment(), ZhihuContract.Iview, View.OnClickListener 
         val instance: NewsTodayFragment
             get() {
                 if (mFragment == null) {
-                    synchronized(ThemeFragment::class.java) {
+                    synchronized(ThemeFragmentKotlin::class.java) {
                         if (mFragment == null) {
                             mFragment = NewsTodayFragment()
                         }

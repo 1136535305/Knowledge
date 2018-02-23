@@ -76,8 +76,10 @@ dependencies {
     implementation 'com.ms-square:expandableTextView:0.1.4'
     //kotlin插件
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-   // kotlin结合dataBinding框架
+    // kotlin结合dataBinding框架
     kapt 'com.android.databinding:compiler:3.0.1'
+    //Android KTX Google官方专门针对kotlin开发的拓展库
+    implementation 'androidx.core:core-ktx:0.1'
 }
 kapt {
     generateStubs = true

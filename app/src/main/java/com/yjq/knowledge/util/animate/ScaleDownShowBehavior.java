@@ -15,7 +15,7 @@ import android.view.View;
  * 作者： YangJunQuan   2018/1/2.
  */
 
-public class ScaleDownShowBehavior extends FloatingActionButton.Behavior {
+public class  ScaleDownShowBehavior extends FloatingActionButton.Behavior {
 
     public ScaleDownShowBehavior(Context context, AttributeSet attrs) {
         super();

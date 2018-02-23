@@ -14,7 +14,6 @@ import android.view.MenuItem
 import com.yjq.knowledge.adapter.MenuAdapter
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeList
 import com.yjq.knowledge.network.ApiManager
-import com.yjq.knowledge.newsTheme.ThemeFragment
 import com.yjq.knowledge.newsTheme.ThemeFragmentKotlin
 import com.yjq.knowledge.newsToday.NewsTodayFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -75,9 +74,9 @@ class MainActivityKotlin : AppCompatActivity(), NavigationView.OnNavigationItemS
 
     private fun initEvent() {
         menuAdapter.clicks
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribeOn(Schedulers.io())
-                ?.subscribe {
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe {
 
                     if (it == null) {
                         switchFragment(NewsTodayFragment.instance, "-1").commit()                   //替换首页代表的Fragment
@@ -137,7 +136,7 @@ class MainActivityKotlin : AppCompatActivity(), NavigationView.OnNavigationItemS
 
     override fun onResume() {
         super.onResume()
-        ThemeFragment.getInstance().clearDataCache()
+        //   ThemeFragmentKotlin.getInstance().clearDataCache()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

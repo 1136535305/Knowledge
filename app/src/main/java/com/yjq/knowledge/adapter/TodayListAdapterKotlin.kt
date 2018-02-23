@@ -2,7 +2,6 @@ package com.yjq.knowledge.adapter
 
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -26,9 +25,12 @@ import com.yjq.knowledge.util.BannerImageLoader
  */
 class TodayListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val TYPE_BANNER_TOP = -1
-    private val TYPE_DATE = 0
-    private val TYPE_CONTENT = 1
+    companion object {
+        private val TYPE_BANNER_TOP = -1
+        private val TYPE_DATE = 0
+        private val TYPE_CONTENT = 1
+    }
+
     private var lastPos = -1
     private var mDataList = ArrayList<Any>()
     private var mTopStoriesList = ArrayList<ZhihuDaily.TopStoriesBean>()
@@ -64,20 +66,21 @@ class TodayListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        var binding: ViewDataBinding? = null
-        when (viewType) {
-            TYPE_DATE ->
-                binding = DataBindingUtil.inflate<IntervalItemZhihuRecycleviewBinding>(inflater, R.layout.interval_item_zhihu_recycleview, parent, false)
-            TYPE_CONTENT ->
-                binding = DataBindingUtil.inflate<ItemNewsRecycleviewBinding>(inflater, R.layout.item_news_recycleview, parent, false)
-            TYPE_BANNER_TOP ->
-                binding = DataBindingUtil.inflate<TopItemTodayRecycleviewBinding>(inflater, R.layout.top_item_today_recycleview, parent, false)
-        }
-        return CommonViewHolder(binding!!.root)
+        val binding =
+                when (viewType) {
+                    TYPE_DATE ->            //日期
+                        DataBindingUtil.inflate<IntervalItemZhihuRecycleviewBinding>(inflater, R.layout.interval_item_zhihu_recycleview, parent, false)
+                    TYPE_CONTENT ->         //真正的新闻列表内容
+                        DataBindingUtil.inflate<ItemNewsRecycleviewBinding>(inflater, R.layout.item_news_recycleview, parent, false)
+                    else ->//TYPE_BANNER_TOP    RecyclerView顶部的轮播图
+                        DataBindingUtil.inflate<TopItemTodayRecycleviewBinding>(inflater, R.layout.top_item_today_recycleview, parent, false)
+                }
+
+        return CommonViewHolder(binding.root)
 
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewType = getItemViewType(position)
 
         when (viewType) {
@@ -88,9 +91,9 @@ class TodayListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
 
     }
 
-    private fun initTopBannerView(holder: RecyclerView.ViewHolder?) {
+    private fun initTopBannerView(holder: RecyclerView.ViewHolder) {
 
-        val binding = DataBindingUtil.getBinding<TopItemTodayRecycleviewBinding>(holder!!.itemView)
+        val binding = DataBindingUtil.getBinding<TopItemTodayRecycleviewBinding>(holder.itemView)
 
         val imageList = ArrayList<String>()
         val titleList = ArrayList<String>()
@@ -99,33 +102,39 @@ class TodayListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
             imageList.add(it.image!!)
             titleList.add(it.title!!)
         }
-        binding.banner.setImageLoader(BannerImageLoader())
-        binding.banner.setBannerStyle(3)
-        binding.banner.setImages(imageList)
-        binding.banner.setBannerTitles(titleList)
-        binding.banner.setOnBannerListener { startNewsDetailActivity(mTopStoriesList[it].id) }
-        binding.banner.start()
+
+        with(binding.banner) {
+            setImageLoader(BannerImageLoader())
+            setBannerStyle(3)
+            setImages(imageList)
+            setBannerTitles(titleList)
+            setOnBannerListener { startNewsDetailActivity(mTopStoriesList[it].id) }
+            start()
+        }
     }
 
-    private fun initDateView(holder: RecyclerView.ViewHolder?, position: Int) {
-        val binding = DataBindingUtil.getBinding<IntervalItemZhihuRecycleviewBinding>(holder!!.itemView)
+    private fun initDateView(holder: RecyclerView.ViewHolder, position: Int) {
+        val binding = DataBindingUtil.getBinding<IntervalItemZhihuRecycleviewBinding>(holder.itemView)
 
         binding.tvDate.text = mDataList[position - 1].toString()
-        startAnimator(holder.itemView, position)
+        startAnimator(binding.root, position)
 
     }
 
-    private fun initContentView(holder: RecyclerView.ViewHolder?, position: Int) {
-        val binding = DataBindingUtil.getBinding<ItemNewsRecycleviewBinding>(holder!!.itemView)
+    private fun initContentView(holder: RecyclerView.ViewHolder, position: Int) {
+        val binding = DataBindingUtil.getBinding<ItemNewsRecycleviewBinding>(holder.itemView)
         val storiesBean = mDataList[position - 1] as StoriesBean
 
-        binding.storyBean = storiesBean
-        binding.root.setOnClickListener { startNewsDetailActivity(storiesBean.id) }
-        GlideApp.with(mFragment)
-                .load(storiesBean.images!![0])
-                .into(binding.imageZhihu)
+        with(binding) {
+            startAnimator(root, position) //动画效果
+            storyBean = storiesBean       //为布局文件注入数据集，具体的赋值操作已经在相应的布局文件中完成了
+            root.setOnClickListener { startNewsDetailActivity(storiesBean.id) }
+            GlideApp.with(mFragment)
+                    .load(storiesBean.images!![0])
+                    .into(imageZhihu)
+        }
 
-        startAnimator(binding.root, position)
+
     }
 
     private fun startNewsDetailActivity(newsId: Int) {
@@ -134,6 +143,9 @@ class TodayListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
         mFragment!!.startActivity(i)
     }
 
+    /**
+     * 简单的动画效果
+     */
     private fun startAnimator(view: View, position: Int) {
         if (position > lastPos) {
             view.startAnimation(AnimationUtils.loadAnimation(mFragment!!.context, R.anim.item_bottom_in))
@@ -141,9 +153,13 @@ class TodayListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
         }
     }
 
-    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder?) {
-        holder!!.itemView.clearAnimation()
+
+    /**
+     * 不显示的时候移除动画效果
+     */
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        holder.itemView.clearAnimation()
     }
 
-    class CommonViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)
+
 }
