@@ -14,7 +14,7 @@ import android.view.MenuItem
 import com.yjq.knowledge.adapter.MenuAdapter
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeList
 import com.yjq.knowledge.network.ApiManager
-import com.yjq.knowledge.newsTheme.ThemeFragmentKotlin
+import com.yjq.knowledge.newsTheme.ThemeFragment
 import com.yjq.knowledge.newsToday.NewsTodayFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -22,11 +22,11 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 /**
- * 文件： MainActivityKotlin
+ * 文件： MainActivity
  * 描述：
  * 作者： YangJunQuan   2018/1/24.
  */
-class MainActivityKotlin : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var currentFragment: Fragment = NewsTodayFragment.instance
     private val menuAdapter = MenuAdapter()
@@ -100,8 +100,8 @@ class MainActivityKotlin : AppCompatActivity(), NavigationView.OnNavigationItemS
      * @return
      */
     private fun getThemeFragment(othersBean: ZhihuThemeList.OthersBean): Fragment {
-        ThemeFragmentKotlin.getInstance().setDataSet(othersBean)       //替换ZhihuThemeFragment里的数据
-        return ThemeFragmentKotlin.getInstance()
+        ThemeFragment.mInstance.setDataSet(othersBean)       //替换ZhihuThemeFragment里的数据
+        return ThemeFragment.mInstance
     }
 
     private fun switchFragment(targetFragment: Fragment, identifiedId: String): FragmentTransaction {
@@ -136,7 +136,7 @@ class MainActivityKotlin : AppCompatActivity(), NavigationView.OnNavigationItemS
 
     override fun onResume() {
         super.onResume()
-        //   ThemeFragmentKotlin.getInstance().clearDataCache()
+        ThemeFragment.mInstance.clearDataCache()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

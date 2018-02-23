@@ -6,8 +6,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.orhanobut.logger.Logger
 import com.yjq.knowledge.R
-import com.yjq.knowledge.adapter.ThemeListAdapterKotlin
+import com.yjq.knowledge.adapter.ThemeListAdapter
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeList
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeListDetail
 import com.yjq.knowledge.network.ApiManager
@@ -16,33 +17,22 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 /**
- * 文件： ThemeFragmentKotlin
+ * 文件： ThemeFragment
  * 描述：
  * 作者： YangJunQuan   2018/1/25.
  */
-class ThemeFragmentKotlin : Fragment() {
+class ThemeFragment : Fragment() {
 
 
     private var lastNewsId: Int? = null
-    private lateinit var mAdapter: ThemeListAdapterKotlin
+    private lateinit var mAdapter: ThemeListAdapter
     private lateinit var mThemeBean: ZhihuThemeList.OthersBean
     private var mCurrentData: ZhihuThemeListDetail? = null
     private val mDataListBuffer = HashMap<Int?, ZhihuThemeListDetail?>()
 
     companion object {
+        val mInstance = ThemeFragment()
 
-        private var mInstance: ThemeFragmentKotlin? = null
-
-        fun getInstance(): ThemeFragmentKotlin {
-            if (mInstance == null) {
-                synchronized(ThemeFragmentKotlin::class.java) {
-                    if (mInstance == null) {
-                        mInstance = ThemeFragmentKotlin()
-                    }
-                }
-            }
-            return mInstance!!
-        }
     }
 
 
@@ -54,10 +44,10 @@ class ThemeFragmentKotlin : Fragment() {
             mCurrentData = mDataListBuffer[themeBean.id]              //从缓存数据集中取出将要展示的数据集
             lastNewsId = mCurrentData?.stories?.get(mCurrentData!!.stories!!.size - 1)?.id
             mAdapter.setLastAnimPosition(-1)                         //复用fragment须复位
-            mAdapter.resetDataSet(mCurrentData!!)                      //重设数据集
+            mAdapter.resetDataSet(mCurrentData!!)                    //重设数据集
             recyclerView.scrollToPosition(0)                //复用fragment须复位
 
-        } else {                                                      //没有缓存数据只能从网络申请
+        } else {                                                    //没有缓存数据只能从网络申请
             initData()
         }
     }
@@ -72,7 +62,7 @@ class ThemeFragmentKotlin : Fragment() {
     }
 
     private fun initView() {
-        mAdapter = ThemeListAdapterKotlin(this)
+        mAdapter = ThemeListAdapter(this)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = mAdapter
         refreshLayout.isEnableRefresh = false
@@ -89,7 +79,7 @@ class ThemeFragmentKotlin : Fragment() {
                     mAdapter.setLastAnimPosition(-1)                      //由于我们是复用同一个Fragment和Adapter故当切换时我们需要重新恢复Adapter的初始状态
                     mAdapter.resetDataSet(it)                             //设置新的数据集
                     recyclerView.scrollToPosition(0)              //切换时回到顶部
-                    lastNewsId = it.stories!![it.stories!!.size - 1].id     //更新下一次加载更多URL所需的id参数
+                    lastNewsId = it.stories!![it.stories!!.size - 1].id   //更新下一次加载更多URL所需的id参数
                 }
     }
 
@@ -98,7 +88,6 @@ class ThemeFragmentKotlin : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe {
-
                     refreshLayout.finishLoadmore(0)                            //加载更多完成
                     mDataListBuffer[mThemeBean.id]!!.stories!!.addAll(it.stories!!)  //请求到的数据添加到缓存的数据集中
                     mAdapter.initDataSet(it)                                         //填充更多数据
@@ -108,6 +97,10 @@ class ThemeFragmentKotlin : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        mDataListBuffer.clear()
+    }
+
+    fun clearDataCache() {
         mDataListBuffer.clear()
     }
 }

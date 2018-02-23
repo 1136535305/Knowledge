@@ -19,11 +19,11 @@ import com.yjq.knowledge.newsDetail.NewsDetailActivity
 import com.yjq.knowledge.util.BannerImageLoader
 
 /**
- * 文件： TodayListAdapterKotlin
+ * 文件： TodayListAdapter
  * 描述：
  * 作者： YangJunQuan   2018/1/25.
  */
-class TodayListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TodayListAdapter(fragment: Fragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private val TYPE_BANNER_TOP = -1
@@ -64,21 +64,13 @@ class TodayListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
         else -> TYPE_CONTENT
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding =
-                when (viewType) {
-                    TYPE_DATE ->            //日期
-                        DataBindingUtil.inflate<IntervalItemZhihuRecycleviewBinding>(inflater, R.layout.interval_item_zhihu_recycleview, parent, false)
-                    TYPE_CONTENT ->         //真正的新闻列表内容
-                        DataBindingUtil.inflate<ItemNewsRecycleviewBinding>(inflater, R.layout.item_news_recycleview, parent, false)
-                    else ->//TYPE_BANNER_TOP    RecyclerView顶部的轮播图
-                        DataBindingUtil.inflate<TopItemTodayRecycleviewBinding>(inflater, R.layout.top_item_today_recycleview, parent, false)
-                }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            when (viewType) {
+                TYPE_CONTENT -> parent.inflate<ItemNewsRecycleviewBinding>(R.layout.item_news_recycleview)                   //真正的新闻列表内容
+                TYPE_DATE -> parent.inflate<IntervalItemZhihuRecycleviewBinding>(R.layout.interval_item_zhihu_recycleview)   //日期
+                else -> parent.inflate<TopItemTodayRecycleviewBinding>(R.layout.top_item_today_recycleview)                 //RecyclerView顶部的轮播图
+            }
 
-        return CommonViewHolder(binding.root)
-
-    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewType = getItemViewType(position)

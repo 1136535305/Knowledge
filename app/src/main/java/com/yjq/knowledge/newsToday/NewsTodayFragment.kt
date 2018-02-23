@@ -8,16 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.yjq.knowledge.R
-import com.yjq.knowledge.adapter.TodayListAdapterKotlin
+import com.yjq.knowledge.adapter.TodayListAdapter
 import com.yjq.knowledge.beans.zhihu.ZhihuDaily
 import com.yjq.knowledge.contract.ZhihuContract
-import com.yjq.knowledge.newsTheme.ThemeFragmentKotlin
+import com.yjq.knowledge.newsTheme.ThemeFragment
 import com.yjq.knowledge.util.date.DateTimeUtil
 import kotlinx.android.synthetic.main.fragment.*
 
 class NewsTodayFragment : Fragment(), ZhihuContract.Iview, View.OnClickListener {
     private lateinit var mPresenter: ZhihuContract.Ipresenter
-    private lateinit var mAdapter: TodayListAdapterKotlin
+    private lateinit var mAdapter: TodayListAdapter
 
 
     private var lastNewsData: String? = null
@@ -30,7 +30,7 @@ class NewsTodayFragment : Fragment(), ZhihuContract.Iview, View.OnClickListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mAdapter = TodayListAdapterKotlin(this)
+        mAdapter = TodayListAdapter(this)
         mPresenter = NewsTodayPresenter(this)
         mPresenter.loadZhihuNews()
 
@@ -78,7 +78,7 @@ class NewsTodayFragment : Fragment(), ZhihuContract.Iview, View.OnClickListener 
         val instance: NewsTodayFragment
             get() {
                 if (mFragment == null) {
-                    synchronized(ThemeFragmentKotlin::class.java) {
+                    synchronized(ThemeFragment::class.java) {
                         if (mFragment == null) {
                             mFragment = NewsTodayFragment()
                         }

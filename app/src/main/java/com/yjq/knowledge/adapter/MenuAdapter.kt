@@ -42,19 +42,12 @@ class MenuAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
-
-        val inflater = LayoutInflater.from(parent.context)
-        val binding =
-                when (viewType) {
-                    TYPE_TOP ->
-                        DataBindingUtil.inflate<TopItemMenuRecycleviewBinding>(inflater, R.layout.top_item_menu_recycleview, parent, false)
-                    TYPE_NOT_TOP ->
-                        DataBindingUtil.inflate<ItemLeftMenuRecycleviewBinding>(inflater, R.layout.item_left_menu_recycleview, parent, false)
-                    else -> TODO()
-                }
-        return CommonViewHolder(binding.root)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            when (viewType) {
+                TYPE_TOP -> parent.inflate<TopItemMenuRecycleviewBinding>(R.layout.top_item_menu_recycleview)
+                TYPE_NOT_TOP -> parent.inflate<ItemLeftMenuRecycleviewBinding>(R.layout.item_left_menu_recycleview)
+                else -> TODO()
+            }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 

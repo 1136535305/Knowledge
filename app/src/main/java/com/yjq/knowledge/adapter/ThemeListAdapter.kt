@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import com.orhanobut.logger.Logger
 import com.yjq.knowledge.GlideApp
 import com.yjq.knowledge.R
 import com.yjq.knowledge.beans.zhihu.ZhihuThemeListDetail
@@ -22,11 +23,11 @@ import com.yjq.knowledge.util.GlideCircleTransform
 import java.util.*
 
 /**
- * 文件： ThemeListAdapterKotlin
+ * 文件： ThemeListAdapter
  * 描述：
  * 作者： YangJunQuan   2018/1/31.
  */
-class ThemeListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ThemeListAdapter(fragment: Fragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private val TYPE_TOP_BACKGROUND = -1
@@ -49,22 +50,16 @@ class ThemeListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CommonViewHolder {
-        val inflater = LayoutInflater.from(parent!!.context)
-        val binding =
-                when (viewType) {
-                    TYPE_TOP_BACKGROUND ->
-                        DataBindingUtil.inflate<TopItemThemeRecycleviewBinding>(inflater, R.layout.top_item_theme_recycleview, parent, false)
-                    TYPE_AVATAR_LIST ->
-                        DataBindingUtil.inflate<EditorAvatorBinding>(inflater, R.layout.editor_avator, parent, false)
-                    TYPE_CONTENT ->
-                        DataBindingUtil.inflate<ItemNewsRecycleviewBinding>(inflater, R.layout.item_news_recycleview, parent, false)
-                    else -> TODO()
-                }
-        return CommonViewHolder(binding.root)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            when (viewType) {
+                TYPE_TOP_BACKGROUND -> parent.inflate<TopItemThemeRecycleviewBinding>(R.layout.top_item_theme_recycleview)
+                TYPE_AVATAR_LIST -> parent.inflate<EditorAvatorBinding>(R.layout.editor_avator)
+                TYPE_CONTENT -> parent.inflate<ItemNewsRecycleviewBinding>(R.layout.item_news_recycleview)
+                else -> TODO()
+            }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewType = getItemViewType(position)
 
         when (viewType) {
@@ -77,8 +72,8 @@ class ThemeListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
     /**
      * 初始化RecyclerView  Item  第 0 项 视图  ： 该主题日报的背景图片和主题介绍
      */
-    private fun initThemeDescriptionView(holder: RecyclerView.ViewHolder?) {
-        val binding = DataBindingUtil.getBinding<TopItemThemeRecycleviewBinding>(holder!!.itemView)
+    private fun initThemeDescriptionView(holder: RecyclerView.ViewHolder) {
+        val binding = DataBindingUtil.getBinding<TopItemThemeRecycleviewBinding>(holder.itemView)
 
         binding.tvThemeDescri.text = mDataSet!!.description   //日报主题的相应介绍
         GlideApp.with(themeFragment)                          //日报主题的相应背景图片
@@ -91,8 +86,8 @@ class ThemeListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
     /**
      * 初始化RecyclerView  Item  第 1 项 视图  ：  该主题日报的主编头像列表视图
      */
-    private fun initEditorAvatarView(holder: RecyclerView.ViewHolder?) {
-        val binding = DataBindingUtil.getBinding<EditorAvatorBinding>(holder!!.itemView)
+    private fun initEditorAvatarView(holder: RecyclerView.ViewHolder) {
+        val binding = DataBindingUtil.getBinding<EditorAvatorBinding>(holder.itemView)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(mContext, EditorListActivity::class.java)
@@ -115,8 +110,8 @@ class ThemeListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
     /**
      * 初始化RecyclerView  Item  其余项 视图   :   真正的新闻内容视图
      */
-    private fun initContentView(holder: RecyclerView.ViewHolder?, position: Int) {
-        val binding = DataBindingUtil.getBinding<ItemNewsRecycleviewBinding>(holder!!.itemView)
+    private fun initContentView(holder: RecyclerView.ViewHolder, position: Int) {
+        val binding = DataBindingUtil.getBinding<ItemNewsRecycleviewBinding>(holder.itemView)
 
         val storiesBean = mDataSet!!.stories!![position - 2]
 
@@ -133,11 +128,11 @@ class ThemeListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
         }
 
         binding.tvTitleZhihu.text = storiesBean.title
-        holder.itemView.setOnClickListener({
+        holder.itemView.setOnClickListener {
             val i = Intent(themeFragment.context, NewsDetailActivity::class.java)
             i.putExtra("newsId", storiesBean.id)
             themeFragment.startActivity(i)
-        })
+        }
 
         startAnimator(holder.itemView, position)
     }
@@ -158,7 +153,6 @@ class ThemeListAdapterKotlin(fragment: Fragment) : RecyclerView.Adapter<Recycler
 
         val position = mDataSet.stories!!.size - 1              //非null，代表是上拉加载更多
         this.mDataSet!!.stories!!.addAll(mDataSet.stories!!)
-        this.mEditorList = mDataSet.editors
         this.notifyItemChanged(position)
     }
 

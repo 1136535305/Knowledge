@@ -23,10 +23,9 @@ class EditorAdapter(private val mContext: Context) : RecyclerView.Adapter<Recycl
     val onClicks = PublishSubject.create<String>()!!
     private var mDataSet: ArrayList<ZhihuThemeListDetail.EditorsBean>? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
-        val binding = DataBindingUtil.inflate<ItemEditorThemeRecycleviewBinding>(LayoutInflater.from(parent.context), R.layout.item_editor_theme_recycleview, parent, false)
-        return CommonViewHolder(binding.root)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            parent.inflate<ItemEditorThemeRecycleviewBinding>(R.layout.item_editor_theme_recycleview)
+
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 

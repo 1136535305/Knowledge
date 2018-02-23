@@ -2,14 +2,14 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_view"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".newsDetail.NewsDetailActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:fitsSystemWindows="true"
@@ -35,7 +35,7 @@
 
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+            android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -64,7 +64,7 @@
                 app:layout_scrollFlags="scroll|snap|enterAlways|enterAlwaysCollapsed">
 
                 <ImageView
-                    android:id="@+id/image_zhihu"
+                    android:id="@+id/imageZhihu"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
@@ -77,7 +77,7 @@
                     android:background="@drawable/bg_shadow_mask" />
 
                 <TextView
-                    android:id="@+id/tv_title"
+                    android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -88,7 +88,7 @@
                     tools:text="新闻标题新闻标题" />
 
                 <TextView
-                    android:id="@+id/tv_source"
+                    android:id="@+id/tvSource"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|bottom"

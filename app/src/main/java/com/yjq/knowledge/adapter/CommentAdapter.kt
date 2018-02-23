@@ -2,6 +2,8 @@ package com.yjq.knowledge.adapter
 
 import android.content.Context
 import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
+import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -49,21 +51,15 @@ class CommentAdapter(private val mContext: Context) : RecyclerView.Adapter<Recyc
         this.mLongCommentSet = mLongCommentSet
         this.mShortCommentSet = mShortCommentSet
         notifyDataSetChanged()
-
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding =
-                when (viewType) {
-                    TYPE_COMMENT_COUNT ->
-                        DataBindingUtil.inflate<TopItemCommentRecycleviewBinding>(inflater, R.layout.top_item_comment_recycleview, parent, false)
-                    TYPE_COMMENT ->
-                        DataBindingUtil.inflate<ItemCommentRecycleviewBinding>(inflater, R.layout.item_comment_recycleview, parent, false)
-                    else -> TODO()
-                }
-        return CommonViewHolder(binding.root)
-    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            when (viewType) {
+                TYPE_COMMENT -> parent.inflate<ItemCommentRecycleviewBinding>(R.layout.item_comment_recycleview)
+                TYPE_COMMENT_COUNT -> parent.inflate<TopItemCommentRecycleviewBinding>(R.layout.top_item_comment_recycleview)
+                else -> TODO()
+            }
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -155,7 +151,6 @@ class CommentAdapter(private val mContext: Context) : RecyclerView.Adapter<Recyc
                     else
                         0
             }
-
 
 }
 

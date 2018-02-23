@@ -16,11 +16,11 @@ import rx.schedulers.Schedulers
 import kotlin.properties.Delegates
 
 /**
- * 文件： CommentsActivityKotlin
+ * 文件： CommentsActivity
  * 描述：
  * 作者： YangJunQuan   2018/1/26.
  */
-class CommentsActivityKotlin : AppCompatActivity() {
+class CommentsActivity : AppCompatActivity() {
     private var newsId: Int  by Delegates.notNull()
     private var mLongComments: ZhihuLongComments? = null
     private var mShortComments: ZhihuShortComments? = null

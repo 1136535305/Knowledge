@@ -11,7 +11,7 @@
     <include layout="@layout/toolbar_layout" />
 
     <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/root_view"
+        android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="?attr/actionBarSize"
@@ -22,24 +22,24 @@
 
 
         <ImageView
-            android:id="@+id/avatar_bg"
+            android:id="@+id/avatarBg"
             android:layout_width="wrap_content"
             android:layout_height="140dp"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/avatar_bg" />
 
         <ImageView
-            android:id="@+id/iv_avatar"
+            android:id="@+id/ivAvatar"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            app:layout_anchor="@id/avatar_bg"
+            app:layout_anchor="@id/avatarBg"
             app:layout_anchorGravity="bottom|center_horizontal" />
 
 
     </android.support.design.widget.CoordinatorLayout>
 
     <TextView
-        android:id="@+id/tv_editor_name_1"
+        android:id="@+id/tvEditorName1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#000000"
@@ -47,11 +47,11 @@
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/root_view"
+        app:layout_constraintTop_toBottomOf="@+id/rootView"
         tools:text="星玫" />
 
     <TextView
-        android:id="@+id/tv_bio"
+        android:id="@+id/tvBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -59,7 +59,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_editor_name_1"
+        app:layout_constraintTop_toBottomOf="@+id/tvEditorName1"
         tools:text="产品设计师 @华兴资本" />
 
     <RelativeLayout
@@ -72,7 +72,7 @@
         android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_bio">
+        app:layout_constraintTop_toBottomOf="@id/tvBio">
 
         <TextView
             android:id="@+id/textView8"
@@ -86,7 +86,7 @@
             tools:text="知乎账号" />
 
         <TextView
-            android:id="@+id/tv_zhihu_name"
+            android:id="@+id/tvZhihuName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/textView8"
@@ -130,7 +130,7 @@
             tools:text="新浪微博" />
 
         <TextView
-            android:id="@+id/tv_xinlang_name"
+            android:id="@+id/tvXinlangName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/textView9"
@@ -173,7 +173,7 @@
             tools:text="个人网站" />
 
         <TextView
-            android:id="@+id/tv_website"
+            android:id="@+id/tvWebsite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/textView10"
@@ -216,7 +216,7 @@
 
 
         <TextView
-            android:id="@+id/tv_email"
+            android:id="@+id/tvEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/textView12"

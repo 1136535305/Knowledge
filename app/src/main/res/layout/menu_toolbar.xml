@@ -7,7 +7,7 @@
 
 
     <TextSwitcher
-        android:id="@+id/tv_popularity"
+        android:id="@+id/tvPopularity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -38,7 +38,7 @@
 
 
     <TextView
-        android:id="@+id/tv_comments"
+        android:id="@+id/tvComments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -48,23 +48,23 @@
         android:text="-"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_thumbs_up"
+        app:layout_constraintEnd_toStartOf="@+id/btnThumbsUp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.498" />
 
     <ImageButton
-        android:id="@+id/btn_share"
+        android:id="@+id/btnShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_comments"
+        app:layout_constraintEnd_toStartOf="@+id/tvComments"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/share_variant" />
 
     <ImageButton
-        android:id="@+id/btn_thumbs_up"
+        android:id="@+id/btnThumbsUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -72,7 +72,7 @@
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_popularity"
+        app:layout_constraintEnd_toStartOf="@+id/tvPopularity"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/thumb_up_outline" />
 
