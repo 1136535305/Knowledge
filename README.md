@@ -4,7 +4,7 @@
  
   * **项目架构** ：MVP+Retrofit+RxJava
   * **UI风格**   ：主要是Google官方推荐的Material Design
-  * **语言**     ：正逐步用kotlin替换原有的Java代码（目前进度：70%）
+  * **语言**     ：正逐步用kotlin替换原有的Java代码（目前进度：99%）
   
 ----
   #### **接口数据来源**
