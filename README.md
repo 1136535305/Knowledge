@@ -29,4 +29,4 @@
 ![](https://github.com/1136535305/Knowledge/blob/master/introduce/01.gif) 
 ![](https://github.com/1136535305/Knowledge/blob/master/introduce/02.gif) 
 ![](https://github.com/1136535305/Knowledge/blob/master/introduce/03.gif) 
-![](https://github.com/1136535305/Knowledge/blob/master/introduce/0004.gif) 
+![](introduce/0004.gif) 
